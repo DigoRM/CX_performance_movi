@@ -2,7 +2,6 @@ import pandas as pd
 import streamlit as st
 import plotly_express as px
 import plotly.graph_objects as go
-from Pandas import openpyxl
 import base64
 from io import BytesIO
 
