@@ -421,7 +421,7 @@ with column6:
 	st.plotly_chart(Grafico_Parceiros, use_container_width=True)
 #####################################/#####################################################
 # Filter in SideBar
-operador = st.sidebar.multiselect ("Selecione o Agente", options=consolidaSemana['Agente'].unique(),default=consolidaSemana['Agente'].unique())
+operador = st.sidebar.multiselect ("Selecione o Agente", options=consolidaSemana['Agente'].unique())
 # squad = st.sidebar.multiselect ("Selecione o Squad", options=df['Squad'].unique(), default=df['Squad'].unique())
 # Resultado da Query
 st.title('Análise de Desempenho Individual')
