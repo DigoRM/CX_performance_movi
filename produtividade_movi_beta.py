@@ -60,7 +60,7 @@ except Exception as e:
 
 st.markdown('##')
 ### Sempre lembrar de alterar a variavel para ajustar media
-dias_analisados = 19
+dias_analisados = 20
 Tempo_Disponivel_Horas = 8
 # aqui a conversao para minutos:
 Tempo_Disponivel = Tempo_Disponivel_Horas*60
@@ -101,7 +101,7 @@ potencial_equipe = Agentes_Analisados*Meta_Atendimentos_Diarios
 
 consolidaPeriodo_Data ['Média Atendimentos Período'] = media_atendimentos_Data
 consolidaPeriodo_Data ['Meta Atendimentos'] = potencial_equipe
-plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos']),go.Line(name="Média Atendimentos Atual",x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Média Atendimentos Período']),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos'])])
+plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos']),go.Line(name="Média Atendimentos Atual",x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Média Atendimentos Período']),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos']), go.Line(name='Progress',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'])])
 plot.update_layout(height=1000, width=800)
 st.plotly_chart(plot,use_container_width=True)
 
