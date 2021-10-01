@@ -339,7 +339,7 @@ st.header("Mapeando o **Status** das solicitações atendidas no dia")
 left_column,  right_column = st.columns(2)
 with left_column:
 	# mapeando o status
-	df
+	
 	st.markdown('#')
 	st.write('**Ranking STATUS**')
 	st.markdown('#')
