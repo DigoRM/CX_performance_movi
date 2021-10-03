@@ -16,6 +16,7 @@ st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o dataframe, pode prosseguir!')
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=0,max_value=30,value=1,step=1)
+input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=0,max_value=10,value=3,step=0.5)
 if input_Dias_Analisados is not None:
 
 
@@ -71,7 +72,7 @@ if input_Dias_Analisados is not None:
 	Tempo_Disponivel = Tempo_Disponivel_Horas*60
 
 	# Metas do time!!
-	Meta_TMA_Diario = 3
+	Meta_TMA_Diario = input_TMA_Meta
 	Meta_Atendimentos_Diarios = Tempo_Disponivel/Meta_TMA_Diario
 	Meta_Velocidade_Diario = Meta_Atendimentos_Diarios/Tempo_Disponivel_Horas
 
