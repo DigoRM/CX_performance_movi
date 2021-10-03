@@ -63,13 +63,13 @@ input_TMA = st.text_input('Digite a meta esperada do TMA','')
 
 st.markdown('##')
 ### Sempre lembrar de alterar a variavel para ajustar media
-dias_analisados = 20
+dias_analisados = input_Dias_Analisados
 Tempo_Disponivel_Horas = 8
 # aqui a conversao para minutos:
 Tempo_Disponivel = Tempo_Disponivel_Horas*60
 
 # Metas do time!!
-Meta_TMA_Diario = 3
+Meta_TMA_Diario = input_TMA
 Meta_Atendimentos_Diarios = Tempo_Disponivel/Meta_TMA_Diario
 Meta_Velocidade_Diario = Meta_Atendimentos_Diarios/Tempo_Disponivel_Horas
 
