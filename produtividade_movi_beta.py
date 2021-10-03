@@ -17,7 +17,7 @@ st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o datafra
 
 input_Dias_Analisados = st.text_input('Quantos dias úteis vou analisar?','')
 input_TMA = st.text_input('Digite a meta esperada do TMA','')
-if input_Dias_Analisados & input_TMA is not None:
+if input_Dias_Analisados && input_TMA is not None:
 
 
 	# Sidebar
