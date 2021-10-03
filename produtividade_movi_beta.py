@@ -58,6 +58,9 @@ except Exception as e:
 	print(e)
 	st.write('Please upload your file...')
 
+input_Dias_Analisados = st.text_input('Quantos dias úteis vou analisar?','')
+input_TMA = st.text_input('Digite a meta esperada do TMA','')
+
 st.markdown('##')
 ### Sempre lembrar de alterar a variavel para ajustar media
 dias_analisados = 20
