@@ -15,7 +15,7 @@ st.set_page_config(page_title="Produtividade CX", page_icon=":bar_chart:", layou
 st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o dataframe, pode prosseguir!')
 
-input_Dias_Analisados = st.text_input('Quantos dias úteis vou analisar?','')
+input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?','')
 if input_Dias_Analisados is not None:
 
 
