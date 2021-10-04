@@ -11,13 +11,13 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 
 # Title of the app
-st.set_page_config(page_title="PerformanCX", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(page_title="PerformaCX", page_icon=":bar_chart:", layout="wide")
 st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Bem vindo! Insira o arquivo das demandas no menu ao lado, e defina os seguintes parâmetros para minha análise:')
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
-input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1.0,max_value=10.0,value=1.0,step=0.1)
-input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1.0,max_value=10.0,value=1.0,step=0.1)
+input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1.0,max_value=10.0,value=8.0,step=0.25)
+input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1.0,max_value=10.0,value=3.0,step=0.25)
 
 if input_Dias_Analisados is not None:
 
