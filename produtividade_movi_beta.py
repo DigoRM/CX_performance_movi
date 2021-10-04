@@ -16,8 +16,8 @@ st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o dataframe, pode prosseguir!')
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
-input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1,max_value=10,value=1,step=1)
-input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1,max_value=10,value=1,step=1)
+input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1,max_value=10,value=1,step=0.1)
+input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1,max_value=10,value=1,step=0.1)
 
 if input_Dias_Analisados is not None:
 
@@ -163,9 +163,6 @@ if input_Dias_Analisados is not None:
 	RankingSemana ['Horas Trabalhadas'] = RankingSemana['Minutos Trabalhados']/60
 	RankingSemana ['TMA(min)'] = RankingSemana['Minutos Trabalhados']/RankingSemana['Atendimentos']
 	RankingSemana ['Atendimentos/Hora']= RankingSemana['Atendimentos'] /RankingSemana['Horas Trabalhadas']
-
-
-	###### --> Dependendo do período analisado, deve-se alterar o fator de multiplicação do Horario Disponivel = 498 * (X = dias úteis do período analisado) <-- ##########
 	RankingSemana ['Aproveitamento Horas Disponíveis'] = RankingSemana ['Minutos Trabalhados']/(Tempo_Disponivel*dias_analisados)
 
 	# atribuindo uma nova coluna NOTA
@@ -181,6 +178,7 @@ if input_Dias_Analisados is not None:
 	Analise_Desempenho['Segundos'] = (Analise_Desempenho['Segundos'] * 60).astype(int)
 	Analise_Desempenho['Horas Trabalhadas'] = (Analise_Desempenho['Horas Trabalhadas']).round(2)
 	Analise_Desempenho ['Aproveitamento Horas Disponíveis']=(Analise_Desempenho ['Aproveitamento Horas Disponíveis'] * 100).round(1)
+	Analise_Desempenho = Analise_Desempenho.drop(columns=['Ticket','Ação nº'])
 
 	st.dataframe(Analise_Desempenho)
 
