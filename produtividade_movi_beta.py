@@ -243,7 +243,6 @@ if input_Dias_Analisados is not None:
 		velocidade_maximo = round(velocidade_maximo,2)
 
 		st.markdown('#')
-		st.markdown('#')
 
 
 		st.write(f"**Total de atendimentos:** {total_atendimentos}")
@@ -264,9 +263,8 @@ if input_Dias_Analisados is not None:
 
 	with columnB:
 
-		st.markdown('##')
-		st.markdown('##')
 
+		st.markdown('#')
 		st.write(f"**Velocidade Média da Equipe:** {media_atendimentos_hora} atendimentos/h")
 		st.write(f"**Maior Velocidade da Equipe:** {velocidade_maximo} atendimentos/h")
 		st.write(f"**Menor Velocidade da Equipe:** {velocidade_minimo} atendimentos/h")	
