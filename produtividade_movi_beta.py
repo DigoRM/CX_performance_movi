@@ -146,7 +146,7 @@ if input_Dias_Analisados is not None:
 	    """
 	    val = to_excel(dataframe)
 	    b64 = base64.b64encode(val)  # val looks like b'...'
-	    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="extract.xlsx">Métricas individuais por Datas e por Atendentes</a>' # decode b'abc' => abc
+	    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="extract.xlsx">Métricas individuais detalhadas por Datas</a>' # decode b'abc' => abc
 
 	dataframe = Agrupa_Agentes_Potencial # your dataframe
 	st.markdown(get_table_download_link(dataframe), unsafe_allow_html=True)
