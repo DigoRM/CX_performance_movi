@@ -11,13 +11,13 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 
 # Title of the app
-st.set_page_config(page_title="Produtividade CX", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(page_title="PerformanCX", page_icon=":bar_chart:", layout="wide")
 st.title('Analise de Desempenho CX - MOVI')
-st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o dataframe, pode prosseguir!')
+st.markdown('Bem vindo! Insira o arquivo das demandas no menu ao lado, e defina os seguintes parâmetros para minha análise:')
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
 input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1.0,max_value=10.0,value=1.0,step=0.1)
-input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1.0,max_value=10.0,value=1.0,step=0.1,format="%.2f")
+input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1.0,max_value=10.0,value=1.0,step=0.1)
 
 if input_Dias_Analisados is not None:
 
@@ -65,7 +65,12 @@ if input_Dias_Analisados is not None:
 		print(e)
 		st.write('Please upload your file...')
 
-
+	
+	# Filter in SideBar
+	data = st.sidebar.multiselect ("Selecione a Data", options=df['Data'].unique(),default=options=df['Data'].unique())
+	# Resultado da Query
+	df = df.query("Data == @data")
+	
 	st.markdown('##')
 	### Sempre lembrar de alterar a variavel para ajustar media
 	dias_analisados = input_Dias_Analisados
