@@ -15,8 +15,10 @@ st.set_page_config(page_title="Produtividade CX", page_icon=":bar_chart:", layou
 st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o dataframe, pode prosseguir!')
 
-input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=0,max_value=30,value=1,step=1)
-input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=0,max_value=10,value=1,step=1)
+input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
+input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1,max_value=10,value=1,step=1)
+input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1,max_value=10,value=1,step=1)
+
 if input_Dias_Analisados is not None:
 
 
@@ -67,7 +69,7 @@ if input_Dias_Analisados is not None:
 	st.markdown('##')
 	### Sempre lembrar de alterar a variavel para ajustar media
 	dias_analisados = input_Dias_Analisados
-	Tempo_Disponivel_Horas = 8
+	Tempo_Disponivel_Horas = input_Horas_Consideradas
 	# aqui a conversao para minutos:
 	Tempo_Disponivel = Tempo_Disponivel_Horas*60
 
