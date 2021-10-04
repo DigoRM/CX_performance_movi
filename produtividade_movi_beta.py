@@ -67,7 +67,7 @@ if input_Dias_Analisados is not None:
 
 	
 	# Filter in SideBar
-	data = st.sidebar.multiselect ("Selecione a Data", options=df['Data'].unique(),default=options=df['Data'].unique())
+	data = st.sidebar.multiselect ("Selecione a Data", options=df['Data'].unique(),default=df['Data'].unique())
 	# Resultado da Query
 	df = df.query("Data == @data")
 	
