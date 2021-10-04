@@ -16,8 +16,8 @@ st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Inicialmente farei um tratamento nos dados... se aparecer o dataframe, pode prosseguir!')
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
-input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1,max_value=10,value=1,step=1.,format="%.2f")
-input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1,max_value=10,value=1,step=1.,format="%.2f")
+input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1.0,max_value=10.0,value=1.0,step=0.1)
+input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1.0,max_value=10.0,value=1.0,step=0.1,format="%.2f")
 
 if input_Dias_Analisados is not None:
 
