@@ -155,9 +155,7 @@ if input_Dias_Analisados is not None:
 	st.markdown('#')
 
 
-	st.header('Relatório de Desempenho Individual')
-
-	st.write('**Ranking Produtividade**')
+	st.header('**Ranking Produtividade**')
 	consolidaSemana = df
 	RankingSemana = consolidaSemana.groupby('Agente').sum()
 	RankingSemana ['Horas Trabalhadas'] = RankingSemana['Minutos Trabalhados']/60
@@ -284,10 +282,13 @@ if input_Dias_Analisados is not None:
 	st.subheader('KPIS CX')
 	C1, C2, C3 = st.columns(3)
 	with C1:
+		Meta_Atendimentos_Diarios = round(Meta_Atendimentos_Diarios,2)
 		st.write(f"**Atendimentos:** {Meta_Atendimentos_Diarios} atendimentos/dia")
 	with C2:
+		Meta_TMA_Diario = round(Meta_TMA_Diario,2)
 		st.write(f"**TMA diário:** {Meta_TMA_Diario} minutos")
 	with C3:
+		Meta_Velocidade_Diario = round(Meta_Velocidade_Diario,2)
 		st.write(f"**Velocidade:** {Meta_Velocidade_Diario} antendimentos/hora")
 
 	st.markdown('##')
