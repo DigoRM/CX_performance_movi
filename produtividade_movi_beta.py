@@ -66,13 +66,9 @@ if input_Dias_Analisados is not None:
 		st.write('Please upload your file...')
 
 	
-	# Filter in SideBar
-	data = st.sidebar.multiselect ("Selecione a Data", options=df['Data'].unique(),default=df['Data'].unique())
-	# Resultado da Query
-	df = df.query("Data == @data")
+
 	
 	st.markdown('##')
-	### Sempre lembrar de alterar a variavel para ajustar media
 	dias_analisados = input_Dias_Analisados
 	Tempo_Disponivel_Horas = input_Horas_Consideradas
 	# aqui a conversao para minutos:
@@ -83,6 +79,10 @@ if input_Dias_Analisados is not None:
 	Meta_Atendimentos_Diarios = Tempo_Disponivel/Meta_TMA_Diario
 	Meta_Velocidade_Diario = Meta_Atendimentos_Diarios/Tempo_Disponivel_Horas
 
+	# Filter in SideBar
+	data = st.sidebar.multiselect ("Selecione a Data", options=df['Data'].unique(),default=df['Data'].unique())
+	# Resultado da Query
+	df = df.query("Data == @data")
 
 	st.header('Progresso Atendimentos CX')
 	consolidaPeriodo_Data = df.groupby('Data').sum()
