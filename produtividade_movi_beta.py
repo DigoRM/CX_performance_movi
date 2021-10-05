@@ -17,7 +17,7 @@ st.markdown('Bem vindo! Insira o arquivo das demandas no menu ao lado, e defina 
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
 input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1.0,max_value=10.0,value=8.0,step=0.25)
-input_TMA_Meta = st.number_input('Digite a meta TMA da equipe',min_value=1.0,max_value=10.0,value=3.0,step=0.25)
+input_Atendimentos_Meta = st.number_input('Digite a meta de atendimentos diários da equipe',min_value=1.0,max_value=10.0,value=3.0,step=0.25)
 
 if input_Dias_Analisados is not None:
 
@@ -75,8 +75,8 @@ if input_Dias_Analisados is not None:
 	Tempo_Disponivel = Tempo_Disponivel_Horas*60
 
 	# Metas do time!!
-	Meta_TMA_Diario = input_TMA_Meta
-	Meta_Atendimentos_Diarios = Tempo_Disponivel/Meta_TMA_Diario
+	Meta_TMA_Diario = Tempo_Disponivel/Meta_Atendimentos_Diarios
+	Meta_Atendimentos_Diarios = input_Atendimentos_Meta
 	Meta_Velocidade_Diario = Meta_Atendimentos_Diarios/Tempo_Disponivel_Horas
 
 	st.header('Progresso Atendimentos CX')
