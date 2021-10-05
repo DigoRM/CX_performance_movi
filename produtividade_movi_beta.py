@@ -139,22 +139,22 @@ if input_Dias_Analisados is not None:
 	st.plotly_chart(plot,use_container_width=True)
 
 
-	Agrupa_Agentes_Potencial =  df.groupby(['Data','Agente']).sum()
-	Agrupa_Agentes_Potencial = Agrupa_Agentes_Potencial.drop(columns=['Ticket','Ação nº'])
+	Agrupa_Datas_Agentes =  df.groupby(['Data','Agente']).sum()
+	Agrupa_Datas_Agentes = Agrupa_Datas_Agentes.drop(columns=['Ticket','Ação nº'])
 
-	Agrupa_Agentes_Potencial ['Horas Trabalhadas'] = Agrupa_Agentes_Potencial['Minutos Trabalhados']/60
-	Agrupa_Agentes_Potencial ['TMA(min)'] = Agrupa_Agentes_Potencial['Minutos Trabalhados']/Agrupa_Agentes_Potencial['Atendimentos']
-	Agrupa_Agentes_Potencial ['Atendimentos/Hora']= Agrupa_Agentes_Potencial['Atendimentos'] /Agrupa_Agentes_Potencial['Horas Trabalhadas']
+	Agrupa_Datas_Agentes ['Horas Trabalhadas'] = Agrupa_Datas_Agentes['Minutos Trabalhados']/60
+	Agrupa_Datas_Agentes ['TMA(min)'] = Agrupa_Datas_Agentes['Minutos Trabalhados']/Agrupa_Datas_Agentes['Atendimentos']
+	Agrupa_Datas_Agentes ['Atendimentos/Hora']= Agrupa_Datas_Agentes['Atendimentos'] /Agrupa_Datas_Agentes['Horas Trabalhadas']
 
-	Agrupa_Agentes_Potencial['TMA(min)'] = Agrupa_Agentes_Potencial['TMA(min)'].astype(str)
-	Agrupa_Agentes_Potencial ['Minutos'] = Agrupa_Agentes_Potencial['TMA(min)'].str[0]
-	Agrupa_Agentes_Potencial ['Minutos'] = Agrupa_Agentes_Potencial['Minutos'].astype(int)
-	Agrupa_Agentes_Potencial ['TMA(min)'] = Agrupa_Agentes_Potencial['TMA(min)'].astype(float)
-	Agrupa_Agentes_Potencial['Segundos'] = Agrupa_Agentes_Potencial['TMA(min)'] - Agrupa_Agentes_Potencial['Minutos']
-	Agrupa_Agentes_Potencial['Segundos'] = (Agrupa_Agentes_Potencial['Segundos'] * 60).astype(int)
-	Agrupa_Agentes_Potencial['Horas Trabalhadas'] = (Agrupa_Agentes_Potencial['Horas Trabalhadas']).round(2)
-	Agrupa_Agentes_Potencial ['Aproveitamento Horas Disponíveis'] = Agrupa_Agentes_Potencial ['Minutos Trabalhados']/(Tempo_Disponivel*dias_analisados)
-	Agrupa_Agentes_Potencial ['Aproveitamento Horas Disponíveis']=(Agrupa_Agentes_Potencial ['Aproveitamento Horas Disponíveis'] * 100).round(1)
+	Agrupa_Datas_Agentes['TMA(min)'] = Agrupa_Datas_Agentes['TMA(min)'].astype(str)
+	Agrupa_Datas_Agentes ['Minutos'] = Agrupa_Datas_Agentes['TMA(min)'].str[0]
+	Agrupa_Datas_Agentes ['Minutos'] = Agrupa_Datas_Agentes['Minutos'].astype(int)
+	Agrupa_Datas_Agentes ['TMA(min)'] = Agrupa_Datas_Agentes['TMA(min)'].astype(float)
+	Agrupa_Datas_Agentes['Segundos'] = Agrupa_Datas_Agentes['TMA(min)'] - Agrupa_Datas_Agentes['Minutos']
+	Agrupa_Datas_Agentes['Segundos'] = (Agrupa_Datas_Agentes['Segundos'] * 60).astype(int)
+	Agrupa_Datas_Agentes['Horas Trabalhadas'] = (Agrupa_Datas_Agentes['Horas Trabalhadas']).round(2)
+	Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis'] = Agrupa_Datas_Agentes ['Minutos Trabalhados']/(Tempo_Disponivel*dias_analisados)
+	Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis']=(Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis'] * 100).round(1)
 
 	def to_excel(dataframe):
 	    output = BytesIO()
@@ -173,7 +173,7 @@ if input_Dias_Analisados is not None:
 	    b64 = base64.b64encode(val)  # val looks like b'...'
 	    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="extract.xlsx">Métricas individuais detalhadas por Datas</a>' # decode b'abc' => abc
 
-	dataframe = Agrupa_Agentes_Potencial # your dataframe
+	dataframe = Agrupa_Datas_Agentes # your dataframe
 	st.markdown(get_table_download_link(dataframe), unsafe_allow_html=True)
 
 	st.markdown('#')
