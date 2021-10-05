@@ -65,7 +65,25 @@ if input_Dias_Analisados is not None:
 		print(e)
 		st.write('Please upload your file...')
 
-	
+	df = df.drop(df[df.Agente == "Bruno da Silva Braun"].index)
+	df = df.drop(df[df.Agente == "Sheila Santos da Rosa"].index)
+	df = df.drop(df[df.Agente == "Matheus Souza de Almeida"].index)
+	df = df.drop(df[df.Agente == "Eduarda dos Santos Silva"].index)
+	df = df.drop(df[df.Agente == "Marjorie Lima"].index)
+	df = df.drop(df[df.Agente == "Natália M"].index)
+	df = df.drop(df[df.Agente == "Isabelle da Silva"].index)
+	df = df.drop(df[df.Agente == "Ester Marques Plate da Silva"].index)
+	df = df.drop(df[df.Agente == "Heitor Francisco Pereira Netto"].index)
+	df = df.drop(df[df.Agente == "Cátia Duarte Velleda"].index)
+	df = df.drop(df[df.Agente == "Paola Fantinel"].index)
+	df = df.drop(df[df.Agente == "Vanessa Lima"].index)
+	df = df.drop(df[df.Agente == "Bruna Vasconcelos"].index)
+	df = df.drop(df[df.Agente == "Bianca Moreira Scalcon"].index)
+	df = df.drop(df[df.Agente == "Mariana Moreira Colombo"].index)
+	df = df.drop(df[df.Agente == "Nathalia Bandarra Moreira"].index)
+	df = df.drop(df[df.Agente == "Bruno Gonçalves Santin"].index)
+	df = df.drop(df[df.Agente == "fabiane barreto"].index)
+	df = df.drop(df[df.Agente == "Matheus Vicente Cabral"].index)	
 
 	
 	st.markdown('##')
@@ -103,28 +121,7 @@ if input_Dias_Analisados is not None:
 	Grafico_consolidaPeriodo_Data = px.bar(consolidaPeriodo_Data,y=consolidaPeriodo_Data.index,x='Atendimentos',orientation="v",title="<b>Progresso Atual</b>")
 	# media de atendimentos atual (varia conforme periodo)
 	media_atendimentos_Data = consolidaPeriodo_Data['Atendimentos'].mean()
-	# potencial da equipe (varia conforme operador)
-	
-	df = df.drop(df[df.Agente == "Bruno da Silva Braun"].index)
-	df = df.drop(df[df.Agente == "Sheila Santos da Rosa"].index)
-	df = df.drop(df[df.Agente == "Matheus Souza de Almeida"].index)
-	df = df.drop(df[df.Agente == "Eduarda dos Santos Silva"].index)
-	df = df.drop(df[df.Agente == "Marjorie Lima"].index)
-	df = df.drop(df[df.Agente == "Natália M"].index)
-	df = df.drop(df[df.Agente == "Isabelle da Silva"].index)
-	df = df.drop(df[df.Agente == "Ester Marques Plate da Silva"].index)
-	df = df.drop(df[df.Agente == "Heitor Francisco Pereira Netto"].index)
-	df = df.drop(df[df.Agente == "Cátia Duarte Velleda"].index)
-	df = df.drop(df[df.Agente == "Paola Fantinel"].index)
-	df = df.drop(df[df.Agente == "Vanessa Lima"].index)
-	df = df.drop(df[df.Agente == "Bruna Vasconcelos"].index)
-	df = df.drop(df[df.Agente == "Bianca Moreira Scalcon"].index)
-	df = df.drop(df[df.Agente == "Mariana Moreira Colombo"].index)
-	df = df.drop(df[df.Agente == "Nathalia Bandarra Moreira"].index)
-	df = df.drop(df[df.Agente == "Bruno Gonçalves Santin"].index)
-	df = df.drop(df[df.Agente == "fabiane barreto"].index)
-	df = df.drop(df[df.Agente == "Matheus Vicente Cabral"].index)
-	
+	# potencial da equipe (varia conforme operador)	
 
 
 
