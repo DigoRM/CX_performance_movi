@@ -138,7 +138,7 @@ if input_Dias_Analisados is not None:
 	plot.update_layout(height=1000, width=800)
 	st.plotly_chart(plot,use_container_width=True)
 
-
+	df
 	Agrupa_Datas_Agentes =  df.groupby(['Agente','Data']).sum()
 	Agrupa_Datas_Agentes = Agrupa_Datas_Agentes.drop(columns=['Ticket','Ação nº'])
 
