@@ -493,7 +493,7 @@ if input_Dias_Analisados is not None:
 	Agentes_Analisados = len(Analise_Desempenho)
 	Operador_Atendimentos_Data['Meta Atendimentos Equipe'] = Meta_Atendimentos_Diarios*Agentes_Analisados
 
-	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos']),go.Line(name="Média Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Média Atendimentos Equipe']), go.Line(name="Meta Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Meta Atendimentos']), go.Line(name="Linha de Tendência",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos'])])
+	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos']),go.Line(name="Média Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Média Atendimentos Equipe']), go.Line(name="Meta Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Meta Atendimentos']), go.Line(name="Linha de Tendência",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos']),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos'])])
 	plot.update_layout(title='Atendimentos', height=500)
 
 	st.plotly_chart(plot, use_container_width=True)
