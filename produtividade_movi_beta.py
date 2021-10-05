@@ -138,8 +138,8 @@ if input_Dias_Analisados is not None:
 	plot.update_layout(height=1000, width=800)
 	st.plotly_chart(plot,use_container_width=True)
 
-	df
-	Agrupa_Datas_Agentes =  df.groupby(['Agente','Data']).sum()
+	
+	Agrupa_Datas_Agentes =  df.groupby(['Data','Agente']).sum()
 	Agrupa_Datas_Agentes = Agrupa_Datas_Agentes.drop(columns=['Ticket','Ação nº'])
 
 	Agrupa_Datas_Agentes ['Horas Trabalhadas'] = Agrupa_Datas_Agentes['Minutos Trabalhados']/60
@@ -155,8 +155,7 @@ if input_Dias_Analisados is not None:
 	Agrupa_Datas_Agentes['Horas Trabalhadas'] = (Agrupa_Datas_Agentes['Horas Trabalhadas']).round(2)
 	Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis'] = Agrupa_Datas_Agentes ['Minutos Trabalhados']/(Tempo_Disponivel*dias_analisados)
 	Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis']=(Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis'] * 100).round(1)
-	
-	Agrupa_Datas_Agentes
+		
 	
 	def to_excel(dataframe):
 	    output = BytesIO()
