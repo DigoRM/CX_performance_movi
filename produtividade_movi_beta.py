@@ -102,7 +102,33 @@ if input_Dias_Analisados is not None:
 	# media de atendimentos atual (varia conforme periodo)
 	media_atendimentos_Data = consolidaPeriodo_Data['Atendimentos'].mean()
 	# potencial da equipe (varia conforme operador)
+	
+	df = df.drop(df[df.Agente == 'Bruno da Silva Braun'].index)
+	df = df.drop(df[df.Agente == 'Sheila Santos da Rosa'].index)
+	df = df.drop(df[df.Agente == 'Matheus Souza de Almeida'].index)
+	df = df.drop(df[df.Agente == 'Eduarda dos Santos Silva'].index)
+	df = df.drop(df[df.Agente == 'Marjorie Lima'].index)
+	df = df.drop(df[df.Agente == 'Natália M''].index)
+	df = df.drop(df[df.Agente == 'Isabelle da Silva'].index)
+	df = df.drop(df[df.Agente == 'Ester Marques Plate da Silva'].index)
+	df = df.drop(df[df.Agente == 'Heitor Francisco Pereira Netto'].index)
+	df = df.drop(df[df.Agente == 'Cátia Duarte Velleda'].index)
+	df = df.drop(df[df.Agente == 'Paola Fantinel'].index)
+	df = df.drop(df[df.Agente == 'Vanessa Lima'].index)
+	df = df.drop(df[df.Agente == 'Bruna Vasconcelos'].index)
+	df = df.drop(df[df.Agente == 'Bianca Moreira Scalcon'].index)
+	df = df.drop(df[df.Agente == 'Mariana Moreira Colombo'].index)
+	df = df.drop(df[df.Agente == 'Nathalia Bandarra Moreira'].index)
+	df = df.drop(df[df.Agente == 'Bruno Gonçalves Santin].index)
+	df = df.drop(df[df.Agente == 'fabiane barreto'].index)
+	df = df.drop(df[df.Agente == 'Matheus Vicente Cabral'].index)
+	
+
+
+
+	
 	Agrupa_Agentes_Potencial =  df.groupby(['Agente']).sum()
+	
 	Agentes_Analisados = len(Agrupa_Agentes_Potencial)
 	potencial_equipe = Agentes_Analisados*Meta_Atendimentos_Diarios
 
@@ -474,7 +500,7 @@ if input_Dias_Analisados is not None:
 		st.write(f"**Velocidade Média Agente:** {velocidade_media_operador} atendimentos/h ")
 
 	# -> Mostrando os graficos PRINCIPAIS
-
+	
 	# Grafico Data Atendimentos
 	df_selection_operador['Data']=df_selection_operador['Data'].astype(str)
 	Operador_Atendimentos_Data = df_selection_operador.groupby('Data').sum()
@@ -507,6 +533,7 @@ if input_Dias_Analisados is not None:
 	demandas_datas ['TMA'] = demandas_datas ['Minutos Trabalhados'] / demandas_datas['Atendimentos']
 	demandas_datas['Horas Trabalhadas'] = demandas_datas["Minutos Trabalhados"]/60
 	demandas_datas ['Atendimentos/Hora'] = demandas_datas['Atendimentos']/demandas_datas['Horas Trabalhadas']
+	
 
 	grafico_atendimentos_Data = px.bar(demandas_datas, y='TMA', x=demandas_datas.index, title='TMA por Data' )
 	# Grafico_Status = px.pie(Ranking_Status, values='Atendimentos', names=Ranking_Status.index, title='Número de atendimentos por Status' )
