@@ -139,7 +139,7 @@ if input_Dias_Analisados is not None:
 	st.plotly_chart(plot,use_container_width=True)
 
 
-	Agrupa_Datas_Agentes =  df.groupby(['Data','Agente']).sum()
+	Agrupa_Datas_Agentes =  df.groupby(['Agente','Data']).sum()
 	Agrupa_Datas_Agentes = Agrupa_Datas_Agentes.drop(columns=['Ticket','Ação nº'])
 
 	Agrupa_Datas_Agentes ['Horas Trabalhadas'] = Agrupa_Datas_Agentes['Minutos Trabalhados']/60
