@@ -155,7 +155,9 @@ if input_Dias_Analisados is not None:
 	Agrupa_Datas_Agentes['Horas Trabalhadas'] = (Agrupa_Datas_Agentes['Horas Trabalhadas']).round(2)
 	Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis'] = Agrupa_Datas_Agentes ['Minutos Trabalhados']/(Tempo_Disponivel*dias_analisados)
 	Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis']=(Agrupa_Datas_Agentes ['Aproveitamento Horas Disponíveis'] * 100).round(1)
-
+	
+	Agrupa_Datas_Agentes
+	
 	def to_excel(dataframe):
 	    output = BytesIO()
 	    writer = pd.ExcelWriter(output, engine='xlsxwriter')
