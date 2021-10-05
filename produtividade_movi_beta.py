@@ -75,8 +75,10 @@ if input_Dias_Analisados is not None:
 	Tempo_Disponivel = Tempo_Disponivel_Horas*60
 
 	# Metas do time!!
-	Meta_TMA_Diario = Tempo_Disponivel/Meta_Atendimentos_Diarios
 	Meta_Atendimentos_Diarios = input_Atendimentos_Meta
+	
+	Meta_TMA_Diario = Tempo_Disponivel/Meta_Atendimentos_Diarios
+	
 	Meta_Velocidade_Diario = Meta_Atendimentos_Diarios/Tempo_Disponivel_Horas
 
 	st.header('Progresso Atendimentos CX')
