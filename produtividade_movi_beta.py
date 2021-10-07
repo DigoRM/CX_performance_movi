@@ -83,7 +83,10 @@ if input_Dias_Analisados is not None:
 	df = df.drop(df[df.Agente == "Nathalia Bandarra Moreira"].index)
 	df = df.drop(df[df.Agente == "Bruno Gonçalves Santin"].index)
 	df = df.drop(df[df.Agente == "fabiane barreto"].index)
-	df = df.drop(df[df.Agente == "Matheus Vicente Cabral"].index)	
+	df = df.drop(df[df.Agente == "Matheus Vicente Cabral"].index)
+	df = df.drop(df[df.Agente == "Isabel dos Santos Matos"].index)
+	
+
 
 	
 	st.markdown('##')
