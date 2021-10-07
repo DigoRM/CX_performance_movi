@@ -319,17 +319,14 @@ if input_Dias_Analisados is not None:
 	st.markdown('##')
 
 	st.subheader('Ranking Atendimentos')
-	Analise_Desempenho_contrario = Analise_Desempenho.sort_values('Score',ascending=True)
-	# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
-	Grafico_Analise_Desempenho = px.bar(Analise_Desempenho_contrario,y=Analise_Desempenho_contrario.index,x='Atendimentos',orientation="v",title="<b>Ranking Produtividade</b>",color_discrete_sequence=["#0083B8"] * len(Analise_Desempenho))
-	Grafico_Analise_Desempenho.update_layout(height=1000)
-
-
+	
+	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos')
+	
 	Analise_Desempenho ['Média Atendimentos Equipe'] = media_atendimentos
-
-	Analise_Desempenho ['Meta Atendimentos'] = potencial_diario
+	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos')
+	Analise_Desempenho ['Meta Atendimentos Equipe'] = potencial_equipe
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média Atendimentos Equipe'])
-	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos']),go.Line(name="Média Atendimentos da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média Atendimentos Equipe']),go.Line(name='Meta Atendimentos Individual',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Atendimentos'])])
+	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos']),go.Line(name="Média Atendimentos da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média Atendimentos Equipe']),go.Line(name='Meta Atendimentos Equipe',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Atendimentos Equipe'])])
 	plot.update_layout(height=1000, width=800)
 
 
@@ -340,6 +337,8 @@ if input_Dias_Analisados is not None:
 	# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
 	Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='TMA(min)',orientation="v",title="<b>TMA</b>",color_discrete_sequence=["#0083B8"] * len(Analise_Desempenho))
 	Grafico_Analise_Desempenho.update_layout(height=1000)
+	
+	Analise_Desempenho = Analise_Desempenho.sort_values('TMA(min)')
 
 
 	Analise_Desempenho ['Média TMA Equipe'] = tma_medio
@@ -353,6 +352,8 @@ if input_Dias_Analisados is not None:
 	# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
 	Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='Atendimentos/Hora',orientation="v",title="<b>Velocidade</b>")
 	Grafico_Analise_Desempenho.update_layout(height=1000)
+
+	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos/Hora')
 
 
 	Analise_Desempenho ['Velocidade Média Equipe'] = media_atendimentos_hora
