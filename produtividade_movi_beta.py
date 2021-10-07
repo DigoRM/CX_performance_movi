@@ -335,34 +335,32 @@ if input_Dias_Analisados is not None:
 
 	st.plotly_chart(plot,use_container_width=True)
 
-	columnS, columnT = st.columns(2)
-	with columnS:
-		st.subheader('Ranking TMA')
-		# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
-		Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='TMA(min)',orientation="v",title="<b>TMA</b>",color_discrete_sequence=["#0083B8"] * len(Analise_Desempenho))
-		Grafico_Analise_Desempenho.update_layout(height=1000)
+
+	st.subheader('Ranking TMA')
+	# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
+	Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='TMA(min)',orientation="v",title="<b>TMA</b>",color_discrete_sequence=["#0083B8"] * len(Analise_Desempenho))
+	Grafico_Analise_Desempenho.update_layout(height=1000)
 
 
-		Analise_Desempenho ['Média TMA Equipe'] = tma_medio
-		Analise_Desempenho ['Meta TMA'] = Meta_TMA_Diario
-		Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média TMA Equipe'])
-		plot1 = go.Figure(data=[go.Bar(name= 'TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['TMA(min)']),go.Line(name="Média TMA da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média TMA Equipe']),go.Line(name='Meta TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta TMA'])])
-		plot1.update_layout(height=1000, width=800)
-		st.plotly_chart(plot1,use_container_width=True)
+	Analise_Desempenho ['Média TMA Equipe'] = tma_medio
+	Analise_Desempenho ['Meta TMA'] = Meta_TMA_Diario
+	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média TMA Equipe'])
+	plot1 = go.Figure(data=[go.Bar(name= 'TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['TMA(min)']),go.Line(name="Média TMA da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média TMA Equipe']),go.Line(name='Meta TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta TMA'])])
+	plot1.update_layout(height=1000, width=800)
+	st.plotly_chart(plot1,use_container_width=True)
 
-	with columnT:
-		st.subheader('Ranking Velocidade')
-		# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
-		Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='Atendimentos/Hora',orientation="v",title="<b>Velocidade</b>")
-		Grafico_Analise_Desempenho.update_layout(height=1000)
+	st.subheader('Ranking Velocidade')
+	# Grafico_Analise_Desempenho = px.bar(Analise_Desempenho, x=Analise_Desempenho.index , y='Atendimentos' title='Ranking por atendimentos')
+	Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='Atendimentos/Hora',orientation="v",title="<b>Velocidade</b>")
+	Grafico_Analise_Desempenho.update_layout(height=1000)
 
 
-		Analise_Desempenho ['Velocidade Média Equipe'] = media_atendimentos_hora
-		Analise_Desempenho ['Meta Velocidade'] = Meta_Velocidade_Diario
-		Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Velocidade Média Equipe'])
-		plot1 = go.Figure(data=[go.Bar(name= 'Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos/Hora']),go.Line(name="Velocidade Média Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Velocidade Média Equipe']),go.Line(name='Meta Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Velocidade'])])
-		plot1.update_layout(height=1000, width=800)
-		st.plotly_chart(plot1,use_container_width=True)
+	Analise_Desempenho ['Velocidade Média Equipe'] = media_atendimentos_hora
+	Analise_Desempenho ['Meta Velocidade'] = Meta_Velocidade_Diario
+	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Velocidade Média Equipe'])
+	plot1 = go.Figure(data=[go.Bar(name= 'Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos/Hora']),go.Line(name="Velocidade Média Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Velocidade Média Equipe']),go.Line(name='Meta Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Velocidade'])])
+	plot1.update_layout(height=1000, width=800)
+	st.plotly_chart(plot1,use_container_width=True)
 
 
 
