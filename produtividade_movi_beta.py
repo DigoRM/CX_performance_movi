@@ -320,7 +320,7 @@ if input_Dias_Analisados is not None:
 
 	st.subheader('Ranking Atendimentos')
 	
-	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos')
+	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos',ascending=False)
 	
 	Analise_Desempenho ['Média Atendimentos Equipe'] = media_atendimentos
 	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos')
