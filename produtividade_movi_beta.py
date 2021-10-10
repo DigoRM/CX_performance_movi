@@ -316,7 +316,7 @@ if input_Dias_Analisados is not None:
 
 
 		st.write(f"**Total de atendimentos:** {total_atendimentos}")
-		st.write(f"**Potencial da Equipe:** {potencial_diario} atendimentos/dia")
+		st.write(f"**Potencial da Equipe:** {potencial_equipe} atendimentos/dia")
 		st.write(f"**Média de atendimentos da equipe:** {media_atendimentos} atendimentos por operador")
 
 		st.markdown('#')	
