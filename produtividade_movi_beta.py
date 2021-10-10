@@ -342,7 +342,7 @@ if input_Dias_Analisados is not None:
 		st.markdown('##')
 
 		st.write(f"**Agentes Analisados:** {Agentes_Analisados} agentes")
-		st.write(f"**Média de atendimentos diários:** {media_atendimentos_diario}")
+		st.write(f"**Média de atendimentos diários:** {media_atendimentos_diario} atendimentos por dia")
 
 
 		st.markdown('##')
