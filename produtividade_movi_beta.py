@@ -340,8 +340,7 @@ if input_Dias_Analisados is not None:
 		st.write(f"**Menor Velocidade da Equipe:** {velocidade_minimo} atendimentos/h")	
 
 		st.markdown('##')
-Agentes_Analisados
-potencial_equipe
+
 		st.write(f"**Agentes Analisados:** {Agentes_Analisados} agentes")
 		st.write(f"**Média de atendimentos diários:** {media_atendimentos_diario}")
 
