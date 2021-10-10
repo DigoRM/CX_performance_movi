@@ -458,7 +458,7 @@ if input_Dias_Analisados is not None:
 		st.markdown('#')
 		st.write('**Ranking PARCEIROS**')
 		st.markdown('#')
-
+		df
 		Mapeando_Parceiros = df.groupby('Solicitante').sum()
 		Mapeando_Parceiros = Mapeando_Parceiros.drop(columns=['Ticket','Ação nº','Minutos Trabalhados'])
 		Ranking_Parceiros = Mapeando_Parceiros.sort_values('Atendimentos',ascending=False)
