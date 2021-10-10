@@ -67,8 +67,6 @@ if input_Dias_Analisados is not None:
 		except Exception as e:
 			print(e)
 			df = pd.read_excel(uploaded_file)
-			df.drop(df.columns[[0]], axis=1, inplace=True)
-
 			df ['Categoria'].fillna("Outros", inplace=True)
 			df ['Serviço'].fillna("Outros", inplace=True)
 			# criando coluna para efetuar a contagem de atendimentos
