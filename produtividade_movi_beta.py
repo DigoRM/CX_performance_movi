@@ -63,6 +63,16 @@ if input_Dias_Analisados is not None:
 			df = df.drop(df[df.Agente == "fabiane barreto"].index)
 			df = df.drop(df[df.Agente == "Matheus Vicente Cabral"].index)
 			df = df.drop(df[df.Agente == "Isabel dos Santos Matos"].index)
+			
+			#####################
+			
+			df = df.drop(df[df.Agente == "Pâmela Andressa dos Santos"].index)
+			df = df.drop(df[df.Agente == "Julia de Cássia Rodrigues"].index)
+			df = df.drop(df[df.Agente == "Douglas Bajon"].index)
+			df = df.drop(df[df.Agente == "Larissa Muller"].index)
+			df = df.drop(df[df.Agente == "José Guilherme Ferreira Gonçalves"].index)
+			df = df.drop(df[df.Agente == "Luan Gonçalves"].index)
+
 
 		except Exception as e:
 			print(e)
@@ -96,6 +106,15 @@ if input_Dias_Analisados is not None:
 			df = df.drop(df[df.Agente == "fabiane barreto"].index)
 			df = df.drop(df[df.Agente == "Matheus Vicente Cabral"].index)
 			df = df.drop(df[df.Agente == "Isabel dos Santos Matos"].index)
+			
+						#####################
+			
+			df = df.drop(df[df.Agente == "Pâmela Andressa dos Santos"].index)
+			df = df.drop(df[df.Agente == "Julia de Cássia Rodrigues"].index)
+			df = df.drop(df[df.Agente == "Douglas Bajon"].index)
+			df = df.drop(df[df.Agente == "Larissa Muller"].index)
+			df = df.drop(df[df.Agente == "José Guilherme Ferreira Gonçalves"].index)
+			df = df.drop(df[df.Agente == "Luan Gonçalves"].index)
 
 	try:
 		st.dataframe(data=df,width=2000,height=150)
