@@ -277,7 +277,7 @@ if input_Dias_Analisados is not None:
 		media_atendimentos = int(Analise_Desempenho['Atendimentos'].mean())
 		total_minutos = Analise_Desempenho['Minutos Trabalhados'].sum()
 		media_minutos = int(Analise_Desempenho['Minutos Trabalhados'].mean())
-		potencial_diario = int(Meta_Atendimentos_Diarios*dias_analisados)
+		# potencial_diario = int(Meta_Atendimentos_Diarios*dias_analisados)
 		nota_minimo = Analise_Desempenho["Score"].min()
 		nota_minimo = round(nota_minimo,2)
 		nota_maxima = Analise_Desempenho["Score"].max()
@@ -291,6 +291,9 @@ if input_Dias_Analisados is not None:
 		soma_atendimentos2 = consolidaSemana ['Atendimentos'].sum()
 		soma_minutos2 = consolidaSemana ['Minutos Trabalhados'].sum()
 		tma_medio = round(soma_minutos2/soma_atendimentos2,2) 
+		
+		media_atendimentos_diario = int(soma_atendimentos2/dias_analisados)
+
 
 
 		# tma_medio = Analise_Desempenho["TMA(min)"].mean()
@@ -337,10 +340,11 @@ if input_Dias_Analisados is not None:
 		st.write(f"**Menor Velocidade da Equipe:** {velocidade_minimo} atendimentos/h")	
 
 		st.markdown('##')
+Agentes_Analisados
+potencial_equipe
+		st.write(f"**Agentes Analisados:** {Agentes_Analisados} agentes")
+		st.write(f"**Média de atendimentos diários:** {media_atendimentos_diario}")
 
-		st.write(f"**Score Médio:** {nota_media}")
-		st.write(f"**Score Máximo:** {nota_maxima}")
-		st.write(f"**Score Mínimo:** {nota_minimo}")
 
 		st.markdown('##')
 
