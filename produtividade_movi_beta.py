@@ -509,11 +509,6 @@ if input_Dias_Analisados is not None:
 	st.header('Lista de Atendimentos por Agente selecionado:')
 	df_selection_operador = consolidaSemana.query("Agente == @operador")
 
-	#################################################
-
-
-	#################################################
-
 	st.dataframe(df_selection_operador)
 
 	# Rendimento Individual
@@ -523,6 +518,7 @@ if input_Dias_Analisados is not None:
 	Operador_Minutos_Trabalhados = df_selection_operador['Minutos Trabalhados'].sum()
 	Operador_TMA = round(Operador_Minutos_Trabalhados / Operador_Atendimentos,2)
 	Operador_Influencia_Atendimentos = ((Operador_Atendimentos/total_atendimentos)*100).round(2)
+	media_atendimentos_operador = df_selection_operador['Atendimentos']/dias_analisados
 
 
 	# Mostrando os indicadores individuais
@@ -545,9 +541,12 @@ if input_Dias_Analisados is not None:
 		st.subheader('Métricas Individuais')
 
 		st.write(f"**TIckets:** {Operador_Atendimentos} solicitações atendidas")
+		st.write(f"**Média de Atendimentos do Agente:** {media_atendimentos_operador} atendimentos/dia ")
+
 		st.write(f"**Contribuição para a Equipe:** {Operador_Influencia_Atendimentos} %")
 		st.write(f"**TMA do Agente:** {Operador_TMA} minutos")
 		st.write(f"**Velocidade Média Agente:** {velocidade_media_operador} atendimentos/h ")
+
 
 	# -> Mostrando os graficos PRINCIPAIS
 	
