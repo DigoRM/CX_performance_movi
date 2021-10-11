@@ -334,17 +334,17 @@ if input_Dias_Analisados is not None:
 
 
 		st.markdown('#')
+		
+		st.write(f"**Agentes Analisados:** {Agentes_Analisados} agentes")
+		st.write(f"**Média de atendimentos diários:** {media_atendimentos_diario} atendimentos por dia")
+		st.write(f"**Média de atendimentos atual da equipe:** {media_atendimentos} atendimentos por operador")
+
+		st.markdown('##')
+
 		st.write(f"**Velocidade Média da Equipe:** {media_atendimentos_hora} atendimentos/h")
 		st.write(f"**Maior Velocidade da Equipe:** {velocidade_maximo} atendimentos/h")
 		st.write(f"**Menor Velocidade da Equipe:** {velocidade_minimo} atendimentos/h")	
 
-		st.markdown('##')
-		st.markdown('##')
-
-
-		st.write(f"**Agentes Analisados:** {Agentes_Analisados} agentes")
-		st.write(f"**Média de atendimentos diários:** {media_atendimentos_diario} atendimentos por dia")
-		st.write(f"**Média de atendimentos atual da equipe:** {media_atendimentos} atendimentos por operador")
 
 
 		st.markdown('##')
