@@ -177,17 +177,6 @@ if input_Dias_Analisados is not None:
 	consolidaPeriodo_Data ['Meta Atendimentos'] = potencial_equipe
 	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'],text=consolidaPeriodo_Data['Atendimentos']),go.Line(name="Média Atendimentos Atual",x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Média Atendimentos Período'],text=consolidaPeriodo_Data['Média Atendimentos Período']),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos']), go.Line(name='Progress',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'])])
 	
-	#######
-	
-	fig = go.Figure(data=[go.Bar(
-            x=x, y=y,
-            text=y,
-            textposition='auto',
-        )])
-
-	fig.show()
-	
-	#######
 	
 	plot.update_layout(height=1000, width=800)
 	st.plotly_chart(plot,use_container_width=True)
