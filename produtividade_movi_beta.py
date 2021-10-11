@@ -378,7 +378,7 @@ if input_Dias_Analisados is not None:
 	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos',ascending=False)
 	Analise_Desempenho ['Meta Atendimentos por Agente'] = Meta_Atendimentos_Diarios*dias_analisados
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média Atendimentos Equipe'])
-	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos']),go.Line(name="Média Atendimentos da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média Atendimentos Equipe']),go.Line(name='Meta Atendimentos por Agente',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Atendimentos por Agente'])])
+	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos'],text=Analise_Desempenho['Atendimentos'],textposition='outside'),go.Line(name="Média Atendimentos da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média Atendimentos Equipe']),go.Line(name='Meta Atendimentos por Agente',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Atendimentos por Agente'])])
 	plot.update_layout(height=1000, width=800)
 
 
@@ -396,7 +396,7 @@ if input_Dias_Analisados is not None:
 	Analise_Desempenho ['Média TMA Equipe'] = tma_medio
 	Analise_Desempenho ['Meta TMA'] = Meta_TMA_Diario
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média TMA Equipe'])
-	plot1 = go.Figure(data=[go.Bar(name= 'TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['TMA(min)']),go.Line(name="Média TMA da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média TMA Equipe']),go.Line(name='Meta TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta TMA'])])
+	plot1 = go.Figure(data=[go.Bar(name= 'TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['TMA(min)'],text=Analise_Desempenho['TMA(min)'],textposition='outside'),go.Line(name="Média TMA da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média TMA Equipe']),go.Line(name='Meta TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta TMA'])])
 	plot1.update_layout(height=1000, width=800)
 	st.plotly_chart(plot1,use_container_width=True)
 
@@ -411,7 +411,7 @@ if input_Dias_Analisados is not None:
 	Analise_Desempenho ['Velocidade Média Equipe'] = media_atendimentos_hora
 	Analise_Desempenho ['Meta Velocidade'] = Meta_Velocidade_Diario
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Velocidade Média Equipe'])
-	plot1 = go.Figure(data=[go.Bar(name= 'Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos/Hora']),go.Line(name="Velocidade Média Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Velocidade Média Equipe']),go.Line(name='Meta Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Velocidade'])])
+	plot1 = go.Figure(data=[go.Bar(name= 'Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos/Hora'],text=Analise_Desempenho['Atendimentos/Hora'],textposition='outside'),go.Line(name="Velocidade Média Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Velocidade Média Equipe']),go.Line(name='Meta Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Velocidade'])])
 	plot1.update_layout(height=1000, width=800)
 	st.plotly_chart(plot1,use_container_width=True)
 
