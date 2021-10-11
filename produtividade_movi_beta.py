@@ -175,7 +175,7 @@ if input_Dias_Analisados is not None:
 
 	consolidaPeriodo_Data ['Média Atendimentos Período'] = media_atendimentos_Data
 	consolidaPeriodo_Data ['Meta Atendimentos'] = potencial_equipe
-	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'],text=consolidaPeriodo_Data['Atendimentos']),go.Line(name="Média Atendimentos Atual",x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Média Atendimentos Período'],text=consolidaPeriodo_Data['Média Atendimentos Período']),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos']), go.Line(name='Progress',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'])])
+	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'],text=consolidaPeriodo_Data['Atendimentos'],textposition='auto'),go.Line(name="Média Atendimentos Atual",x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Média Atendimentos Período'],text=consolidaPeriodo_Data['Média Atendimentos Período'],textposition='auto'),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos']), go.Line(name='Progress',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Atendimentos'])])
 	
 	
 	plot.update_layout(height=1000, width=800)
