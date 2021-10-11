@@ -376,7 +376,7 @@ if input_Dias_Analisados is not None:
 	
 	Analise_Desempenho ['Média Atendimentos Equipe'] = media_atendimentos
 	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos',ascending=False)
-	Analise_Desempenho ['Meta Atendimentos Diários'] = Meta_Atendimentos_Diarios
+	Analise_Desempenho ['Meta Atendimentos Diários'] = Meta_Atendimentos_Diarios*dias_analisados
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média Atendimentos Equipe'])
 	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos']),go.Line(name="Média Atendimentos da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média Atendimentos Equipe']),go.Line(name='Meta Atendimentos Diários',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Atendimentos Diários'])])
 	plot.update_layout(height=1000, width=800)
