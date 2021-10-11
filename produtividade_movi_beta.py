@@ -500,6 +500,8 @@ if input_Dias_Analisados is not None:
 		Grafico_Parceiros.update_layout(uniformtext_minsize=18, uniformtext_mode='show')
 		Grafico_Parceiros.update_layout(title_font_size=20 ,legend_font_size=5, height=600)
 		st.plotly_chart(Grafico_Parceiros, use_container_width=True)
+		
+		
 	#####################################/#####################################################
 	# Filter in SideBar
 	operador = st.sidebar.multiselect ("Selecione o Agente", options=consolidaSemana['Agente'].unique())
@@ -568,7 +570,7 @@ if input_Dias_Analisados is not None:
 	Agentes_Analisados = len(Analise_Desempenho)
 	Operador_Atendimentos_Data['Meta Atendimentos Equipe'] = Meta_Atendimentos_Diarios*Agentes_Analisados
 
-	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos']),go.Line(name="Média Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Média Atendimentos Equipe']), go.Line(name="Meta Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Meta Atendimentos']), go.Line(name="Linha de Tendência",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos']),go.Line(name='Potencial Equipe',x=consolidaPeriodo_Data.index,y=consolidaPeriodo_Data['Meta Atendimentos'])])
+	plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos']),go.Line(name="Média Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Média Atendimentos Equipe']), go.Line(name="Meta Atendimentos Individual",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Meta Atendimentos']), go.Line(name="Linha de Tendência",x=Operador_Atendimentos_Data.index,y=Operador_Atendimentos_Data['Atendimentos'])])
 	plot.update_layout(title='Atendimentos', height=500)
 
 	st.plotly_chart(plot, use_container_width=True)
