@@ -518,7 +518,7 @@ if input_Dias_Analisados is not None:
 	Operador_Minutos_Trabalhados = df_selection_operador['Minutos Trabalhados'].sum()
 	Operador_TMA = round(Operador_Minutos_Trabalhados / Operador_Atendimentos,2)
 	Operador_Influencia_Atendimentos = ((Operador_Atendimentos/total_atendimentos)*100).round(2)
-	media_atendimentos_operador = df_selection_operador['Atendimentos']/dias_analisados
+	media_atendimentos_operador = Operador_Atendimentos/dias_analisados
 
 
 	# Mostrando os indicadores individuais
