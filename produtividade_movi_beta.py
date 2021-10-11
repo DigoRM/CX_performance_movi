@@ -405,7 +405,7 @@ if input_Dias_Analisados is not None:
 	Grafico_Analise_Desempenho = px.bar(Analise_Desempenho,x=Analise_Desempenho.index,y='Atendimentos/Hora',orientation="v",title="<b>Velocidade</b>")
 	Grafico_Analise_Desempenho.update_layout(height=1000)
 
-	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos/Hora')
+	Analise_Desempenho = Analise_Desempenho.sort_values('Atendimentos/Hora',ascending=False)
 
 
 	Analise_Desempenho ['Velocidade Média Equipe'] = media_atendimentos_hora
