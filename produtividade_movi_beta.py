@@ -395,6 +395,9 @@ if input_Dias_Analisados is not None:
 
 	Analise_Desempenho ['Média TMA Equipe'] = tma_medio
 	Analise_Desempenho ['Meta TMA'] = Meta_TMA_Diario
+	
+	Analise_Desempenho ['TMA(min)'] = round(Analise_Desempenho ['TMA(min)'],2)
+
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Média TMA Equipe'])
 	plot1 = go.Figure(data=[go.Bar(name= 'TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['TMA(min)'],text=Analise_Desempenho['TMA(min)'],textposition='outside'),go.Line(name="Média TMA da Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Média TMA Equipe']),go.Line(name='Meta TMA',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta TMA'])])
 	plot1.update_layout(height=1000, width=800)
