@@ -311,13 +311,17 @@ if input_Dias_Analisados is not None:
 		velocidade_minimo = round(velocidade_minimo,2)
 		velocidade_maximo = Analise_Desempenho['Atendimentos/Hora'].max()
 		velocidade_maximo = round(velocidade_maximo,2)
-
+		atendimentos_esperados = potencial_equipe*dias_analisados
+		
+		
 		st.markdown('#')
 
 
-		st.write(f"**Total de atendimentos:** {total_atendimentos}")
+		st.write(f"**Total de atendimentos analisados:** {total_atendimentos}")
 		st.write(f"**Potencial da Equipe:** {potencial_equipe} atendimentos/dia")
+		st.write(f"**Atendimentos Esperados:** {atendimentos_esperados} atendimentos")
 
+		
 		st.markdown('#')	
 
 		st.write(f"**TMA Médio:** {tma_medio} minutos")
