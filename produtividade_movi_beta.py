@@ -413,6 +413,9 @@ if input_Dias_Analisados is not None:
 
 	Analise_Desempenho ['Velocidade Média Equipe'] = media_atendimentos_hora
 	Analise_Desempenho ['Meta Velocidade'] = Meta_Velocidade_Diario
+	Analise_Desempenho ['Atendimentos/Hora'] = round(Analise_Desempenho ['Atendimentos/Hora'],2)
+
+	
 	Grafico_Media_Atendimentos = px.line(Analise_Desempenho,y=Analise_Desempenho.index,x=['Velocidade Média Equipe'])
 	plot1 = go.Figure(data=[go.Bar(name= 'Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Atendimentos/Hora'],text=Analise_Desempenho['Atendimentos/Hora'],textposition='outside'),go.Line(name="Velocidade Média Equipe",x=Analise_Desempenho.index,y=Analise_Desempenho['Velocidade Média Equipe']),go.Line(name='Meta Velocidade',x=Analise_Desempenho.index,y=Analise_Desempenho['Meta Velocidade'])])
 	plot1.update_layout(height=1000, width=800)
@@ -455,7 +458,7 @@ if input_Dias_Analisados is not None:
 	with column2:
 		# Grafico Categoria
 		Ranking_Categoria = Mapeando_Categoria.sort_values('Atendimentos',ascending=True)
-		Grafico_Categoria = px.bar(Ranking_Categoria, x='Atendimentos', y=Ranking_Categoria.index, title='Número de atendimentos por Categoria' )
+		Grafico_Categoria = px.bar(Ranking_Categoria, x='Atendimentos', y=Ranking_Categoria.index, title='Número de atendimentos por Categoria')
 		Grafico_Categoria.update_layout(uniformtext_minsize=18, uniformtext_mode='show')
 		Grafico_Categoria.update_layout(title_font_size=20 ,legend_font_size=18, height=420)
 		st.plotly_chart(Grafico_Categoria, use_container_width=True)
