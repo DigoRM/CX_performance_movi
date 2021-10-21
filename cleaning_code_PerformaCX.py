@@ -15,7 +15,7 @@ st.set_page_config(page_title="PerformaCX", page_icon=":bar_chart:", layout="wid
 st.title('Analise de Desempenho CX - MOVI')
 st.markdown('Bem vindo! Insira o arquivo das demandas no menu ao lado, e defina os seguintes parâmetros para minha análise:')
 
-input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=30,value=1,step=1)
+input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=60,value=1,step=1)
 input_Horas_Consideradas = st.number_input('Quantas horas considero em 1 dia de trabalho',min_value=1.0,max_value=10.0,value=8.0,step=0.25)
 input_Atendimentos_Meta = st.number_input('Digite a meta de atendimentos diários da equipe',min_value=1,max_value=500,value=150,step=1)
 
@@ -74,6 +74,9 @@ if input_Dias_Analisados is not None:
 			df = df.drop(df[df.Agente == "Larissa Muller"].index)
 			df = df.drop(df[df.Agente == "José Guilherme Ferreira Gonçalves"].index)
 			df = df.drop(df[df.Agente == "Luan Gonçalves"].index)
+			df = df.drop(df[df.Agente == "Franciele Pereira"].index)
+			df = df.drop(df[df.Agente == "Fernanda Nicolini Sp"].index)
+
 
 
 		except Exception as e:
@@ -119,6 +122,9 @@ if input_Dias_Analisados is not None:
 			df = df.drop(df[df.Agente == "Larissa Muller"].index)
 			df = df.drop(df[df.Agente == "José Guilherme Ferreira Gonçalves"].index)
 			df = df.drop(df[df.Agente == "Luan Gonçalves"].index)
+			df = df.drop(df[df.Agente == "Franciele Pereira"].index)
+			df = df.drop(df[df.Agente == "Fernanda Nicolini Sp"].index)
+			df = df.drop(df[df.Agente == "Juliano Carlos da Costa Pereira"].index)
 
 	try:
 		st.dataframe(data=df,width=2000,height=150)
@@ -211,6 +217,18 @@ if input_Dias_Analisados is not None:
 	st.markdown(get_table_download_link(dataframe), unsafe_allow_html=True)
 
 	st.markdown('#')
+
+	#######
+
+	df_teste = df.groupby('Ticket').sum()
+	df_teste=df_teste.drop(columns=['Ação nº'])
+	df_teste = df_teste.sort_values('Atendimentos',ascending=False)
+	teste_total_atendidos = len(df_teste)
+	st.subheader('Tickets Analisados:')
+	st.dataframe(df_teste)
+	
+	#######
+
 	st.markdown('#')
 
 	st.header('**Ranking Produtividade**')
@@ -263,7 +281,11 @@ if input_Dias_Analisados is not None:
 	columnA,  columnB = st.columns(2)
 	with columnA:
 		# Declarando as variaveis que representam indicadores relevantes:
+
 		total_atendimentos = Analise_Desempenho['Atendimentos'].sum()
+
+		total_tickets_atendidos = len(df_teste)
+
 		media_atendimentos = int(Analise_Desempenho['Atendimentos'].mean())
 		total_minutos = Analise_Desempenho['Minutos Trabalhados'].sum()
 		media_minutos = int(Analise_Desempenho['Minutos Trabalhados'].mean())
@@ -300,6 +322,8 @@ if input_Dias_Analisados is not None:
 		st.write(f"**Potencial da Equipe:** {potencial_equipe} atendimentos/dia")
 		st.write(f"**Atendimentos Esperados:** {atendimentos_esperados} atendimentos")
 		st.write(f"**Total de atendimentos analisados:** {total_atendimentos} atendimentos")
+		st.write(f"**Total de tickets:** {total_tickets_atendidos} tickets")
+
 
 		st.markdown('#')	
 
@@ -605,3 +629,129 @@ if input_Dias_Analisados is not None:
 		Grafico_Parceiros.update_layout(title_font_size=20 ,legend_font_size=18, height=600)
 		st.plotly_chart(Grafico_Parceiros, use_container_width=True)
 
+# Sidebar
+st.sidebar.subheader("Entrantes")
+	# Setup file upload
+uploaded_file1 = st.sidebar.file_uploader(label="baixe o arquivo aqui", type=['csv','xlsx'])
+global df1
+
+try:
+	df1 = pd.read_csv(uploaded_file1)
+	# criando coluna para efetuar a contagem de atendimentos
+	df1 ['Atendimentos']=1
+	# processo para poder efetuar operações matematicas com o horario
+	df1['Horas Trabalhadas'] = pd.to_datetime(df1['Horas Trabalhadas'],format="%H:%M:%S")
+	df1['Horas Trabalhadas'] = df1['Horas Trabalhadas'].astype(str)
+	df1['Minutos Trabalhados'] = df1['Horas Trabalhadas'].str[14:16]
+	df1['Minutos Trabalhados'] = df1['Minutos Trabalhados'].astype(int)
+           #agentes que não fazem parte do MoviDesk
+	df1 = df1.drop(df1[df1.Responsavel == "Bruno da Silva Braun"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Sheila Santos da Rosa"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Matheus Souza de Almeida"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Eduarda dos Santos Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Marjorie Lima"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Natália M"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Isabelle da Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Ester Marques Plate da Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Heitor Francisco Pereira Netto"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Cátia Duarte Velleda"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Paola Fantinel"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Vanessa Lima"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Bruna Vasconcelos"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Bianca Moreira Scalcon"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Mariana Moreira Colombo"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Nathalia Bandarra Moreira"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Bruno Gonçalves Santin"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "fabiane barreto"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Matheus Vicente Cabral"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Isabel dos Santos Matos"].index)
+	
+	#####################
+		
+	df1 = df1.drop(df1[df1.Responsavel == "Pâmela Andressa dos Santos"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Julia de Cássia Rodrigues"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Douglas Bajon"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Larissa Muller"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "José Guilherme Ferreira Gonçalves"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Luan Gonçalves"].index)
+except Exception as e:
+	print(e)
+	df1 = pd.read_excel(uploaded_file1)
+	# criando coluna para efetuar a contagem de atendimentos
+	df1 ['Atendimentos']=1
+	# processo para poder efetuar operações matematicas com o horario
+	df1['Aberto em'] = df1['Aberto em'].astype(str)
+	df1['Aberto em'] = df1['Aberto em'].str[:10]
+           #agentes que não fazem parte do MoviDesk
+	df1 = df1.drop(df1[df1.Responsavel == "Bruno da Silva Braun"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Sheila Santos da Rosa"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Matheus Souza de Almeida"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Eduarda dos Santos Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Marjorie Lima"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Natália M"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Isabelle da Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Ester Marques Plate da Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Heitor Francisco Pereira Netto"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Cátia Duarte Velleda"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Paola Fantinel"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Vanessa Lima"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Bruna Vasconcelos"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Bianca Moreira Scalcon"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Mariana Moreira Colombo"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Nathalia Bandarra Moreira"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Bruno Gonçalves Santin"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "fabiane barreto"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Matheus Vicente Cabral"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Isabel dos Santos Matos"].index)
+	
+	#####################
+	
+	df1 = df1.drop(df1[df1.Responsavel == "Pâmela Andressa dos Santos"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Julia de Cássia Rodrigues"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Douglas Bajon"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Larissa Muller"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "José Guilherme Ferreira Gonçalves"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Luan Gonçalves"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Marcelo Böck"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Julia Dahm"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Yago Ayres Bednarck"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Leonardo Kosloski"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Larissa Carvalho Da Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Gabriel Paludo Fiorentin"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Gabrielly Ferreira"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Gisiane Miranda Martins"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Gustavo Gindri Werutsky"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Isabel Cristina Teixeira Dutra"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "João Vicente Uriarte"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Patrícia Rodrigues da Silva"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Samira Chagas Machado"].index)
+	df1 = df1.drop(df1[df1.Responsavel == "Stephanie Kathreien Rodrigues Ribeiro"].index)
+	
+try:
+	st.dataframe(data=df1,width=2000,height=150)
+except Exception as e:
+	print(e)
+	st.write('Please upload your file...')
+	st.markdown('##')
+
+A123, B123 = st.columns(2)
+with A123:
+	st.header('Volume de Tickets da Equipe')
+	# variaveis relevantes
+	total_entrantes = len(df1)
+	st.write(f"**Total Entrantes:** {total_entrantes} tickets")
+
+	responsaveis_entrantes_agrupa = df1.groupby('Responsavel').sum()
+	responsaveis_analisados = len(responsaveis_entrantes_agrupa)
+	st.write(f"**Agentes em análise:** {responsaveis_analisados} agentes")
+
+
+
+with B123:
+	st.header('Volume de Tickets da Equipe')
+	# variaveis relevantes
+	entrantes_dia = round((total_entrantes/dias_analisados),2)
+	st.write(f"**Média de** {entrantes_dia} entrantes por dia")
+
+	entrantes_atendidos = round((total_tickets_atendidos/total_entrantes)*100,2)
+	st.write(f"**Conversão:** {entrantes_atendidos}% de tickets atendidos")
