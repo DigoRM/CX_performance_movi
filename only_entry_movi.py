@@ -151,9 +151,20 @@ df1_agrupa_data['Média Móvel 15'] = df1_agrupa_data['Atendimentos'].rolling(15
 
 df1_agrupa_data['Média Móvel 20'] = df1_agrupa_data['Atendimentos'].rolling(20).mean().round()
 
+df1_agrupa_data['Média Aumento 7'] = df1_agrupa_data['Aumento'].rolling(7).mean().round()
 
+df1_agrupa_data['Média Aumento 10'] = df1_agrupa_data['Aumento'].rolling(10).mean().round()
+
+df1_agrupa_data['Média Aumento 15'] = df1_agrupa_data['Aumento'].rolling(15).mean().round()
+
+df1_agrupa_data['Média Aumento 20'] = df1_agrupa_data['Aumento'].rolling(20).mean().round()
 
 df1_agrupa_data
+
+
+st.title('Tickets')
+st.markdown('#')
+
 st.header('Tickets por dia')
 plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos'],text=df1_agrupa_data['Atendimentos'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Progress'])])
 plot.update_layout(height=800, width=1500)
@@ -181,5 +192,33 @@ st.plotly_chart(plot,use_container_width=False)
 
 st.header('Média de Tickets dos útimos 20 dias')
 plot = go.Figure(data=[go.Bar(name= 'Média Móvel 2020',x=df1_agrupa_data.index,y=df1_agrupa_data['Média Móvel 20'],text=df1_agrupa_data['Média Móvel 20'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Móvel 20'])])
+plot.update_layout(height=800, width=1500)
+st.plotly_chart(plot,use_container_width=False)
+
+#########
+st.title('Variação')
+st.markdown('#')
+st.header('Variação de Tickets por dia')
+plot = go.Figure(data=[go.Bar(name= 'Aumento',x=df1_agrupa_data.index,y=df1_agrupa_data['Aumento'],text=df1_agrupa_data['Aumento'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Aumento'])])
+plot.update_layout(height=800, width=1500)
+st.plotly_chart(plot,use_container_width=False)
+
+st.header('Variação média de Tickets a cada 7 dias')
+plot = go.Figure(data=[go.Bar(name= 'Média Aumento 7',x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 7'],text=df1_agrupa_data['Média Aumento 7'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 7'])])
+plot.update_layout(height=800, width=1500)
+st.plotly_chart(plot,use_container_width=False)
+
+st.header('Variação média de Tickets a cada 10 dias')
+plot = go.Figure(data=[go.Bar(name= 'Média Aumento 10',x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 10'],text=df1_agrupa_data['Média Aumento 10'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 10'])])
+plot.update_layout(height=800, width=1500)
+st.plotly_chart(plot,use_container_width=False)
+
+st.header('Variação média de Tickets a cada 15 dias')
+plot = go.Figure(data=[go.Bar(name= 'Média Aumento 15',x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 15'],text=df1_agrupa_data['Média Aumento 15'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 15'])])
+plot.update_layout(height=800, width=1500)
+st.plotly_chart(plot,use_container_width=False)
+
+st.header('Variação média de Tickets a cada 20 dias')
+plot = go.Figure(data=[go.Bar(name= 'Média Aumento 20',x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 20'],text=df1_agrupa_data['Média Aumento 20'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 20'])])
 plot.update_layout(height=800, width=1500)
 st.plotly_chart(plot,use_container_width=False)
