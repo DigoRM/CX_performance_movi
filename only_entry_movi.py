@@ -147,7 +147,9 @@ df1
 df1_agrupa_data = df1.groupby('Aberto em').sum()
 df1_agrupa_data = df1_agrupa_data.drop(columns='Número')
 df1_agrupa_data['Aumento'] = df1_agrupa_data['Atendimentos'].diff()
-df1_agrupa_data['Progress'] = df1_agrupa_data['Atendimentos']
+df1_agrupa_data['Média Atendimentos/Dia'] = entrantes_dia
+
+df1_agrupa_data['Média Aumento 20'] = df1_agrupa_data['Aumento']
 
 df1_agrupa_data['Média Móvel'] = df1_agrupa_data['Atendimentos'].rolling(7).mean().round()
 
@@ -172,7 +174,7 @@ st.title('Tickets')
 st.markdown('#')
 
 st.header('Tickets por dia')
-plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos'],text=df1_agrupa_data['Atendimentos'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Progress'])])
+plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos'],text=df1_agrupa_data['Atendimentos'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Progress']),go.Line(name="Média Atendimentos/Dia",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Atendimentos/Dia'])])
 plot.update_layout(height=800, width=1500)
 st.plotly_chart(plot,use_container_width=False)
 
