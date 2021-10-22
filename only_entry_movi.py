@@ -6,8 +6,10 @@ import base64
 from io import BytesIO
 
 input_Dias_Analisados = st.number_input('Quantos dias úteis vou analisar?',min_value=1,max_value=60,value=1,step=1)
-dias_analisados = input_Dias_Analisados
+input_Agentes_Analisados = st.number_input('Quantos agentes estarão disponíveis?',min_value=1,max_value=60,value=1,step=1)
 
+dias_analisados = input_Dias_Analisados
+agentes_analisados = input_Agentes_Analisados
 # Sidebar
 st.sidebar.subheader("Entrantes")
 	# Setup file upload
@@ -122,7 +124,9 @@ with A123:
 
 	responsaveis_entrantes_agrupa = df1.groupby('Responsavel').sum()
 	responsaveis_analisados = len(responsaveis_entrantes_agrupa)
-	st.write(f"**Agentes em análise:** {responsaveis_analisados} agentes")
+	st.write(f"**Quantidade de Responsáveis em análise:** {responsaveis_analisados} responsáveis")
+	st.write(f"**Quantidade de Agentes:** {agentes_analisados} agentes")
+
 
 
 
@@ -167,11 +171,6 @@ st.markdown('#')
 
 st.header('Tickets por dia')
 plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos'],text=df1_agrupa_data['Atendimentos'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Progress'])])
-plot.update_layout(height=800, width=1500)
-st.plotly_chart(plot,use_container_width=False)
-
-st.header('Variação de Tickets por dia')
-plot = go.Figure(data=[go.Bar(name= 'Aumento',x=df1_agrupa_data.index,y=df1_agrupa_data['Aumento'],text=df1_agrupa_data['Aumento'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Aumento'])])
 plot.update_layout(height=800, width=1500)
 st.plotly_chart(plot,use_container_width=False)
 
