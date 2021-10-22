@@ -121,23 +121,20 @@ with A123:
 	# variaveis relevantes
 	total_entrantes = len(df1)
 	st.write(f"**Total Entrantes:** {total_entrantes} tickets")
-
-	responsaveis_entrantes_agrupa = df1.groupby('Responsavel').sum()
-	responsaveis_analisados = len(responsaveis_entrantes_agrupa)
-	st.write(f"**Quantidade de Responsáveis em análise:** {responsaveis_analisados} responsáveis")
-	st.write(f"**Quantidade de Agentes:** {agentes_analisados} agentes")
-
-
-
-
-with B123:
-	st.header('Volume de Tickets da Equipe')
 	# variaveis relevantes
 	entrantes_dia = round((total_entrantes/dias_analisados),2)
 	st.write(f"**Média de** {entrantes_dia} entrantes por dia")
 
 
 
+
+
+with B123:
+	responsaveis_entrantes_agrupa = df1.groupby('Responsavel').sum()
+	responsaveis_analisados = len(responsaveis_entrantes_agrupa)
+	st.write(f"**Quantidade de Responsáveis em análise:** {responsaveis_analisados} responsáveis")
+	st.write(f"**Quantidade de Agentes:** {agentes_analisados} agentes")
+	
 
 # Gráficos
 df1
