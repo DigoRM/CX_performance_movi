@@ -115,26 +115,31 @@ except Exception as e:
 	st.write('Please upload your file...')
 	st.markdown('##')
 
+
+st.header('Volume de Tickets da Equipe')
+
 A123, B123 = st.columns(2)
 with A123:
-	st.header('Volume de Tickets da Equipe')
-	# variaveis relevantes
 	total_entrantes = len(df1)
 	st.write(f"**Total Entrantes:** {total_entrantes} tickets")
-	# variaveis relevantes
+	
 	entrantes_dia = round((total_entrantes/dias_analisados),2)
 	st.write(f"**Média de** {entrantes_dia} entrantes por dia")
-
-
 
 
 
 with B123:
 	responsaveis_entrantes_agrupa = df1.groupby('Responsavel').sum()
 	responsaveis_analisados = len(responsaveis_entrantes_agrupa)
+	
+	entrantes_agente_dia = entrantes_dia/agentes_analisados
+	
 	st.write(f"**Quantidade de Responsáveis em análise:** {responsaveis_analisados} responsáveis")
 	st.write(f"**Quantidade de Agentes:** {agentes_analisados} agentes")
+	st.write(f"**Demanda diária:** {entrantes_agente_dia} tickets por agente")
 	
+	
+
 
 # Gráficos
 df1
