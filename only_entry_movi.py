@@ -174,7 +174,7 @@ st.title('Tickets')
 st.markdown('#')
 
 st.header('Tickets por dia')
-plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos'],text=df1_agrupa_data['Atendimentos'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Progress']),go.Line(name="Média Atendimentos/Dia",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Atendimentos/Dia'])])
+plot = go.Figure(data=[go.Bar(name= 'Atendimentos',x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos'],text=df1_agrupa_data['Atendimentos'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Atendimentos']),go.Line(name="Média Atendimentos/Dia",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Atendimentos/Dia'])])
 plot.update_layout(height=800, width=1500)
 st.plotly_chart(plot,use_container_width=False)
 
