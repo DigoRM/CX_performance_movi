@@ -136,7 +136,7 @@ with B123:
 	
 	st.write(f"**Quantidade de Responsáveis em análise:** {responsaveis_analisados} responsáveis")
 	st.write(f"**Quantidade de Agentes:** {agentes_analisados} agentes")
-	st.write(f"**Demanda diária:** {entrantes_agente_dia} tickets por agente")
+	st.write(f"**Demandas esperadas:** {entrantes_agente_dia} tickets por agente")
 	
 	
 
