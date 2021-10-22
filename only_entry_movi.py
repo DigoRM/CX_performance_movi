@@ -143,13 +143,13 @@ df1_agrupa_data = df1_agrupa_data.drop(columns='Número')
 df1_agrupa_data['Aumento'] = df1_agrupa_data['Atendimentos'].diff()
 df1_agrupa_data['Progress'] = df1_agrupa_data['Atendimentos']
 
-df1_agrupa_data['Média Móvel'] = df1_agrupa_data['Atendimentos'].rolling(7).mean()
+df1_agrupa_data['Média Móvel'] = df1_agrupa_data['Atendimentos'].rolling(7).mean().round()
 
-df1_agrupa_data['Média Móvel 10'] = df1_agrupa_data['Atendimentos'].rolling(10).mean()
+df1_agrupa_data['Média Móvel 10'] = df1_agrupa_data['Atendimentos'].rolling(10).mean().round()
 
-df1_agrupa_data['Média Móvel 15'] = df1_agrupa_data['Atendimentos'].rolling(15).mean()
+df1_agrupa_data['Média Móvel 15'] = df1_agrupa_data['Atendimentos'].rolling(15).mean().round()
 
-df1_agrupa_data['Média Móvel 20'] = df1_agrupa_data['Atendimentos'].rolling(20).mean()
+df1_agrupa_data['Média Móvel 20'] = df1_agrupa_data['Atendimentos'].rolling(20).mean().round()
 
 
 
