@@ -225,3 +225,41 @@ st.header('Variação média de Tickets a cada 20 dias')
 plot = go.Figure(data=[go.Bar(name= 'Média Aumento 20',x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 20'],text=df1_agrupa_data['Média Aumento 20'],textposition='outside'),go.Line(name="Progress",x=df1_agrupa_data.index,y=df1_agrupa_data['Média Aumento 20'])])
 plot.update_layout(height=800, width=1500)
 st.plotly_chart(plot,use_container_width=False)
+
+
+# Analise de Sazonalidade
+
+# Sidebar
+st.sidebar.subheader("Sazonalidade")
+	# Setup file upload
+uploaded_file2 = st.sidebar.file_uploader(label="Arraste o arquivo aqui", type=['csv','xlsx'])
+global df2
+
+try:
+	df2 = pd.read_csv(uploaded_file2)
+
+except Exception as e:
+	print(e)
+	df2 = pd.read_excel(uploaded_file2)
+	
+try:
+	st.dataframe(data=df2,width=2000,height=150)
+except Exception as e:
+	print(e)
+	st.write('Please upload your file...')
+	st.markdown('##')
+
+df2['Aberto em'] = pd.to_datetime(df2['Aberto em'])
+df2['dia_da_semana'] = df2['Aberto em'].dt.strftime("%A")
+traducao_dias = {'Monday':'Segunda', 'Tuesday':'Terça', 'Wednesday':'Quarta', 
+	              'Thursday':'Quinta', 'Friday':'Sexta', 'Saturday':'Sábado',
+	              'Sunday':'Domingo'}
+df2['dia_da_semana'] = df2['dia_da_semana'].map(traducao_dias)
+
+df2_sazonalidade = df2.groupby('dia_da_semana').mean().round()
+df2_sazonalidade = df2_sazonalidade.sort_values('Atendimentos',ascending=False)
+st.header('Média de Entrantes por dia da semana:')
+plot = go.Figure(data=[go.Bar(name= 'Entrantes por dia da semana',x=df2_sazonalidade.index,y=df2_sazonalidade['Atendimentos'],text=df2_sazonalidade['Atendimentos'],textposition='outside')])
+plot.update_layout(height=700, width=1000)
+st.plotly_chart(plot,use_container_width=False)
+
