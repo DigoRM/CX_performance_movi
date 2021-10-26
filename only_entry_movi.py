@@ -63,51 +63,7 @@ except Exception as e:
 	# processo para poder efetuar operações matematicas com o horario
 	df1['Aberto em'] = df1['Aberto em'].astype(str)
 	df1['Aberto em'] = df1['Aberto em'].str[:10]
-           #agentes que não fazem parte do MoviDesk
-	df1 = df1.drop(df1[df1.Responsavel == "Bruno da Silva Braun"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Sheila Santos da Rosa"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Matheus Souza de Almeida"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Eduarda dos Santos Silva"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Marjorie Lima"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Natália M"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Isabelle da Silva"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Ester Marques Plate da Silva"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Heitor Francisco Pereira Netto"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Cátia Duarte Velleda"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Paola Fantinel"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Vanessa Lima"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Bruna Vasconcelos"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Bianca Moreira Scalcon"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Mariana Moreira Colombo"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Nathalia Bandarra Moreira"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Bruno Gonçalves Santin"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "fabiane barreto"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Matheus Vicente Cabral"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Isabel dos Santos Matos"].index)
-	
-	#####################
-	
-	df1 = df1.drop(df1[df1.Responsavel == "Pâmela Andressa dos Santos"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Julia de Cássia Rodrigues"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Douglas Bajon"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Larissa Muller"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "José Guilherme Ferreira Gonçalves"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Luan Gonçalves"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Marcelo Böck"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Julia Dahm"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Yago Ayres Bednarck"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Leonardo Kosloski"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Larissa Carvalho Da Silva"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Gabriel Paludo Fiorentin"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Gabrielly Ferreira"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Gisiane Miranda Martins"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Gustavo Gindri Werutsky"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Isabel Cristina Teixeira Dutra"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "João Vicente Uriarte"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Patrícia Rodrigues da Silva"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Samira Chagas Machado"].index)
-	df1 = df1.drop(df1[df1.Responsavel == "Stephanie Kathreien Rodrigues Ribeiro"].index)
-	
+           
 try:
 	st.dataframe(data=df1,width=2000,height=150)
 except Exception as e:
