@@ -726,7 +726,6 @@ else:
             agent_nps_stats.append({
                 'Agente': agent,
                 'NPS': nps,
-                'Média de Nota': avg_rating,
                 'Avaliações': count
             })
         df_agent_nps = pd.DataFrame(agent_nps_stats).set_index('Agente')
@@ -914,13 +913,12 @@ else:
         display_ranking['Aproveitamento Horas Disponíveis'] = (display_ranking['Aproveitamento Horas Disponíveis'] * 100).round(1)
         display_ranking['Score'] = display_ranking['Score'].round(2)
         display_ranking['NPS'] = pd.to_numeric(display_ranking['NPS'], errors='coerce').astype('Int64')
-        display_ranking['Média de Nota'] = pd.to_numeric(display_ranking['Média de Nota'], errors='coerce').round(1)
         display_ranking['Avaliações'] = pd.to_numeric(display_ranking['Avaliações'], errors='coerce').astype('Int64')
         
-        st.dataframe(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Média de Nota', 'Avaliações', 'Score']], use_container_width=True)
+        st.dataframe(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Avaliações', 'Score']], use_container_width=True)
         
         # Download Button for Ranking
-        rank_excel = to_excel(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Média de Nota', 'Avaliações', 'Score']])
+        rank_excel = to_excel(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Avaliações', 'Score']])
         st.download_button(
             label="📥 BAIXAR EXCEL - RANKING DE PRODUTIVIDADE",
             data=rank_excel,
@@ -1070,8 +1068,8 @@ else:
                 op_nps_str = str(op_nps_val)
                 op_avg_str = f"{op_avg_val:.1f}"
 
-            # Individual KPI Cards
-            col_ind1, col_ind2, col_ind3, col_ind4, col_ind5, col_ind6 = st.columns(6)
+            # Individual KPI Cards (5 columns)
+            col_ind1, col_ind2, col_ind3, col_ind4, col_ind5 = st.columns(5)
             with col_ind1:
                 st.markdown(f"""
                     <div class="team-card">
@@ -1115,19 +1113,10 @@ else:
                     <div class="team-card">
                         <div class="team-card-label">NPS do Agente</div>
                         <div class="team-card-value" {nps_color_style}>{op_nps_str}</div>
-                        <div class="team-card-help">Score Net Promoter</div>
+                        <div class="team-card-help">Score Net Promoter ({op_ratings_count} aval.)</div>
                     </div>
                 """, unsafe_allow_html=True)
             with col_ind5:
-                avg_color_style = "style='color:#94A3B8;'" if op_avg_str == "N/A" else "style='color:#60A5FA;'"
-                st.markdown(f"""
-                    <div class="team-card">
-                        <div class="team-card-label">Média de Nota</div>
-                        <div class="team-card-value" {avg_color_style}>{op_avg_str}</div>
-                        <div class="team-card-help">Média ({op_ratings_count} aval.)</div>
-                    </div>
-                """, unsafe_allow_html=True)
-            with col_ind6:
                 st.markdown(f"""
                     <div class="team-card">
                         <div class="team-card-label">Contribuição na Equipe</div>
@@ -1157,7 +1146,6 @@ else:
                 daily_nps_stats.append({
                     'Data': date,
                     'NPS Diário': nps,
-                    'Média de Nota Diária': avg_rating,
                     'Avaliações': count
                 })
             df_daily_nps = pd.DataFrame(daily_nps_stats).set_index('Data')
@@ -1236,7 +1224,6 @@ else:
             display_daily['Aproveitamento Horas Disponíveis'] = (display_daily['Horas Trabalhadas'] / Tempo_Disponivel_Horas * 100).round(1)
             display_daily['SCORE'] = ((display_daily['Atendimentos'] * display_daily['Atendimentos/Hora'] * (display_daily['Horas Trabalhadas'] / Tempo_Disponivel_Horas)) / display_daily['TMA']).round(2)
             display_daily['NPS Diário'] = pd.to_numeric(display_daily['NPS Diário'], errors='coerce').astype('Int64')
-            display_daily['Média de Nota Diária'] = pd.to_numeric(display_daily['Média de Nota Diária'], errors='coerce').round(1)
             display_daily['Avaliações'] = pd.to_numeric(display_daily['Avaliações'], errors='coerce').astype('Int64')
             
             display_daily = display_daily.rename(columns={
@@ -1247,10 +1234,10 @@ else:
                 'SCORE': 'Score de Produtividade'
             })
             
-            st.dataframe(display_daily[['Atendimentos Realizados', 'Horas Ativas', 'TMA (Minutos)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS Diário', 'Média de Nota Diária', 'Avaliações', 'Score de Produtividade']], use_container_width=True)
+            st.dataframe(display_daily[['Atendimentos Realizados', 'Horas Ativas', 'TMA (Minutos)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS Diário', 'Avaliações', 'Score de Produtividade']], use_container_width=True)
             
             # Download daily detailed
-            agent_excel = to_excel(display_daily[['Atendimentos Realizados', 'Horas Ativas', 'TMA (Minutos)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS Diário', 'Média de Nota Diária', 'Avaliações', 'Score de Produtividade']])
+            agent_excel = to_excel(display_daily[['Atendimentos Realizados', 'Horas Ativas', 'TMA (Minutos)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS Diário', 'Avaliações', 'Score de Produtividade']])
             st.download_button(
                 label=f"📥 BAIXAR EXCEL - RELATÓRIO DIÁRIO DE {selected_agent.upper()}",
                 data=agent_excel,
