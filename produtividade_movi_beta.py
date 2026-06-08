@@ -178,7 +178,6 @@ uploaded_file1 = st.sidebar.file_uploader(label="Upload Tickets Entrantes (CSV/X
 
 # Section 2: Parameters
 st.sidebar.markdown("### ⚙️ Parâmetros de Meta")
-input_Dias_Analisados = st.sidebar.number_input('Dias úteis a analisar', min_value=1, max_value=30, value=21, step=1)
 input_Horas_Consideradas = st.sidebar.number_input('Horas diárias de trabalho', min_value=1.0, max_value=10.0, value=8.0, step=0.25)
 input_Atendimentos_Meta = st.sidebar.number_input('Meta diária de atendimentos por agente', min_value=1, max_value=500, value=100, step=1)
 
@@ -231,6 +230,23 @@ if using_default_res:
     st.sidebar.info("Exibindo base demonstrativa padrão de Resolvidos.")
 if using_default_inc:
     st.sidebar.info("Exibindo base demonstrativa padrão de Entrantes.")
+
+if not df_resolved_raw.empty:
+    dias_detectados = df_resolved_raw['Data'].nunique()
+    st.sidebar.markdown(f"""
+        <div style="
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        ">
+            <span style="font-size: 11px; color: #94A3B8; font-weight: 700; text-transform: uppercase;">Período Detectado</span>
+            <div style="font-size: 20px; font-weight: 800; color: #38BDF8; margin-top: 2px;">{dias_detectados} dias úteis</div>
+        </div>
+    """, unsafe_allow_html=True)
 
 # ════════════════════════════════════════════════════════════
 # 3. PREPROCESSING
@@ -312,7 +328,7 @@ else:
     tab_team, tab_agent = st.tabs(["📊 Desempenho da Equipe", "👤 Rendimento Individual"])
     
     # Mathematical variables setup
-    dias_analisados = input_Dias_Analisados
+    dias_analisados = max(1, df['Data'].nunique())
     Tempo_Disponivel_Horas = input_Horas_Consideradas
     Tempo_Disponivel = Tempo_Disponivel_Horas * 60
     Meta_Atendimentos_Diarios = input_Atendimentos_Meta
