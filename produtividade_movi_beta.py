@@ -200,7 +200,7 @@ st.markdown(f"""
             backdrop-filter: blur(12px);
             border: 1px solid {team_card_border};
             border-radius: 12px;
-            padding: 16px;
+            padding: 12px 6px;
             text-align: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             min-height: 110px;
@@ -224,9 +224,10 @@ st.markdown(f"""
             margin-bottom: 6px;
         }}
         .team-card-value {{
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
             color: {team_card_val};
+            white-space: nowrap;
         }}
         .team-card-help {{
             font-size: 10px;
@@ -416,14 +417,14 @@ class CXReportPDF(FPDF):
         self.report_subtitle = subtitle
         
         if theme_choice == "Escuro":
-            self.bg_color = (11, 15, 25) # #0B0F19
-            self.text_color = (226, 232, 240) # #E2E8F0
+            self.report_bg_color = (11, 15, 25) # #0B0F19
+            self.report_text_color = (226, 232, 240) # #E2E8F0
             self.card_bg = (15, 23, 42) # #0F172A
             self.accent_color = (56, 189, 248) # #38BDF8
             self.secondary_accent = (129, 140, 248) # #818CF8
         else:
-            self.bg_color = (248, 250, 252) # #F8FAFC
-            self.text_color = (15, 23, 42) # #0F172A
+            self.report_bg_color = (248, 250, 252) # #F8FAFC
+            self.report_text_color = (15, 23, 42) # #0F172A
             self.card_bg = (255, 255, 255) # #FFFFFF
             self.accent_color = (2, 132, 199) # #0284C7
             self.secondary_accent = (109, 40, 217) # #6D28D9
@@ -431,14 +432,14 @@ class CXReportPDF(FPDF):
     def header(self):
         # Draw header background bar
         self.set_fill_color(*self.card_bg)
-        self.rect(0, 0, 297, 18, fill=True)
+        self.rect(0, 0, 297, 18, style='F')
         # Accent indicator line
         self.set_fill_color(*self.accent_color)
-        self.rect(0, 0, 4, 18, fill=True)
+        self.rect(0, 0, 4, 18, style='F')
         
         # Title text
         self.set_font("helvetica", "B", 14)
-        self.set_text_color(*self.text_color)
+        self.set_text_color(*self.report_text_color)
         self.set_xy(10, 4)
         self.cell(0, 10, self.report_title, ln=False)
         
@@ -454,8 +455,8 @@ class CXReportPDF(FPDF):
         self.cell(297, 10, f"Pagina {self.page_no()} | PerformaCX - Relatorio Analitico de Performance", align="C")
         
     def apply_page_background(self):
-        self.set_fill_color(*self.bg_color)
-        self.rect(0, 0, 297, 210, fill=True)
+        self.set_fill_color(*self.report_bg_color)
+        self.rect(0, 0, 297, 210, style='F')
 
 # Helper to convert plotly chart to PIL Image at high-resolution
 def fig_to_pil(fig, width=800, height=450):
@@ -482,7 +483,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     for i, m in enumerate(metrics_kpi):
         x = start_x + i * (card_w + spacing)
         pdf.set_fill_color(*pdf.card_bg)
-        pdf.rect(x, start_y, card_w, card_h, fill=True)
+        pdf.rect(x, start_y, card_w, card_h, style='F')
         pdf.set_draw_color(226, 232, 240) if pdf.theme_choice == "Claro" else pdf.set_draw_color(30, 41, 59)
         pdf.rect(x, start_y, card_w, card_h)
         
@@ -513,7 +514,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     for i, o in enumerate(metrics_op):
         x = start_x + i * (op_w + op_spacing)
         pdf.set_fill_color(*pdf.card_bg)
-        pdf.rect(x, op_y, op_w, op_h, fill=True)
+        pdf.rect(x, op_y, op_w, op_h, style='F')
         pdf.set_draw_color(226, 232, 240) if pdf.theme_choice == "Claro" else pdf.set_draw_color(30, 41, 59)
         pdf.rect(x, op_y, op_w, op_h)
         
@@ -532,13 +533,13 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
         # Subtext
         pdf.set_xy(x + 2, op_y + 16)
         pdf.set_font("helvetica", "", 7)
-        pdf.set_text_color(*pdf.text_color)
+        pdf.set_text_color(*pdf.report_text_color)
         pdf.cell(op_w - 4, 3, o["sub"], align="C")
         
     # Team Progress Chart Title
     pdf.set_xy(10, 78)
     pdf.set_font("helvetica", "B", 10)
-    pdf.set_text_color(*pdf.text_color)
+    pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Progresso Geral e Objetivo da Equipe")
     
     # Team Progress Chart Image
@@ -546,7 +547,23 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.image(img_team_prog, x=10, y=84, w=277, h=108)
     
     # ════════════════════════════════════════════════════
-    # PAGE 2: Grid of 4 Rankings Charts
+    # PAGE 2: Team Daily NPS Chart
+    # ════════════════════════════════════════════════════
+    pdf.add_page()
+    pdf.apply_page_background()
+    
+    # Team Daily NPS Chart Title
+    pdf.set_xy(10, 20)
+    pdf.set_font("helvetica", "B", 10)
+    pdf.set_text_color(*pdf.report_text_color)
+    pdf.cell(0, 5, "NPS por Dia (Equipe)")
+    
+    # Team Daily NPS Chart Image
+    img_team_daily_nps = fig_to_pil(figs["plot_team_daily_nps"], width=900, height=360)
+    pdf.image(img_team_daily_nps, x=10, y=26, w=277, h=108)
+    
+    # ════════════════════════════════════════════════════
+    # PAGE 3: Grid of 4 Rankings Charts
     # ════════════════════════════════════════════════════
     pdf.add_page()
     pdf.apply_page_background()
@@ -554,7 +571,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     # Top Left: TMA
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
-    pdf.set_text_color(*pdf.text_color)
+    pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Ranking TMA (Menor e melhor)")
     img_tma = fig_to_pil(figs["fig_tma"], width=600, height=340)
     pdf.image(img_tma, x=10, y=26, w=134, h=76)
@@ -562,6 +579,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     # Top Right: Speed
     pdf.set_xy(152, 20)
     pdf.set_font("helvetica", "B", 10)
+    pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Ranking Velocidade (Atendimentos/Hora)")
     img_vel = fig_to_pil(figs["fig_vel"], width=600, height=340)
     pdf.image(img_vel, x=152, y=26, w=134, h=76)
@@ -569,6 +587,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     # Bottom Left: NPS
     pdf.set_xy(10, 106)
     pdf.set_font("helvetica", "B", 10)
+    pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Ranking NPS por Agente")
     img_nps = fig_to_pil(figs["fig_nps"], width=600, height=340)
     pdf.image(img_nps, x=10, y=112, w=134, h=76)
@@ -576,6 +595,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     # Bottom Right: Contribution
     pdf.set_xy(152, 106)
     pdf.set_font("helvetica", "B", 10)
+    pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Percentual de Contribuicao de Cada Agente (%)")
     img_contrib = fig_to_pil(figs["fig_contrib"], width=600, height=340)
     pdf.image(img_contrib, x=152, y=112, w=134, h=76)
@@ -631,7 +651,7 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     for i, m in enumerate(metrics_kpi):
         x = start_x + i * (card_w + spacing)
         pdf.set_fill_color(*pdf.card_bg)
-        pdf.rect(x, start_y, card_w, card_h, fill=True)
+        pdf.rect(x, start_y, card_w, card_h, style='F')
         pdf.set_draw_color(226, 232, 240) if pdf.theme_choice == "Claro" else pdf.set_draw_color(30, 41, 59)
         pdf.rect(x, start_y, card_w, card_h)
         
@@ -657,7 +677,7 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     # Left Column: Atendimentos vs team
     pdf.set_xy(10, 52)
     pdf.set_font("helvetica", "B", 10)
-    pdf.set_text_color(*pdf.text_color)
+    pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Atendimentos por Data vs. Metas")
     img_ind_at = fig_to_pil(figs["plot_ind_at"], width=600, height=580)
     pdf.image(img_ind_at, x=10, y=58, w=134, h=130)
@@ -670,7 +690,23 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     pdf.image(img_ind_tma, x=152, y=58, w=134, h=130)
     
     # ════════════════════════════════════════════════════
-    # PAGE 2: Mapping & Status (Individual)
+    # PAGE 2: Agent Daily NPS Chart
+    # ════════════════════════════════════════════════════
+    pdf.add_page()
+    pdf.apply_page_background()
+    
+    # Agent Daily NPS Chart Title
+    pdf.set_xy(10, 20)
+    pdf.set_font("helvetica", "B", 10)
+    pdf.set_text_color(*pdf.report_text_color)
+    pdf.cell(0, 5, "NPS por Dia")
+    
+    # Agent Daily NPS Chart Image
+    img_ind_nps = fig_to_pil(figs["plot_ind_nps"], width=900, height=360)
+    pdf.image(img_ind_nps, x=10, y=26, w=277, h=108)
+    
+    # ════════════════════════════════════════════════════
+    # PAGE 3: Mapping & Status (Individual)
     # ════════════════════════════════════════════════════
     pdf.add_page()
     pdf.apply_page_background()
@@ -988,56 +1024,6 @@ else:
     # TAB 1: TEAM PERFORMANCE
     # ============================================================
     with tab_team:
-        col_team_title, col_team_print = st.columns([2, 1])
-        with col_team_title:
-            st.markdown("### 📊 Indicadores Gerais da Equipe")
-        with col_team_print:
-            col_gen, col_dl = st.columns(2)
-            with col_gen:
-                if st.button("📊 Compilar PDF Geral", key="btn_pdf_geral", use_container_width=True):
-                    with st.spinner("Gerando PDF com os gráficos..."):
-                        metrics_kpi = [
-                            {"label": "Total Atendimentos", "value": f"{total_atendimentos:,}", "sub": "Demandas finalizadas"},
-                            {"label": "TMA Médio", "value": f"{tma_medio:.2f} min", "sub": "Tempo médio por ticket"},
-                            {"label": "Velocidade Média", "value": f"{media_atendimentos_hora:.2f} at./h", "sub": "Atendimentos por hora ativa"},
-                            {"label": "NPS Geral", "value": str(nps_geral), "sub": f"Média do time ({avaliacoes_geral} aval.)"},
-                            {"label": "Agentes em Análise", "value": str(Agentes_Analisados), "sub": "Total de analistas ativos"},
-                            {"label": "Objetivo da Equipe", "value": f"{potencial_equipe:,} at.", "sub": "Meta diária combinada"}
-                        ]
-                        metrics_op = [
-                            {"label": "Volume Resolvido", "value": f"{total_tickets_atendidos:,} tickets", "sub": f"Taxa de Conversão: {conversao_atendidos}%"},
-                            {"label": "Volume Entrante", "value": f"{total_entrantes:,} tickets", "sub": f"Média Diária: {entrantes_dia:,.2f} tickets/dia"},
-                            {"label": "Meta Diária por Agente", "value": str(Meta_Atendimentos_Diarios), "sub": f"Jornada: {Tempo_Disponivel_Horas}h de trabalho"}
-                        ]
-                        figs = {
-                            "plot_team_prog": plot_team_prog,
-                            "fig_tma": fig_tma,
-                            "fig_vel": fig_vel,
-                            "fig_nps": fig_nps,
-                            "fig_contrib": fig_contrib,
-                            "fig_status": fig_status,
-                            "fig_cat": fig_cat,
-                            "fig_parc": fig_parc
-                        }
-                        try:
-                            st.session_state.pdf_geral_bytes = generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_analisados)
-                            st.toast("Relatório PDF Geral gerado com sucesso!", icon="✅")
-                        except Exception as e:
-                            st.error(f"Erro ao gerar PDF: {e}")
-            with col_dl:
-                if st.session_state.get("pdf_geral_bytes") is not None:
-                    st.download_button(
-                        label="📥 Baixar PDF Geral",
-                        data=st.session_state.pdf_geral_bytes,
-                        file_name="performa_cx_relatorio_geral.pdf",
-                        mime="application/pdf",
-                        use_container_width=True
-                    )
-                else:
-                    st.button("📥 Baixar PDF Geral (Bloqueado)", disabled=True, use_container_width=True, help="Clique em Compilar PDF Geral primeiro.")
-            
-        st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
-        
         # Pre-calculate main values (explicit numeric selection for sum to prevent datetime sum error)
         df_tickets_unique = df.groupby('Ticket')[['Atendimentos']].sum()
         total_tickets_atendidos = len(df_tickets_unique)
@@ -1093,6 +1079,177 @@ else:
         
         # Calculate Team's General NPS
         nps_geral, avg_satisfacao_geral, avaliacoes_geral = calculate_nps(df['Satisfacao'])
+
+        # Calculate conversion metrics
+        if not df1.empty:
+            total_entrantes = len(df1)
+            entrantes_dia = round((total_entrantes / dias_analisados), 2)
+            conversao_atendidos = round((total_tickets_atendidos / total_entrantes) * 100, 2) if total_entrantes > 0 else 0
+        else:
+            total_entrantes = 0
+            entrantes_dia = 0
+            conversao_atendidos = 0
+
+        # Team Progress Graphic
+        consolidaPeriodo_Data = df.groupby('Data')[['Minutos Trabalhados', 'Atendimentos']].sum()
+        consolidaPeriodo_Data['Horas Trabalhadas'] = consolidaPeriodo_Data['Minutos Trabalhados'] / 60
+        consolidaPeriodo_Data['TMA(min)'] = consolidaPeriodo_Data['Minutos Trabalhados'] / consolidaPeriodo_Data['Atendimentos']
+        consolidaPeriodo_Data['Atendimentos/Hora'] = consolidaPeriodo_Data['Atendimentos'] / consolidaPeriodo_Data['Horas Trabalhadas']
+        media_atendimentos_Data = consolidaPeriodo_Data['Atendimentos'].mean()
+        
+        consolidaPeriodo_Data['Média Atendimentos Período'] = media_atendimentos_Data
+        consolidaPeriodo_Data['Meta Atendimentos'] = potencial_equipe
+        
+        plot_team_prog = go.Figure()
+        plot_team_prog.add_trace(go.Bar(
+            name='Atendimentos Realizados',
+            x=consolidaPeriodo_Data.index,
+            y=consolidaPeriodo_Data['Atendimentos'],
+            marker_color='#38BDF8',
+            text=consolidaPeriodo_Data['Atendimentos'],
+            textposition='outside'
+        ))
+        plot_team_prog.add_trace(go.Scatter(name='Média Período', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Média Atendimentos Período'], line=dict(color='#818CF8', width=3)))
+        plot_team_prog.add_trace(go.Scatter(name='Objetivo da Equipe', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Meta Atendimentos'], line=dict(color='#EF4444', width=2, dash='dash')))
+        configure_chart_layout(plot_team_prog, height=400)
+
+        # Calculate Team's Daily NPS
+        team_daily_nps_stats = []
+        for date, group in df.groupby('Data'):
+            nps, avg_rating, count = calculate_nps(group['Satisfacao'])
+            team_daily_nps_stats.append({
+                'Data': date,
+                'NPS': nps,
+                'Avaliações': count
+            })
+        df_team_daily_nps = pd.DataFrame(team_daily_nps_stats).set_index('Data').sort_index()
+
+        plot_team_daily_nps = go.Figure()
+        plot_team_daily_nps.add_trace(go.Bar(
+            name='NPS Diário',
+            x=df_team_daily_nps.index,
+            y=df_team_daily_nps['NPS'],
+            marker_color='#F59E0B',
+            text=df_team_daily_nps['NPS'],
+            textposition='outside'
+        ))
+        plot_team_daily_nps.add_trace(go.Scatter(name='Meta NPS', x=df_team_daily_nps.index, y=[65]*len(df_team_daily_nps), line=dict(color='#EF4444', width=2, dash='dash')))
+        configure_chart_layout(plot_team_daily_nps, height=330)
+
+
+        # Formatting for Ranking Display
+        display_ranking = Analise_Desempenho.copy()
+        display_ranking['TMA(min)'] = display_ranking['TMA(min)'].astype(float).round(2)
+        display_ranking['Atendimentos/Hora'] = display_ranking['Atendimentos/Hora'].round(2)
+        display_ranking['Aproveitamento Horas Disponíveis'] = (display_ranking['Aproveitamento Horas Disponíveis'] * 100).round(1)
+        display_ranking['Score'] = display_ranking['Score'].round(2)
+        display_ranking['NPS'] = pd.to_numeric(display_ranking['NPS'], errors='coerce').astype('Int64')
+        display_ranking['Avaliações'] = pd.to_numeric(display_ranking['Avaliações'], errors='coerce').astype('Int64')
+
+        # 1. Ranking TMA
+        tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
+        fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
+                         color_continuous_scale='Tealgrn', template=plotly_template, text_auto='.2f')
+        configure_chart_layout(fig_tma)
+        fig_tma.update_traces(textposition='outside')
+        
+        # 2. Ranking Velocidade
+        vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
+        fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
+                         color_continuous_scale='Mint', template=plotly_template, text_auto='.2f')
+        configure_chart_layout(fig_vel)
+        fig_vel.update_traces(textposition='outside')
+
+        # 3. Ranking NPS por Agente
+        nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
+        fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
+                         color_continuous_scale='RdYlGn', range_color=[-100, 100], template=plotly_template, text_auto=True)
+        fig_nps.add_hline(y=65, line_dash="dash", line_color="#EF4444", annotation_text="Meta NPS (65)", annotation_position="top left")
+        configure_chart_layout(fig_nps)
+        fig_nps.update_traces(textposition='outside')
+
+        # 4. Percentual de Contribuição
+        contrib_df = display_ranking.copy()
+        contrib_df['Contribuição (%)'] = (contrib_df['Atendimentos'] / total_atendimentos * 100).round(2)
+        contrib_df = contrib_df.sort_values('Contribuição (%)', ascending=False)
+        fig_contrib = px.bar(contrib_df, x=contrib_df.index, y='Contribuição (%)', color='Contribuição (%)', color_continuous_scale='Purples', template=plotly_template, text_auto='.2f')
+        configure_chart_layout(fig_contrib)
+        fig_contrib.update_traces(textposition='outside')
+
+        # 5. Volumetria por Status
+        status_df = df.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
+        total_status_tix = status_df['Atendimentos'].sum()
+        status_df['Status_Legend'] = status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/total_status_tix*100:.1f}%)", axis=1)
+        fig_status = px.pie(status_df, values='Atendimentos', names='Status_Legend',
+                            color_discrete_sequence=px.colors.sequential.Agsunset, template=plotly_template)
+        configure_chart_layout(fig_status)
+        fig_status.update_traces(textinfo='percent+value')
+
+        # 6. Principais Categorias Demandadas
+        cat_df = df.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+        fig_cat = px.bar(cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
+                         color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
+        configure_chart_layout(fig_cat)
+        fig_cat.update_traces(textposition='outside')
+            
+        # 7. Volume de Tickets por Parceiro Comercial
+        parc_df = df.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+        fig_parc = px.bar(parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
+                          color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
+        fig_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+        fig_parc.update_traces(textposition='outside')
+
+        # --- NOW RENDER TAB 1 LAYOUT ---
+        col_team_title, col_team_print = st.columns([2, 1])
+        with col_team_title:
+            st.markdown("### 📊 Indicadores Gerais da Equipe")
+        with col_team_print:
+            col_gen, col_dl = st.columns(2)
+            with col_gen:
+                if st.button("📊 Compilar PDF Geral", key="btn_pdf_geral", use_container_width=True):
+                    with st.spinner("Gerando PDF com os gráficos..."):
+                        metrics_kpi = [
+                            {"label": "Total Atendimentos", "value": f"{total_atendimentos:,}", "sub": "Demandas finalizadas"},
+                            {"label": "TMA Médio", "value": f"{tma_medio:.2f} min", "sub": "Tempo médio por ticket"},
+                            {"label": "Velocidade Média", "value": f"{media_atendimentos_hora:.2f} at./h", "sub": "Atendimentos por hora ativa"},
+                            {"label": "NPS Geral", "value": str(nps_geral), "sub": f"Média do time ({avaliacoes_geral} aval.)"},
+                            {"label": "Agentes em Análise", "value": str(Agentes_Analisados), "sub": "Total de analistas ativos"},
+                            {"label": "Objetivo da Equipe", "value": f"{potencial_equipe:,} at.", "sub": "Meta diária combinada"}
+                        ]
+                        metrics_op = [
+                            {"label": "Volume Resolvido", "value": f"{total_tickets_atendidos:,} tickets", "sub": f"Taxa de Conversão: {conversao_atendidos}%"},
+                            {"label": "Volume Entrante", "value": f"{total_entrantes:,} tickets", "sub": f"Média Diária: {entrantes_dia:,.2f} tickets/dia"},
+                            {"label": "Meta Diária por Agente", "value": str(Meta_Atendimentos_Diarios), "sub": f"Jornada: {Tempo_Disponivel_Horas}h de trabalho"}
+                        ]
+                        figs = {
+                            "plot_team_prog": plot_team_prog,
+                            "plot_team_daily_nps": plot_team_daily_nps,
+                            "fig_tma": fig_tma,
+                            "fig_vel": fig_vel,
+                            "fig_nps": fig_nps,
+                            "fig_contrib": fig_contrib,
+                            "fig_status": fig_status,
+                            "fig_cat": fig_cat,
+                            "fig_parc": fig_parc
+                        }
+                        try:
+                            st.session_state.pdf_geral_bytes = generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_analisados)
+                            st.toast("Relatório PDF Geral gerado com sucesso!", icon="✅")
+                        except Exception as e:
+                            st.error(f"Erro ao gerar PDF: {e}")
+            with col_dl:
+                if st.session_state.get("pdf_geral_bytes") is not None:
+                    st.download_button(
+                        label="📥 Baixar PDF Geral",
+                        data=st.session_state.pdf_geral_bytes,
+                        file_name="performa_cx_relatorio_geral.pdf",
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
+                else:
+                    st.button("📥 Baixar PDF Geral (Bloqueado)", disabled=True, use_container_width=True, help="Clique em Compilar PDF Geral primeiro.")
+            
+        st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
         # Row 1: Team Productivity Cards
         col1, col2, col3, col4, col5, col6 = st.columns(6)
@@ -1159,16 +1316,6 @@ else:
         st.markdown("---")
         st.markdown("### ⚙️ Métricas de Eficiência Operacional")
         
-        # Calculate conversion metrics
-        if not df1.empty:
-            total_entrantes = len(df1)
-            entrantes_dia = round((total_entrantes / dias_analisados), 2)
-            conversao_atendidos = round((total_tickets_atendidos / total_entrantes) * 100, 2) if total_entrantes > 0 else 0
-        else:
-            total_entrantes = 0
-            entrantes_dia = 0
-            conversao_atendidos = 0
-            
         col_op1, col_op2, col_op3 = st.columns(3)
         with col_op1:
             st.markdown(f"""
@@ -1214,42 +1361,15 @@ else:
         # Team Progress Graphic
         with st.container(border=True):
             st.markdown("<h4 style='margin-top:0;'>Progresso Geral e Objetivo da Equipe</h4>", unsafe_allow_html=True)
-        consolidaPeriodo_Data = df.groupby('Data')[['Minutos Trabalhados', 'Atendimentos']].sum()
-        consolidaPeriodo_Data['Horas Trabalhadas'] = consolidaPeriodo_Data['Minutos Trabalhados'] / 60
-        consolidaPeriodo_Data['TMA(min)'] = consolidaPeriodo_Data['Minutos Trabalhados'] / consolidaPeriodo_Data['Atendimentos']
-        consolidaPeriodo_Data['Atendimentos/Hora'] = consolidaPeriodo_Data['Atendimentos'] / consolidaPeriodo_Data['Horas Trabalhadas']
-        media_atendimentos_Data = consolidaPeriodo_Data['Atendimentos'].mean()
-        
-        consolidaPeriodo_Data['Média Atendimentos Período'] = media_atendimentos_Data
-        consolidaPeriodo_Data['Meta Atendimentos'] = potencial_equipe
-        
-        plot_team_prog = go.Figure()
-        plot_team_prog.add_trace(go.Bar(
-            name='Atendimentos Realizados',
-            x=consolidaPeriodo_Data.index,
-            y=consolidaPeriodo_Data['Atendimentos'],
-            marker_color='#38BDF8',
-            text=consolidaPeriodo_Data['Atendimentos'],
-            textposition='outside'
-        ))
-        plot_team_prog.add_trace(go.Scatter(name='Média Período', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Média Atendimentos Período'], line=dict(color='#818CF8', width=3)))
-        plot_team_prog.add_trace(go.Scatter(name='Objetivo da Equipe', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Meta Atendimentos'], line=dict(color='#EF4444', width=2, dash='dash')))
-        
-        configure_chart_layout(plot_team_prog, height=400)
         st.plotly_chart(plot_team_prog, use_container_width=True)
+
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>NPS por Dia (Equipe)</h4>", unsafe_allow_html=True)
+        st.plotly_chart(plot_team_daily_nps, use_container_width=True)
 
         # Rankings Table & Charts
         st.markdown('<div class="hide-in-print-table"></div>', unsafe_allow_html=True)
         st.markdown("### 🏆 Ranking Consolidado de Produtividade")
-        
-        # Formatting for Ranking Display
-        display_ranking = Analise_Desempenho.copy()
-        display_ranking['TMA(min)'] = display_ranking['TMA(min)'].astype(float).round(2)
-        display_ranking['Atendimentos/Hora'] = display_ranking['Atendimentos/Hora'].round(2)
-        display_ranking['Aproveitamento Horas Disponíveis'] = (display_ranking['Aproveitamento Horas Disponíveis'] * 100).round(1)
-        display_ranking['Score'] = display_ranking['Score'].round(2)
-        display_ranking['NPS'] = pd.to_numeric(display_ranking['NPS'], errors='coerce').astype('Int64')
-        display_ranking['Avaliações'] = pd.to_numeric(display_ranking['Avaliações'], errors='coerce').astype('Int64')
         
         st.dataframe(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Avaliações', 'Score']], use_container_width=True)
         
@@ -1270,43 +1390,21 @@ else:
         # 1. Ranking TMA
         with st.container(border=True):
             st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
-        tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
-        fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
-                         color_continuous_scale='Tealgrn', template=plotly_template, text_auto='.2f')
-        configure_chart_layout(fig_tma)
-        fig_tma.update_traces(textposition='outside')
         st.plotly_chart(fig_tma, use_container_width=True)
         
         # 2. Ranking Velocidade
         with st.container(border=True):
             st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
-        vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
-        fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
-                         color_continuous_scale='Mint', template=plotly_template, text_auto='.2f')
-        configure_chart_layout(fig_vel)
-        fig_vel.update_traces(textposition='outside')
         st.plotly_chart(fig_vel, use_container_width=True)
 
         # 3. Ranking NPS por Agente
         with st.container(border=True):
             st.markdown("<h4 style='margin-top:0;'>Ranking NPS por Agente</h4>", unsafe_allow_html=True)
-        nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
-        fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
-                         color_continuous_scale='RdYlGn', range_color=[-100, 100], template=plotly_template, text_auto=True)
-        fig_nps.add_hline(y=65, line_dash="dash", line_color="#EF4444", annotation_text="Meta NPS (65)", annotation_position="top left")
-        configure_chart_layout(fig_nps)
-        fig_nps.update_traces(textposition='outside')
         st.plotly_chart(fig_nps, use_container_width=True)
 
         # 3. Percentual de Contribuição
         with st.container(border=True):
             st.markdown("<h4 style='margin-top:0;'>Percentual de Contribuição de Cada Agente (%)</h4>", unsafe_allow_html=True)
-        contrib_df = display_ranking.copy()
-        contrib_df['Contribuição (%)'] = (contrib_df['Atendimentos'] / total_atendimentos * 100).round(2)
-        contrib_df = contrib_df.sort_values('Contribuição (%)', ascending=False)
-        fig_contrib = px.bar(contrib_df, x=contrib_df.index, y='Contribuição (%)', color='Contribuição (%)', color_continuous_scale='Purples', template=plotly_template, text_auto='.2f')
-        configure_chart_layout(fig_contrib)
-        fig_contrib.update_traces(textposition='outside')
         st.plotly_chart(fig_contrib, use_container_width=True)
 
         # Mapping Categories, Status & Partners
@@ -1315,14 +1413,6 @@ else:
         # 1. Volumetria por Status (Full Width)
         with st.container(border=True):
             st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
-        status_df = df.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
-        total_status_tix = status_df['Atendimentos'].sum()
-        status_df['Status_Legend'] = status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/total_status_tix*100:.1f}%)", axis=1)
-        
-        fig_status = px.pie(status_df, values='Atendimentos', names='Status_Legend',
-                            color_discrete_sequence=px.colors.sequential.Agsunset, template=plotly_template)
-        configure_chart_layout(fig_status)
-        fig_status.update_traces(textinfo='percent+value')
         st.plotly_chart(fig_status, use_container_width=True)
         
         # 2. Categories & Partners (Side-by-side)
@@ -1330,21 +1420,11 @@ else:
         with col_map1:
             with st.container(border=True):
                 st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
-            cat_df = df.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
-            fig_cat = px.bar(cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
-                             color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
-            configure_chart_layout(fig_cat)
-            fig_cat.update_traces(textposition='outside')
             st.plotly_chart(fig_cat, use_container_width=True)
             
         with col_map2:
             with st.container(border=True):
                 st.markdown("<h4 style='margin-top:0;'>Volume de Tickets por Parceiro Comercial</h4>", unsafe_allow_html=True)
-            parc_df = df.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
-            fig_parc = px.bar(parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
-                              color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
-            fig_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
-            fig_parc.update_traces(textposition='outside')
             st.plotly_chart(fig_parc, use_container_width=True)
 
     # ============================================================
@@ -1358,48 +1438,6 @@ else:
             st.session_state.pdf_agent_bytes = None
             st.session_state.last_selected_agent = selected_agent
 
-        col_title, col_print = st.columns([2, 1])
-        with col_title:
-            st.markdown(f"### 👤 Relatório de Desempenho: **{selected_agent}**")
-        with col_print:
-            col_gen, col_dl = st.columns(2)
-            with col_gen:
-                if st.button("👤 Compilar PDF Agente", key="btn_pdf_agente", use_container_width=True):
-                    with st.spinner(f"Gerando PDF de {selected_agent}..."):
-                        metrics_kpi = [
-                            {"label": "Total Atendimentos", "value": f"{Operador_Atendimentos:,}", "sub": "Atendimentos do agente"},
-                            {"label": "TMA Individual", "value": f"{Operador_TMA:.2f} min", "sub": "Tempo médio por ticket"},
-                            {"label": "Velocidade Individual", "value": f"{velocidade_media_operador:.2f} at./h", "sub": "Atendimentos por hora ativa"},
-                            {"label": "NPS do Agente", "value": op_nps_str, "sub": f"Score Net Promoter ({op_ratings_count} aval.)"},
-                            {"label": "Contribuição na Equipe", "value": f"{Operador_Influencia_Atendimentos:.2f}%", "sub": "Percentual de participação"}
-                        ]
-                        figs = {
-                            "plot_ind_at": plot_ind_at,
-                            "plot_ind_tma": plot_ind_tma,
-                            "fig_ind_status": fig_ind_status,
-                            "fig_ind_cat": fig_ind_cat,
-                            "fig_ind_parc": fig_ind_parc
-                        }
-                        try:
-                            st.session_state.pdf_agent_bytes = generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, dias_analisados)
-                            st.toast(f"Relatório PDF de {selected_agent} gerado!", icon="✅")
-                        except Exception as e:
-                            st.error(f"Erro ao gerar PDF: {e}")
-            with col_dl:
-                if st.session_state.get("pdf_agent_bytes") is not None:
-                    st.download_button(
-                        label="📥 Baixar PDF Agente",
-                        data=st.session_state.pdf_agent_bytes,
-                        file_name=f"performa_cx_relatorio_{selected_agent.lower().replace(' ', '_')}.pdf",
-                        mime="application/pdf",
-                        use_container_width=True
-                    )
-                else:
-                    st.button("📥 Baixar PDF Agente (Bloqueado)", disabled=True, use_container_width=True, help="Clique em Compilar PDF Agente primeiro.")
-            
-        st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
-        
-        # Filter agent data
         df_selection_operador = df[df['Agente'] == selected_agent].copy()
         
         if df_selection_operador.empty:
@@ -1440,6 +1478,147 @@ else:
                 elif selected_agent == "Analista 8":
                     op_nps_val = 32
                 op_nps_str = str(op_nps_val)
+
+            # Prepare daily trends data
+            df_selection_operador['Data'] = df_selection_operador['Data'].astype(str)
+            demandas_datas = df_selection_operador.groupby('Data')[['Minutos Trabalhados', 'Atendimentos']].sum()
+            demandas_datas['TMA'] = demandas_datas['Minutos Trabalhados'] / demandas_datas['Atendimentos']
+            demandas_datas['Horas Trabalhadas'] = demandas_datas['Minutos Trabalhados'] / 60
+            demandas_datas['Atendimentos/Hora'] = demandas_datas['Atendimentos'] / demandas_datas['Horas Trabalhadas']
+            
+            # Calculate daily NPS metrics for the agent
+            daily_nps_stats = []
+            for date, group in df_selection_operador.groupby('Data'):
+                if contrib_pct < 1.0 and selected_agent not in ["Analista 1", "Analista 13", "Analista 8"]:
+                    nps, avg_rating, count = pd.NA, pd.NA, 0
+                else:
+                    nps, avg_rating, count = calculate_nps(group['Satisfacao'])
+                    if selected_agent == "Analista 1":
+                        nps = 72
+                    elif selected_agent == "Analista 13":
+                        nps = 44
+                    elif selected_agent == "Analista 8":
+                        nps = 32
+                daily_nps_stats.append({
+                    'Data': date,
+                    'NPS Diário': nps,
+                    'Avaliações': count
+                })
+            df_daily_nps = pd.DataFrame(daily_nps_stats).set_index('Data')
+            demandas_datas = demandas_datas.join(df_daily_nps)
+            
+            # Align team average data safely
+            y_team_at = [team_daily_avg.loc[d, 'Atendimentos'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
+            y_team_tma = [team_daily_avg.loc[d, 'TMA'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
+            
+            # Formulate Charts
+            # 1. Atendimentos Chart
+            plot_ind_at = go.Figure()
+            plot_ind_at.add_trace(go.Bar(
+                name='Atendimentos', 
+                x=demandas_datas.index, 
+                y=demandas_datas['Atendimentos'], 
+                marker_color='#818CF8',
+                text=demandas_datas['Atendimentos'],
+                textposition='outside'
+            ))
+            plot_ind_at.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_at, line=dict(color='#38BDF8', width=2, dash='dot')))
+            plot_ind_at.add_trace(go.Scatter(name='Meta Individual', x=demandas_datas.index, y=[Meta_Atendimentos_Diarios]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
+            configure_chart_layout(plot_ind_at, height=330)
+            
+            # 2. TMA Chart
+            plot_ind_tma = go.Figure()
+            plot_ind_tma.add_trace(go.Bar(
+                name='TMA', 
+                x=demandas_datas.index, 
+                y=demandas_datas['TMA'].round(2), 
+                marker_color='#34D399',
+                text=demandas_datas['TMA'].round(2),
+                textposition='outside'
+            ))
+            plot_ind_tma.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_tma, line=dict(color='#38BDF8', width=2, dash='dot')))
+            plot_ind_tma.add_trace(go.Scatter(name='Meta TMA', x=demandas_datas.index, y=[Meta_TMA_Diario]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
+            configure_chart_layout(plot_ind_tma, height=330)
+
+            # 3. NPS Chart (Individual)
+            plot_ind_nps = go.Figure()
+            plot_ind_nps.add_trace(go.Bar(
+                name='NPS Diário', 
+                x=demandas_datas.index, 
+                y=demandas_datas['NPS Diário'], 
+                marker_color='#F59E0B',
+                text=demandas_datas['NPS Diário'],
+                textposition='outside'
+            ))
+            plot_ind_nps.add_trace(go.Scatter(name='Meta NPS', x=demandas_datas.index, y=[65]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
+            configure_chart_layout(plot_ind_nps, height=330)
+
+            # 3. Status Chart (Individual)
+            ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
+            ind_total_status = ind_status_df['Atendimentos'].sum()
+            ind_status_df['Status_Legend'] = ind_status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/ind_total_status*100:.1f}%)", axis=1)
+            
+            fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status_Legend',
+                                    color_discrete_sequence=px.colors.sequential.Agsunset, template=plotly_template)
+            configure_chart_layout(fig_ind_status)
+            fig_ind_status.update_traces(textinfo='percent+value')
+
+            # 4. Categories Chart
+            ind_cat_df = df_selection_operador.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+            fig_ind_cat = px.bar(ind_cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
+                                 color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
+            configure_chart_layout(fig_ind_cat)
+            fig_ind_cat.update_traces(textposition='outside')
+            
+            # 5. Partners Chart
+            ind_parc_df = df_selection_operador.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+            fig_ind_parc = px.bar(ind_parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
+                                  color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
+            configure_chart_layout(fig_ind_parc)
+            fig_ind_parc.update_traces(textposition='outside')
+
+            # --- NOW RENDER TAB 2 LAYOUT ---
+            col_title, col_print = st.columns([2, 1])
+            with col_title:
+                st.markdown(f"### 👤 Relatório de Desempenho: **{selected_agent}**")
+            with col_print:
+                col_gen, col_dl = st.columns(2)
+                with col_gen:
+                    if st.button("👤 Compilar PDF Agente", key="btn_pdf_agente", use_container_width=True):
+                        with st.spinner(f"Gerando PDF de {selected_agent}..."):
+                            metrics_kpi = [
+                                {"label": "Total Atendimentos", "value": f"{Operador_Atendimentos:,}", "sub": "Atendimentos do agente"},
+                                {"label": "TMA Individual", "value": f"{Operador_TMA:.2f} min", "sub": "Tempo médio por ticket"},
+                                {"label": "Velocidade Individual", "value": f"{velocidade_media_operador:.2f} at./h", "sub": "Atendimentos por hora ativa"},
+                                {"label": "NPS do Agente", "value": op_nps_str, "sub": f"Score Net Promoter ({op_ratings_count} aval.)"},
+                                {"label": "Contribuição na Equipe", "value": f"{Operador_Influencia_Atendimentos:.2f}%", "sub": "Percentual de participação"}
+                            ]
+                            figs = {
+                                "plot_ind_at": plot_ind_at,
+                                "plot_ind_tma": plot_ind_tma,
+                                "plot_ind_nps": plot_ind_nps,
+                                "fig_ind_status": fig_ind_status,
+                                "fig_ind_cat": fig_ind_cat,
+                                "fig_ind_parc": fig_ind_parc
+                            }
+                            try:
+                                st.session_state.pdf_agent_bytes = generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, dias_analisados)
+                                st.toast(f"Relatório PDF de {selected_agent} gerado!", icon="✅")
+                            except Exception as e:
+                                st.error(f"Erro ao gerar PDF: {e}")
+                with col_dl:
+                    if st.session_state.get("pdf_agent_bytes") is not None:
+                        st.download_button(
+                            label="📥 Baixar PDF Agente",
+                            data=st.session_state.pdf_agent_bytes,
+                            file_name=f"performa_cx_relatorio_{selected_agent.lower().replace(' ', '_')}.pdf",
+                            mime="application/pdf",
+                            use_container_width=True
+                        )
+                    else:
+                        st.button("📥 Baixar PDF Agente (Bloqueado)", disabled=True, use_container_width=True, help="Clique em Compilar PDF Agente primeiro.")
+            
+            st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
             # Individual KPI Cards (5 columns)
             col_ind1, col_ind2, col_ind3, col_ind4, col_ind5 = st.columns(5)
@@ -1503,77 +1682,20 @@ else:
             # Daily trends charts
             st.markdown("### Tendência de Produtividade por Dia")
             
-            df_selection_operador['Data'] = df_selection_operador['Data'].astype(str)
-            demandas_datas = df_selection_operador.groupby('Data')[['Minutos Trabalhados', 'Atendimentos']].sum()
-            demandas_datas['TMA'] = demandas_datas['Minutos Trabalhados'] / demandas_datas['Atendimentos']
-            demandas_datas['Horas Trabalhadas'] = demandas_datas['Minutos Trabalhados'] / 60
-            demandas_datas['Atendimentos/Hora'] = demandas_datas['Atendimentos'] / demandas_datas['Horas Trabalhadas']
+            # 1. Atendimentos Chart
+            with st.container(border=True):
+                st.markdown("<h4 style='margin-top:0;'>Atendimentos por Data vs. Metas</h4>", unsafe_allow_html=True)
+            st.plotly_chart(plot_ind_at, use_container_width=True)
             
-            # Calculate daily NPS metrics for the agent
-            daily_nps_stats = []
-            for date, group in df_selection_operador.groupby('Data'):
-                if contrib_pct < 1.0 and selected_agent not in ["Analista 1", "Analista 13", "Analista 8"]:
-                    nps, avg_rating, count = pd.NA, pd.NA, 0
-                else:
-                    nps, avg_rating, count = calculate_nps(group['Satisfacao'])
-                    if selected_agent == "Analista 1":
-                        nps = 72
-                    elif selected_agent == "Analista 13":
-                        nps = 44
-                    elif selected_agent == "Analista 8":
-                        nps = 32
-                daily_nps_stats.append({
-                    'Data': date,
-                    'NPS Diário': nps,
-                    'Avaliações': count
-                })
-            df_daily_nps = pd.DataFrame(daily_nps_stats).set_index('Data')
-            demandas_datas = demandas_datas.join(df_daily_nps)
+            # 2. TMA Chart
+            with st.container(border=True):
+                st.markdown("<h4 style='margin-top:0;'>TMA por Data vs. Metas (Minutos)</h4>", unsafe_allow_html=True)
+            st.plotly_chart(plot_ind_tma, use_container_width=True)
             
-            # Formulate Charts
-            col_cht1, col_cht2 = st.columns(2)
-            
-            # Align team average data safely
-            y_team_at = [team_daily_avg.loc[d, 'Atendimentos'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
-            y_team_tma = [team_daily_avg.loc[d, 'TMA'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
-            
-            with col_cht1:
-                with st.container(border=True):
-                    st.markdown("<h4>Atendimentos por Data vs. Metas</h4>", unsafe_allow_html=True)
-                
-                plot_ind_at = go.Figure()
-                plot_ind_at.add_trace(go.Bar(
-                    name='Atendimentos', 
-                    x=demandas_datas.index, 
-                    y=demandas_datas['Atendimentos'], 
-                    marker_color='#818CF8',
-                    text=demandas_datas['Atendimentos'],
-                    textposition='outside'
-                ))
-                plot_ind_at.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_at, line=dict(color='#38BDF8', width=2, dash='dot')))
-                plot_ind_at.add_trace(go.Scatter(name='Meta Individual', x=demandas_datas.index, y=[Meta_Atendimentos_Diarios]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
-                
-                configure_chart_layout(plot_ind_at, height=330)
-                st.plotly_chart(plot_ind_at, use_container_width=True)
-                
-            with col_cht2:
-                with st.container(border=True):
-                    st.markdown("<h4>TMA por Data vs. Metas (Minutos)</h4>", unsafe_allow_html=True)
-                
-                plot_ind_tma = go.Figure()
-                plot_ind_tma.add_trace(go.Bar(
-                    name='TMA', 
-                    x=demandas_datas.index, 
-                    y=demandas_datas['TMA'].round(2), 
-                    marker_color='#34D399',
-                    text=demandas_datas['TMA'].round(2),
-                    textposition='outside'
-                ))
-                plot_ind_tma.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_tma, line=dict(color='#38BDF8', width=2, dash='dot')))
-                plot_ind_tma.add_trace(go.Scatter(name='Meta TMA', x=demandas_datas.index, y=[Meta_TMA_Diario]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
-                
-                configure_chart_layout(plot_ind_tma, height=330)
-                st.plotly_chart(plot_ind_tma, use_container_width=True)
+            # 3. NPS Chart
+            with st.container(border=True):
+                st.markdown("<h4 style='margin-top:0;'>NPS por Dia</h4>", unsafe_allow_html=True)
+            st.plotly_chart(plot_ind_nps, use_container_width=True)
                 
             st.markdown("##")
             
@@ -1615,14 +1737,6 @@ else:
             # 1. Status (Full Width)
             with st.container(border=True):
                 st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
-            ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
-            ind_total_status = ind_status_df['Atendimentos'].sum()
-            ind_status_df['Status_Legend'] = ind_status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/ind_total_status*100:.1f}%)", axis=1)
-            
-            fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status_Legend',
-                                    color_discrete_sequence=px.colors.sequential.Agsunset, template=plotly_template)
-            configure_chart_layout(fig_ind_status)
-            fig_ind_status.update_traces(textinfo='percent+value')
             st.plotly_chart(fig_ind_status, use_container_width=True)
             
             # 2. Categories & Partners (Side-by-side)
@@ -1630,19 +1744,9 @@ else:
             with col_ind_map1:
                 with st.container(border=True):
                     st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
-                ind_cat_df = df_selection_operador.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
-                fig_ind_cat = px.bar(ind_cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
-                                     color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
-                configure_chart_layout(fig_ind_cat)
-                fig_ind_cat.update_traces(textposition='outside')
                 st.plotly_chart(fig_ind_cat, use_container_width=True)
                 
             with col_ind_map2:
                 with st.container(border=True):
                     st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
-                ind_parc_df = df_selection_operador.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
-                fig_ind_parc = px.bar(ind_parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
-                                      color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
-                configure_chart_layout(fig_ind_parc)
-                fig_ind_parc.update_traces(textposition='outside')
                 st.plotly_chart(fig_ind_parc, use_container_width=True)
