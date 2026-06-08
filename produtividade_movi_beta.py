@@ -68,6 +68,41 @@ if theme_choice == "Escuro":
         div[data-testid="stDataFrame"] span {
             color: #E2E8F0 !important;
         }
+        /* Dark mode buttons - explicit dark background */
+        .stApp div.stButton > button,
+        .stApp div.stButton > button:focus,
+        .stApp div.stButton > button:active {
+            background-color: #1E293B !important;
+            color: #E2E8F0 !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4) !important;
+        }
+        .stApp div.stButton > button:hover {
+            background-color: #334155 !important;
+            color: #F1F5F9 !important;
+            border-color: #475569 !important;
+        }
+        /* Dark mode download buttons */
+        div[data-testid="stDownloadButton"] button {
+            background-color: #1E293B !important;
+            color: #E2E8F0 !important;
+            border: 1px solid #334155 !important;
+        }
+        div[data-testid="stDownloadButton"] button:hover {
+            background-color: #334155 !important;
+            color: #F1F5F9 !important;
+        }
+        /* Dark mode file uploader */
+        div[data-testid="stFileUploader"] {
+            background-color: #1E293B !important;
+            border: 1px solid #334155 !important;
+            border-radius: 8px !important;
+        }
+        div[data-testid="stFileUploader"] label,
+        div[data-testid="stFileUploader"] span,
+        div[data-testid="stFileUploader"] p {
+            color: #E2E8F0 !important;
+        }
     """
 else:
     bg_color = "#F8FAFC"
@@ -146,6 +181,17 @@ else:
             background-color: #F1F5F9 !important;
             color: #0F172A !important;
             border-color: #64748B !important;
+        }
+        /* Light mode file uploader */
+        div[data-testid="stFileUploader"] {
+            background-color: #FFFFFF !important;
+            border: 1px solid #CBD5E1 !important;
+            border-radius: 8px !important;
+        }
+        div[data-testid="stFileUploader"] label,
+        div[data-testid="stFileUploader"] span,
+        div[data-testid="stFileUploader"] p {
+            color: #1E293B !important;
         }
     """
 
