@@ -313,6 +313,17 @@ if not df_incoming_raw.empty:
     if resp_col in df1.columns:
         invalid_responser = ["Bruno da Silva Braun", "Sheila Santos da Rosa", "Matheus Souza de Almeida", "Eduarda dos Santos Silva"]
         df1 = df1[~df1[resp_col].isin(invalid_responser)]
+        
+    # Align incoming tickets date range to match resolved tickets date range
+    if not df.empty and 'Data' in df.columns and 'Data' in df1.columns:
+        try:
+            df_dates = pd.to_datetime(df['Data'])
+            df1_dates = pd.to_datetime(df1['Data'])
+            min_date = df_dates.min()
+            max_date = df_dates.max()
+            df1 = df1[(df1_dates >= min_date) & (df1_dates <= max_date)]
+        except Exception as e:
+            st.sidebar.warning(f"Não foi possível alinhar os períodos das planilhas: {e}")
 else:
     df1 = pd.DataFrame()
 
