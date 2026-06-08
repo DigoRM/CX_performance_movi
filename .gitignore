@@ -1,0 +1,8 @@
+# Git Ignore
+venv/
+__pycache__/
+*.pyc
+.streamlit/
+outubro_movidesk_0110_1110_2021.xlsx
+outubro_movidesk_0110_2910_2021.xlsx
+dashboard_preview.png
