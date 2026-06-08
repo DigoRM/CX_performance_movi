@@ -204,6 +204,13 @@ def to_excel(dataframe):
 def print_button(label="Exportar Relatório em PDF / Imprimir"):
     import streamlit.components.v1 as components
     components.html(f"""
+        <style>
+            body {{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }}
+        </style>
         <button onclick="window.parent.print()" style="
             background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
             color: white;
@@ -216,10 +223,11 @@ def print_button(label="Exportar Relatório em PDF / Imprimir"):
             transition: all 0.3s ease;
             width: 100%;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
         " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 10px 15px -3px rgba(0, 0, 0, 0.2)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px -1px rgba(0, 0, 0, 0.1)'">
             🖨️ {label}
         </button>
-    """, height=45)
+    """, height=50)
 
 # Helper to calculate NPS metrics
 def calculate_nps(ratings_series):
@@ -659,9 +667,9 @@ else:
         display_ranking['Atendimentos/Hora'] = display_ranking['Atendimentos/Hora'].round(2)
         display_ranking['Aproveitamento Horas Disponíveis'] = (display_ranking['Aproveitamento Horas Disponíveis'] * 100).round(1)
         display_ranking['Score'] = display_ranking['Score'].round(2)
-        display_ranking['NPS'] = display_ranking['NPS'].astype('Int64')
-        display_ranking['Média de Nota'] = display_ranking['Média de Nota'].astype(float).round(1)
-        display_ranking['Avaliações'] = display_ranking['Avaliações'].astype('Int64')
+        display_ranking['NPS'] = pd.to_numeric(display_ranking['NPS'], errors='coerce').astype('Int64')
+        display_ranking['Média de Nota'] = pd.to_numeric(display_ranking['Média de Nota'], errors='coerce').round(1)
+        display_ranking['Avaliações'] = pd.to_numeric(display_ranking['Avaliações'], errors='coerce').astype('Int64')
         
         st.dataframe(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Média de Nota', 'Avaliações', 'Score']], use_container_width=True)
         
@@ -979,9 +987,9 @@ else:
             display_daily['Atendimentos/Hora'] = display_daily['Atendimentos/Hora'].round(2)
             display_daily['Aproveitamento Horas Disponíveis'] = (display_daily['Horas Trabalhadas'] / Tempo_Disponivel_Horas * 100).round(1)
             display_daily['SCORE'] = ((display_daily['Atendimentos'] * display_daily['Atendimentos/Hora'] * (display_daily['Horas Trabalhadas'] / Tempo_Disponivel_Horas)) / display_daily['TMA']).round(2)
-            display_daily['NPS Diário'] = display_daily['NPS Diário'].astype('Int64')
-            display_daily['Média de Nota Diária'] = display_daily['Média de Nota Diária'].astype(float).round(1)
-            display_daily['Avaliações'] = display_daily['Avaliações'].astype('Int64')
+            display_daily['NPS Diário'] = pd.to_numeric(display_daily['NPS Diário'], errors='coerce').astype('Int64')
+            display_daily['Média de Nota Diária'] = pd.to_numeric(display_daily['Média de Nota Diária'], errors='coerce').round(1)
+            display_daily['Avaliações'] = pd.to_numeric(display_daily['Avaliações'], errors='coerce').astype('Int64')
             
             display_daily = display_daily.rename(columns={
                 'Atendimentos': 'Atendimentos Realizados',
