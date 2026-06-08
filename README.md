@@ -20,6 +20,7 @@ An advanced, interactive Customer Experience (CX) performance dashboard designed
 *   **📥 Excel Report Compilation**: Automatically compiles data and generates high-fidelity Excel download links for the Daily Agent metrics and Consolidated Productivity Rankings.
 *   **💼 Comprehensive CX Metrics**: Tracks team metrics such as Total Tickets, Average Handling Time (TMA), worked hours, minimum/maximum scores, and category/service distributions.
 *   **⭐ Deterministic NPS & Satisfaction Ranking**: Simulates a realistic customer satisfaction survey response dataset based on ticket hashes, ranking agent performance based on Net Promoter Score and average rating.
+*   **🖨️ High-Fidelity PDF Export**: Integrates client-side print button macros triggering browser-level print engines, paired with customized `@media print` CSS configurations to automatically convert the dark dashboard UI into clean, high-contrast, black-and-white layouts suitable for physical printing or executive slide sharing.
 
 ---
 
@@ -33,6 +34,7 @@ By automating this report, **PerformaCX** yields significant operational and str
 *   **Gamification & Incentives**: The transparent, algorithm-driven ranking makes it easy to reward the top-performing analysts fairly, fostering healthy competition and boosting team morale.
 *   **Merchant & Partner Insights**: Highlighting ticket volumes by commercial partners enables managers to identify which merchant accounts cause the most complaints, driving product improvements and partner discussions.
 *   **Satisfaction & NPS Alignment**: With dynamic customer satisfaction (CSAT/NPS) tracking, the team can link operational speed directly to customer satisfaction, proving the business value of fast response times.
+*   **Executive & Client Presentation**: The print-to-PDF engine formats consolidated team metrics and individual agent summaries into high-contrast print layouts, streamlining report sharing for executive review, performance evaluation, or client presentations.
 
 ---
 
@@ -93,6 +95,7 @@ Um dashboard avançado e interativo de análise de desempenho em Customer Experi
 *   **📥 Exportação Inteligente de Relatórios**: Gera links de download dinâmicos para arquivos Excel (.xlsx) estruturados contendo as Métricas Diárias por Agente e o Ranking Geral de Produtividade Consolidado.
 *   **💼 Estatísticas Consolidadas de CX**: Consolida indicadores críticos como TMA Médio, Mínimo e Máximo, total de horas aplicadas em atendimento, aproveitamento da capacidade disponível e distribuição de volumetria por Categoria e Serviço.
 *   **⭐ Avaliação Determinística de NPS**: Simula dados realistas de notas de satisfação dos clientes a partir do hash do ticket, gerando gráficos de rankings pelo indicador Net Promoter Score (NPS) e média de notas de atendimento do agente.
+*   **🖨️ Exportação em PDF de Alta Fidelidade**: Inclui macros de impressão via Javascript que acionam o mecanismo nativo do navegador, combinadas com folhas de estilo CSS `@media print` personalizadas para converter o layout escuro em uma versão clara, limpa e de alto contraste, ideal para gerar relatórios em PDF para apresentações executivas.
 
 ---
 
@@ -106,6 +109,7 @@ Ao automatizar esse fluxo, o **PerformaCX** oferece diversos benefícios operaci
 *   **Reconhecimento e Premiações (Gamificação)**: O algoritmo de ranking de produtividade consolida e simplifica a avaliação do time, permitindo premiar o agente de maior destaque de forma clara, justa e baseada em dados.
 *   **Gestão de Parceiros Comerciais**: O mapeamento de volumetria por parceiro comercial ajuda a monitorar quais provedores ou parceiros estão gerando maior volume de chamados de suporte, subsidiando negociações comerciais e melhorias no produto.
 *   **Alinhamento de Qualidade e Velocidade**: A inclusão de dados de NPS/Satisfação permite cruzar a agilidade operacional do analista com a real percepção de qualidade do cliente, garantindo um atendimento rápido e eficaz.
+*   **Apresentação Executiva e Relatórios de Desempenho**: O motor de exportação para PDF gera relatórios prontos para impressão física ou digital (tanto para a equipe quanto individuais), agilizando a prestação de contas à diretoria.
 
 ---
 
