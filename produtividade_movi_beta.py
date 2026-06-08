@@ -60,6 +60,7 @@ if theme_choice == "Escuro":
     chart_font_color = "#FFFFFF"
     chart_grid_color = "rgba(255, 255, 255, 0.1)"
     
+    custom_theme_css = """
         /* Dark mode specific overrides */
         div[data-testid="stDataFrame"] {
             background-color: #0F172A !important;
