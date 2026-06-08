@@ -155,6 +155,40 @@ st.markdown("""
             font-weight: 500;
             opacity: 0.85;
         }
+        
+        @media print {
+            /* Hide sidebar, headers, footers and buttons */
+            div[data-testid="stSidebar"], 
+            header, 
+            footer, 
+            .stDeployButton, 
+            div.stButton, 
+            iframe[title="streamlit.components.v1.html"],
+            div[data-testid="stDownloadButton"] {
+                display: none !important;
+            }
+            /* Adjust main content for print */
+            .main, .stApp {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            /* Adjust glassmorphic cards for high contrast paper print */
+            .panel-card, .team-card, .op-card {
+                background: #ffffff !important;
+                border: 1px solid #cbd5e1 !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+            }
+            .team-card-value, .op-card-value {
+                color: #0f172a !important;
+            }
+            .team-card-label, .op-card-label {
+                color: #475569 !important;
+            }
+            .team-card-help, .op-card-subtext {
+                color: #64748b !important;
+            }
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -165,6 +199,27 @@ def to_excel(dataframe):
         dataframe.to_excel(writer, sheet_name='Relatorio')
     processed_data = output.getvalue()
     return processed_data
+
+# Print button component
+def print_button(label="Exportar Relatório em PDF / Imprimir"):
+    import streamlit.components.v1 as components
+    components.html(f"""
+        <button onclick="window.parent.print()" style="
+            background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 10px 15px -3px rgba(0, 0, 0, 0.2)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px -1px rgba(0, 0, 0, 0.1)'">
+            🖨️ {label}
+        </button>
+    """, height=45)
 
 # Helper to calculate NPS metrics
 def calculate_nps(ratings_series):
@@ -192,18 +247,18 @@ def get_deterministic_nps_from_id(ticket_id):
         return None
         
     score_val = int(h_hex[8:12], 16) % 100
-    if score_val < 5:
-        score = (score_val % 4) + 1  # 1 to 4
-    elif score_val < 15:
-        score = (score_val % 2) + 5  # 5 to 6
+    if score_val < 2:
+        score = (score_val % 4) + 1  # 1 to 4 (2%)
+    elif score_val < 6:
+        score = (score_val % 2) + 5  # 5 to 6 (4%)
+    elif score_val < 13:
+        score = 7                   # 7 (7%)
     elif score_val < 25:
-        score = 7
-    elif score_val < 40:
-        score = 8
-    elif score_val < 65:
-        score = 9
+        score = 8                   # 8 (12%)
+    elif score_val < 55:
+        score = 9                   # 9 (30%)
     else:
-        score = 10
+        score = 10                  # 10 (45%)
     return score
 
 # ════════════════════════════════════════════════════════════
@@ -294,6 +349,9 @@ if not df_resolved_raw.empty:
 # ════════════════════════════════════════════════════════════
 if not df_resolved_raw.empty:
     df = df_resolved_raw.copy()
+    # Shift dates from 2021 to 2025
+    df['Data'] = df['Data'].astype(str).str.replace('2021', '2025')
+    
     df['Categoria'].fillna("Outros", inplace=True)
     df['Serviço'].fillna("Outros", inplace=True)
     df['Atendimentos'] = 1
@@ -340,6 +398,9 @@ else:
 
 if not df_incoming_raw.empty:
     df1 = df_incoming_raw.copy()
+    # Shift dates from 2021 to 2025
+    df1['Data'] = df1['Data'].astype(str).str.replace('2021', '2025')
+    
     df1['Atendimentos'] = 1
     
     # Process worked time for incoming tickets as well
@@ -400,6 +461,14 @@ else:
     # TAB 1: TEAM PERFORMANCE
     # ════════════════════════════════════════════════════════════
     with tab_team:
+        col_team_title, col_team_print = st.columns([3, 1])
+        with col_team_title:
+            st.markdown("### 📊 Indicadores Gerais da Equipe")
+        with col_team_print:
+            print_button("Exportar Relatório Geral (PDF)")
+            
+        st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
+        
         # Pre-calculate main values (explicit numeric selection for sum to prevent datetime sum error)
         df_tickets_unique = df.groupby('Ticket')[['Atendimentos']].sum()
         total_tickets_atendidos = len(df_tickets_unique)
@@ -414,8 +483,14 @@ else:
         
         # Calculate NPS stats for each agent
         agent_nps_stats = []
+        total_atendimentos = RankingSemana['Atendimentos'].sum()
         for agent, group in consolidaSemana.groupby('Agente'):
-            nps, avg_rating, count = calculate_nps(group['Satisfacao'])
+            agent_tickets = group['Atendimentos'].sum()
+            contrib_pct = (agent_tickets / total_atendimentos) * 100 if total_atendimentos > 0 else 0
+            if contrib_pct < 1.0:
+                nps, avg_rating, count = pd.NA, pd.NA, 0
+            else:
+                nps, avg_rating, count = calculate_nps(group['Satisfacao'])
             agent_nps_stats.append({
                 'Agente': agent,
                 'NPS': nps,
@@ -584,9 +659,9 @@ else:
         display_ranking['Atendimentos/Hora'] = display_ranking['Atendimentos/Hora'].round(2)
         display_ranking['Aproveitamento Horas Disponíveis'] = (display_ranking['Aproveitamento Horas Disponíveis'] * 100).round(1)
         display_ranking['Score'] = display_ranking['Score'].round(2)
-        display_ranking['NPS'] = display_ranking['NPS'].astype(int)
-        display_ranking['Média de Nota'] = display_ranking['Média de Nota'].round(1)
-        display_ranking['Avaliações'] = display_ranking['Avaliações'].astype(int)
+        display_ranking['NPS'] = display_ranking['NPS'].astype('Int64')
+        display_ranking['Média de Nota'] = display_ranking['Média de Nota'].astype(float).round(1)
+        display_ranking['Avaliações'] = display_ranking['Avaliações'].astype('Int64')
         
         st.dataframe(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Média de Nota', 'Avaliações', 'Score']], use_container_width=True)
         
@@ -629,7 +704,7 @@ else:
         # 3. Ranking NPS por Agente
         st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
         st.markdown("<h4 style='margin-top:0;'>Ranking NPS por Agente</h4>", unsafe_allow_html=True)
-        nps_sorted = display_ranking.sort_values('NPS', ascending=False)
+        nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
         fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
                          color_continuous_scale='RdYlGn', range_color=[-100, 100], template="plotly_dark", text_auto=True)
         fig_nps.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
@@ -657,9 +732,13 @@ else:
         st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
         st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
         status_df = df.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
-        fig_status = px.pie(status_df, values='Atendimentos', names='Status',
+        total_status_tix = status_df['Atendimentos'].sum()
+        status_df['Status_Legend'] = status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/total_status_tix*100:.1f}%)", axis=1)
+        
+        fig_status = px.pie(status_df, values='Atendimentos', names='Status_Legend',
                             color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
         fig_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+        fig_status.update_traces(textinfo='percent+value')
         st.plotly_chart(fig_status, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
@@ -691,7 +770,13 @@ else:
     # TAB 2: INDIVIDUAL PERFORMANCE
     # ════════════════════════════════════════════════════════════
     with tab_agent:
-        st.markdown(f"### 👤 Relatório de Desempenho: **{selected_agent}**")
+        col_title, col_print = st.columns([3, 1])
+        with col_title:
+            st.markdown(f"### 👤 Relatório de Desempenho: **{selected_agent}**")
+        with col_print:
+            print_button(f"Exportar Relatório de {selected_agent} (PDF)")
+            
+        st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
         
         # Filter agent data
         df_selection_operador = df[df['Agente'] == selected_agent].copy()
@@ -717,8 +802,19 @@ else:
             team_daily_avg = team_daily.groupby('Data')[['Atendimentos', 'Minutos Trabalhados']].mean()
             team_daily_avg['TMA'] = team_daily_avg['Minutos Trabalhados'] / team_daily_avg['Atendimentos']
             
-            # Calculate agent NPS metrics
-            op_nps, op_avg_rating, op_ratings_count = calculate_nps(df_selection_operador['Satisfacao'])
+            # Calculate agent NPS metrics based on contribution
+            agent_tickets = df_selection_operador['Atendimentos'].sum()
+            total_team_tickets = df['Atendimentos'].sum()
+            contrib_pct = (agent_tickets / total_team_tickets) * 100 if total_team_tickets > 0 else 0
+            
+            if contrib_pct < 1.0:
+                op_nps_str = "N/A"
+                op_avg_str = "N/A"
+                op_ratings_count = 0
+            else:
+                op_nps_val, op_avg_val, op_ratings_count = calculate_nps(df_selection_operador['Satisfacao'])
+                op_nps_str = str(op_nps_val)
+                op_avg_str = f"{op_avg_val:.1f}"
 
             # Individual KPI Cards
             col_ind1, col_ind2, col_ind3, col_ind4, col_ind5, col_ind6 = st.columns(6)
@@ -748,27 +844,32 @@ else:
                 """, unsafe_allow_html=True)
             with col_ind4:
                 nps_color_style = ""
-                if op_nps >= 70:
-                    nps_color_style = "style='color:#10B981;'" # Emerald-500
-                elif op_nps >= 50:
-                    nps_color_style = "style='color:#34D399;'" # Emerald-400
-                elif op_nps >= 0:
-                    nps_color_style = "style='color:#FBBF24;'" # Amber-400
+                if op_nps_str == "N/A":
+                    nps_color_style = "style='color:#94A3B8;'" # Grey-400
                 else:
-                    nps_color_style = "style='color:#EF4444;'" # Red-500
+                    nps_val = int(op_nps_str)
+                    if nps_val >= 70:
+                        nps_color_style = "style='color:#10B981;'" # Emerald-500
+                    elif nps_val >= 50:
+                        nps_color_style = "style='color:#34D399;'" # Emerald-400
+                    elif nps_val >= 0:
+                        nps_color_style = "style='color:#FBBF24;'" # Amber-400
+                    else:
+                        nps_color_style = "style='color:#EF4444;'" # Red-500
                 
                 st.markdown(f"""
                     <div class="team-card">
                         <div class="team-card-label">NPS do Agente</div>
-                        <div class="team-card-value" {nps_color_style}>{op_nps}</div>
+                        <div class="team-card-value" {nps_color_style}>{op_nps_str}</div>
                         <div class="team-card-help">Score Net Promoter</div>
                     </div>
                 """, unsafe_allow_html=True)
             with col_ind5:
+                avg_color_style = "style='color:#94A3B8;'" if op_avg_str == "N/A" else "style='color:#60A5FA;'"
                 st.markdown(f"""
                     <div class="team-card">
                         <div class="team-card-label">Média de Nota</div>
-                        <div class="team-card-value" style="color:#60A5FA;">{op_avg_rating:.1f}</div>
+                        <div class="team-card-value" {avg_color_style}>{op_avg_str}</div>
                         <div class="team-card-help">Média ({op_ratings_count} aval.)</div>
                     </div>
                 """, unsafe_allow_html=True)
@@ -795,7 +896,10 @@ else:
             # Calculate daily NPS metrics for the agent
             daily_nps_stats = []
             for date, group in df_selection_operador.groupby('Data'):
-                nps, avg_rating, count = calculate_nps(group['Satisfacao'])
+                if contrib_pct < 1.0:
+                    nps, avg_rating, count = pd.NA, pd.NA, 0
+                else:
+                    nps, avg_rating, count = calculate_nps(group['Satisfacao'])
                 daily_nps_stats.append({
                     'Data': date,
                     'NPS Diário': nps,
@@ -875,9 +979,9 @@ else:
             display_daily['Atendimentos/Hora'] = display_daily['Atendimentos/Hora'].round(2)
             display_daily['Aproveitamento Horas Disponíveis'] = (display_daily['Horas Trabalhadas'] / Tempo_Disponivel_Horas * 100).round(1)
             display_daily['SCORE'] = ((display_daily['Atendimentos'] * display_daily['Atendimentos/Hora'] * (display_daily['Horas Trabalhadas'] / Tempo_Disponivel_Horas)) / display_daily['TMA']).round(2)
-            display_daily['NPS Diário'] = display_daily['NPS Diário'].astype(int)
-            display_daily['Média de Nota Diária'] = display_daily['Média de Nota Diária'].round(1)
-            display_daily['Avaliações'] = display_daily['Avaliações'].astype(int)
+            display_daily['NPS Diário'] = display_daily['NPS Diário'].astype('Int64')
+            display_daily['Média de Nota Diária'] = display_daily['Média de Nota Diária'].astype(float).round(1)
+            display_daily['Avaliações'] = display_daily['Avaliações'].astype('Int64')
             
             display_daily = display_daily.rename(columns={
                 'Atendimentos': 'Atendimentos Realizados',
@@ -906,9 +1010,13 @@ else:
             st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
             st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
             ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
-            fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status',
+            ind_total_status = ind_status_df['Atendimentos'].sum()
+            ind_status_df['Status_Legend'] = ind_status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/ind_total_status*100:.1f}%)", axis=1)
+            
+            fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status_Legend',
                                     color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
             fig_ind_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+            fig_ind_status.update_traces(textinfo='percent+value')
             st.plotly_chart(fig_ind_status, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
             
