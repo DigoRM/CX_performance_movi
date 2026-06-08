@@ -56,9 +56,19 @@ if theme_choice == "Escuro":
     plotly_template = "plotly_dark"
     chart_font_color = "#FFFFFF"
     chart_grid_color = "rgba(255, 255, 255, 0.1)"
+    
+    custom_theme_css = """
+        /* Dark mode specific overrides */
+        div[data-testid="stDataFrame"] td, 
+        div[data-testid="stDataFrame"] th, 
+        div[data-testid="stDataFrame"] div,
+        div[data-testid="stDataFrame"] span {
+            color: #E2E8F0 !important;
+        }
+    """
 else:
     bg_color = "#F8FAFC"
-    text_color = "#0F172A"
+    text_color = "#000000"
     sidebar_bg = "#FFFFFF"
     sidebar_border = "#E2E8F0"
     card_bg = "rgba(255, 255, 255, 0.9)"
@@ -93,8 +103,35 @@ else:
     op_card_hover_border = "rgba(219, 39, 119, 0.45)"
     
     plotly_template = "plotly_white"
-    chart_font_color = "#1E293B"
+    chart_font_color = "#000000"
     chart_grid_color = "rgba(0, 0, 0, 0.05)"
+    
+    custom_theme_css = """
+        /* Light mode specific overrides */
+        div[data-testid="stDataFrame"],
+        div[data-testid="stDataFrame"] [data-testid="stTable"] {
+            background-color: #FFFFFF !important;
+        }
+        div[data-testid="stDataFrame"] td, 
+        div[data-testid="stDataFrame"] th, 
+        div[data-testid="stDataFrame"] div,
+        div[data-testid="stDataFrame"] p,
+        div[data-testid="stDataFrame"] span {
+            color: #000000 !important;
+            background-color: #FFFFFF !important;
+        }
+        div[data-testid="stDownloadButton"] button {
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
+            border: 1px solid #CBD5E1 !important;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+        }
+        div[data-testid="stDownloadButton"] button:hover {
+            background-color: #F1F5F9 !important;
+            color: #000000 !important;
+            border-color: #94A3B8 !important;
+        }
+    """
 
 # Custom UI Styling (Dynamic Dark/Light Mode)
 st.markdown(f"""
