@@ -20,7 +20,8 @@ An advanced, interactive Customer Experience (CX) performance dashboard designed
 *   **📥 Excel Report Compilation**: Automatically compiles data and generates high-fidelity Excel download links for the Daily Agent metrics and Consolidated Productivity Rankings.
 *   **💼 Comprehensive CX Metrics**: Tracks team metrics such as Total Tickets, Average Handling Time (TMA), worked hours, minimum/maximum scores, and category/service distributions.
 *   **⭐ Deterministic NPS & Satisfaction Ranking**: Simulates a realistic customer satisfaction survey response dataset based on ticket hashes, ranking agent performance based on Net Promoter Score and average rating.
-*   **🖨️ High-Fidelity PDF Export**: Integrates client-side print button macros triggering browser-level print engines, paired with customized `@media print` CSS configurations to automatically convert the dark dashboard UI into clean, high-contrast, black-and-white layouts suitable for physical printing or executive slide sharing.
+*   **🎨 Dynamic Visual Themes (Dark & Light Mode)**: Features a visual theme toggle in the sidebar that updates the entire dashboard template. In Light Mode, all charts render with the `plotly_white` template and dark high-contrast fonts, making visualization extremely clean.
+*   **🖨️ High-Fidelity PDF Export**: Integrates client-side print button macros triggering browser-level print engines. Enforces landscape printing presets (`@page { size: landscape }`) and dynamic flex container scaling (`flex-wrap: nowrap`) to fit columns and all 13 Plotly charts onto the page width perfectly without clipping or vertical column wrapping.
 
 ---
 
@@ -95,7 +96,8 @@ Um dashboard avançado e interativo de análise de desempenho em Customer Experi
 *   **📥 Exportação Inteligente de Relatórios**: Gera links de download dinâmicos para arquivos Excel (.xlsx) estruturados contendo as Métricas Diárias por Agente e o Ranking Geral de Produtividade Consolidado.
 *   **💼 Estatísticas Consolidadas de CX**: Consolida indicadores críticos como TMA Médio, Mínimo e Máximo, total de horas aplicadas em atendimento, aproveitamento da capacidade disponível e distribuição de volumetria por Categoria e Serviço.
 *   **⭐ Avaliação Determinística de NPS**: Simula dados realistas de notas de satisfação dos clientes a partir do hash do ticket, gerando gráficos de rankings pelo indicador Net Promoter Score (NPS) e média de notas de atendimento do agente.
-*   **🖨️ Exportação em PDF de Alta Fidelidade**: Inclui macros de impressão via Javascript que acionam o mecanismo nativo do navegador, combinadas com folhas de estilo CSS `@media print` personalizadas para converter o layout escuro em uma versão clara, limpa e de alto contraste, ideal para gerar relatórios em PDF para apresentações executivas.
+*   **🎨 Temas Visuais Dinâmicos (Modo Escuro / Claro)**: Inclui um seletor de tema na barra lateral que atualiza toda a aparência do painel. No Modo Claro, todos os gráficos utilizam o template `plotly_white` e fontes de alto contraste escuras, otimizando a visualização e facilitando a leitura.
+*   **🖨️ Exportação em PDF de Alta Fidelidade**: Inclui macros de impressão via Javascript integradas com regras de estilo `@media print` otimizadas para impressão em formato paisagem (`@page { size: landscape }`). Impede a quebra vertical de colunas de cartões de métricas e redimensiona automaticamente todos os 13 gráficos Plotly para caberem 100% na largura da folha A4 sem cortes ou perdas visuais.
 
 ---
 

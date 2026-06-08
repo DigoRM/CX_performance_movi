@@ -7,64 +7,158 @@ from io import BytesIO
 from datetime import datetime
 import hashlib
 
-# ════════════════════════════════════════════════════════════
+# ============================================================
 # 1. PAGE CONFIGURATION & THEME
-# ════════════════════════════════════════════════════════════
-st.set_page_config(
-    page_title="PerformaCX - Análise de Desempenho",
-    page_icon="📈",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# ==============================# Render Sidebar Title and Theme Switcher First to drive page styles
+st.sidebar.markdown("<h2 style='color:#38BDF8; font-weight:800; margin-bottom:5px;'>📈 PerformaCX</h2>", unsafe_allow_html=True)
+st.sidebar.markdown("---")
 
-# Custom Glassmorphic Dark UI Styling
-st.markdown("""
+st.sidebar.subheader("🎨 Aparência")
+theme_choice = st.sidebar.radio("Tema do Painel", ["Escuro", "Claro"], index=0)
+
+# Theme styling configuration
+if theme_choice == "Escuro":
+    bg_color = "#0B0F19"
+    text_color = "#E2E8F0"
+    sidebar_bg = "#0F172A"
+    sidebar_border = "#1E293B"
+    card_bg = "rgba(15, 23, 42, 0.6)"
+    card_border = "rgba(255, 255, 255, 0.05)"
+    metric_val = "#38BDF8"
+    metric_lbl = "#94A3B8"
+    sub_header_color = "#94A3B8"
+    
+    # Team metrics
+    team_card_bg = "rgba(15, 23, 42, 0.4)"
+    team_card_border = "rgba(56, 189, 248, 0.15)"
+    team_card_val = "#38BDF8"
+    team_card_lbl = "#94A3B8"
+    team_card_help = "#64748B"
+    team_card_hover_border = "rgba(56, 189, 248, 0.4)"
+    
+    # Goal card
+    goal_card_bg = "rgba(139, 92, 246, 0.1)"
+    goal_card_border = "rgba(139, 92, 246, 0.3)"
+    goal_card_val = "#A78BFA"
+    goal_card_lbl = "#C084FC"
+    goal_card_help = "#8B5CF6"
+    goal_card_hover_bg = "rgba(139, 92, 246, 0.15)"
+    goal_card_hover_border = "rgba(139, 92, 246, 0.5)"
+    
+    # Op card
+    op_card_bg = "linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)"
+    op_card_border = "rgba(139, 92, 246, 0.3)"
+    op_card_val = "#F472B6"
+    op_card_lbl = "#C084FC"
+    op_card_subtext = "#E2E8F0"
+    op_card_hover_border = "rgba(236, 72, 153, 0.5)"
+    
+    plotly_template = "plotly_dark"
+    chart_font_color = "#FFFFFF"
+    chart_grid_color = "rgba(255, 255, 255, 0.1)"
+else:
+    bg_color = "#F8FAFC"
+    text_color = "#0F172A"
+    sidebar_bg = "#FFFFFF"
+    sidebar_border = "#E2E8F0"
+    card_bg = "rgba(255, 255, 255, 0.9)"
+    card_border = "rgba(15, 23, 42, 0.08)"
+    metric_val = "#0284C7"
+    metric_lbl = "#475569"
+    sub_header_color = "#475569"
+    
+    # Team metrics
+    team_card_bg = "rgba(255, 255, 255, 0.9)"
+    team_card_border = "rgba(14, 165, 233, 0.2)"
+    team_card_val = "#0284C7"
+    team_card_lbl = "#475569"
+    team_card_help = "#64748B"
+    team_card_hover_border = "rgba(14, 165, 233, 0.5)"
+    
+    # Goal card
+    goal_card_bg = "rgba(245, 243, 255, 0.9)"
+    goal_card_border = "rgba(139, 92, 246, 0.25)"
+    goal_card_val = "#7C3AED"
+    goal_card_lbl = "#6D28D9"
+    goal_card_help = "#8B5CF6"
+    goal_card_hover_bg = "rgba(237, 233, 254, 0.9)"
+    goal_card_hover_border = "rgba(139, 92, 246, 0.45)"
+    
+    # Op card
+    op_card_bg = "linear-gradient(135deg, rgba(237, 233, 254, 0.8) 0%, rgba(252, 231, 243, 0.8) 100%)"
+    op_card_border = "rgba(219, 39, 119, 0.25)"
+    op_card_val = "#DB2777"
+    op_card_lbl = "#7C3AED"
+    op_card_subtext = "#334155"
+    op_card_hover_border = "rgba(219, 39, 119, 0.45)"
+    
+    plotly_template = "plotly_white"
+    chart_font_color = "#1E293B"
+    chart_grid_color = "rgba(0, 0, 0, 0.05)"
+
+# Custom UI Styling (Dynamic Dark/Light Mode)
+st.markdown(f"""
     <style>
-        .stApp {
-            background-color: #0B0F19;
-            color: #E2E8F0;
-        }
-        .css-1d391kg, .css-164741 {
-            background-color: #0F172A;
-            border-right: 1px solid #1E293B;
-        }
-        div[data-testid="stMetricValue"] {
+        .stApp {{
+            background-color: {bg_color};
+            color: {text_color};
+        }}
+        .stApp h1:not(.main-header), .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp p, .stApp label, .stApp span {{
+            color: {text_color};
+        }}
+        section[data-testid="stSidebar"] {{
+            background-color: {sidebar_bg} !important;
+            border-right: 1px solid {sidebar_border} !important;
+        }}
+        section[data-testid="stSidebar"] .stMarkdown, 
+        section[data-testid="stSidebar"] label,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] h2,
+        section[data-testid="stSidebar"] h3,
+        section[data-testid="stSidebar"] span {{
+            color: {text_color} !important;
+        }}
+        div[data-testid="stMetricValue"] {{
             font-size: 28px;
             font-weight: 800;
-            color: #38BDF8;
-        }
-        div[data-testid="stMetricLabel"] {
+            color: {metric_val};
+        }}
+        div[data-testid="stMetricLabel"] {{
             font-size: 12px;
-            color: #94A3B8;
+            color: {metric_lbl};
             font-weight: 600;
-        }
-        .main-header {
+        }}
+        .main-header {{
             font-size: 36px;
             font-weight: 800;
             background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 2px;
-        }
-        .sub-header {
-            color: #94A3B8;
+        }}
+        .sub-header {{
+            color: {sub_header_color};
             font-size: 14px;
             margin-bottom: 25px;
-        }
-        .panel-card {
-            background: rgba(15, 23, 42, 0.6);
+        }}
+        .panel-card {{
+            background: {card_bg};
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid {card_border};
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-        }
+            color: {text_color};
+        }}
+        .panel-card h4 {{
+            color: {text_color} !important;
+        }}
         
         /* Styling for the Team Metric Cards (Top Row) */
-        .team-card {
-            background: rgba(15, 23, 42, 0.4);
+        .team-card {{
+            background: {team_card_bg};
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.15);
+            border: 1px solid {team_card_border};
             border-radius: 12px;
             padding: 16px;
             text-align: center;
@@ -74,121 +168,167 @@ st.markdown("""
             flex-direction: column;
             justify-content: center;
             transition: all 0.3s ease;
-        }
-        .team-card:hover {
+            color: {text_color};
+        }}
+        .team-card:hover {{
             transform: translateY(-2px);
-            border-color: rgba(56, 189, 248, 0.4);
+            border-color: {team_card_hover_border};
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-        .team-card-label {
+        }}
+        .team-card-label {{
             font-size: 11px;
-            color: #94A3B8;
+            color: {team_card_lbl};
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 6px;
-        }
-        .team-card-value {
+        }}
+        .team-card-value {{
             font-size: 24px;
             font-weight: 800;
-            color: #38BDF8; /* Sky-400 */
-        }
-        .team-card-help {
+            color: {team_card_val};
+        }}
+        .team-card-help {{
             font-size: 10px;
-            color: #64748B;
+            color: {team_card_help};
             margin-top: 4px;
-        }
+        }}
         
         /* Highlighted style for the Team Goal Card */
-        .team-card.goal-theme {
-            background: rgba(139, 92, 246, 0.1);
-            border-color: rgba(139, 92, 246, 0.3);
-        }
-        .team-card.goal-theme:hover {
-            border-color: rgba(139, 92, 246, 0.5);
-            background: rgba(139, 92, 246, 0.15);
-        }
-        .team-card.goal-theme .team-card-value {
-            color: #A78BFA; /* Purple-400 */
-        }
-        .team-card.goal-theme .team-card-label {
-            color: #C084FC; /* Purple-400 */
-        }
-        .team-card.goal-theme .team-card-help {
-            color: #8B5CF6;
-        }
+        .team-card.goal-theme {{
+            background: {goal_card_bg};
+            border-color: {goal_card_border};
+        }}
+        .team-card.goal-theme:hover {{
+            border-color: {goal_card_hover_border};
+            background: {goal_card_hover_bg};
+        }}
+        .team-card.goal-theme .team-card-value {{
+            color: {goal_card_val};
+        }}
+        .team-card.goal-theme .team-card-label {{
+            color: {goal_card_lbl};
+        }}
+        .team-card.goal-theme .team-card-help {{
+            color: {goal_card_help};
+        }}
 
         /* Styling for the Operational Efficiency Metric Cards */
-        .op-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+        .op-card {{
+            background: {op_card_bg};
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            border: 1px solid {op_card_border};
             border-radius: 12px;
             padding: 16px;
             text-align: center;
             margin-bottom: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
-        }
-        .op-card:hover {
+            color: {text_color};
+        }}
+        .op-card:hover {{
             transform: translateY(-2px);
-            border-color: rgba(236, 72, 153, 0.5);
+            border-color: {op_card_hover_border};
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-        .op-card-value {
+        }}
+        .op-card-value {{
             font-size: 24px;
             font-weight: 800;
-            color: #F472B6; /* Pink-400 */
+            color: {op_card_val};
             margin-top: 4px;
-        }
-        .op-card-label {
+        }}
+        .op-card-label {{
             font-size: 11px;
-            color: #C084FC; /* Purple-400 */
+            color: {op_card_lbl};
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-        .op-card-subtext {
+        }}
+        .op-card-subtext {{
             font-size: 11px;
-            color: #E2E8F0;
+            color: {op_card_subtext};
             margin-top: 6px;
             font-weight: 500;
-            opacity: 0.85;
-        }
+            opacity: 0.9;
+        }}
         
-        @media print {
-            /* Hide sidebar, headers, footers and buttons */
+        button[data-baseweb="tab"] p {{
+            color: {text_color} !important;
+            font-weight: 600 !important;
+        }}
+        
+        .stDataFrame div {{
+            color: {text_color} !important;
+        }}
+        
+        @media print {{
+            @page {{
+                size: landscape;
+                margin: 8mm;
+            }}
             div[data-testid="stSidebar"], 
             header, 
             footer, 
             .stDeployButton, 
             div.stButton, 
             iframe[title="streamlit.components.v1.html"],
-            div[data-testid="stDownloadButton"] {
+            div[data-testid="stDownloadButton"] {{
                 display: none !important;
-            }
-            /* Adjust main content for print */
-            .main, .stApp {
+            }}
+            .main, .stApp, .block-container {{
                 background-color: #ffffff !important;
                 color: #000000 !important;
-            }
-            /* Adjust glassmorphic cards for high contrast paper print */
-            .panel-card, .team-card, .op-card {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }}
+            h1, h2, h3, h4, h5, h6, p, span, label, div {{
+                color: #000000 !important;
+            }}
+            div[data-testid="stHorizontalBlock"] {{
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                width: 100% !important;
+                gap: 8px !important;
+            }}
+            div[data-testid="stHorizontalBlock"] > div {{
+                flex: 1 1 0% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+                width: auto !important;
+            }}
+            .panel-card, .team-card, .op-card {{
                 background: #ffffff !important;
                 border: 1px solid #cbd5e1 !important;
                 color: #000000 !important;
                 box-shadow: none !important;
-            }
-            .team-card-value, .op-card-value {
+                padding: 10px !important;
+                margin-bottom: 10px !important;
+                page-break-inside: avoid !important;
+            }}
+            .team-card {{
+                min-height: 80px !important;
+            }}
+            .team-card-value, .op-card-value {{
                 color: #0f172a !important;
-            }
-            .team-card-label, .op-card-label {
+                font-size: 20px !important;
+            }}
+            .team-card-label, .op-card-label {{
                 color: #475569 !important;
-            }
-            .team-card-help, .op-card-subtext {
+                font-size: 10px !important;
+            }}
+            .team-card-help, .op-card-subtext {{
                 color: #64748b !important;
-            }
-        }
+                font-size: 8px !important;
+            }}
+            .stPlotlyChart, .js-plotly-plot, .plotly, .svg-container, svg {{
+                width: 100% !important;
+                height: auto !important;
+                page-break-inside: avoid !important;
+            }}
+        }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -257,8 +397,8 @@ def get_deterministic_nps_from_id(ticket_id, agent_name):
     score_val = int(h_hex[8:12], 16) % 100
     
     # Map score based on agent profiles to satisfy user's requested distribution
-    # Profile 1: Low NPS (< 50) for Analista 1, Analista 2
-    if agent_name in ["Analista 1", "Analista 2"]:
+    # Profile 1: Low NPS (< 50) for Analista 3, Analista 13
+    if agent_name in ["Analista 3", "Analista 13"]:
         if score_val < 10:
             score = (score_val % 4) + 1  # 1 to 4 (10%)
         elif score_val < 30:
@@ -319,11 +459,10 @@ def get_deterministic_nps_from_id(ticket_id, agent_name):
             
     return score
 
-# ════════════════════════════════════════════════════════════
+# ============================================================
 # 2. SIDEBAR - FILE UPLOAD & CONFIGURATIONS
-# ════════════════════════════════════════════════════════════
-st.sidebar.markdown("<h2 style='color:#38BDF8; font-weight:800; margin-bottom:5px;'>📈 PerformaCX</h2>", unsafe_allow_html=True)
-st.sidebar.markdown("---")
+# ============================================================
+
 
 # Section 1: Data Uploads
 st.sidebar.subheader("📂 Base de Dados")
@@ -402,9 +541,9 @@ if not df_resolved_raw.empty:
         </div>
     """, unsafe_allow_html=True)
 
-# ════════════════════════════════════════════════════════════
+# ============================================================
 # 3. PREPROCESSING
-# ════════════════════════════════════════════════════════════
+# ============================================================
 if not df_resolved_raw.empty:
     df = df_resolved_raw.copy()
     # Shift dates from 2021 to 2025
@@ -493,9 +632,9 @@ if not df_incoming_raw.empty:
 else:
     df1 = pd.DataFrame()
 
-# ════════════════════════════════════════════════════════════
+# ============================================================
 # 4. MAIN HEADERS & TABS
-# ════════════════════════════════════════════════════════════
+# ============================================================
 st.markdown("<h1 class='main-header'>PerformaCX - Dashboard de Desempenho</h1>", unsafe_allow_html=True)
 st.markdown("<p class='sub-header'>Painel analítico avançado de produtividade em Customer Experience (CX)</p>", unsafe_allow_html=True)
 
@@ -513,9 +652,9 @@ else:
     Meta_TMA_Diario = Tempo_Disponivel / Meta_Atendimentos_Diarios
     Meta_Velocidade_Diario = Meta_Atendimentos_Diarios / Tempo_Disponivel_Horas
 
-    # ════════════════════════════════════════════════════════════
+    # ============================================================
     # TAB 1: TEAM PERFORMANCE
-    # ════════════════════════════════════════════════════════════
+    # ============================================================
     with tab_team:
         col_team_title, col_team_print = st.columns([3, 1])
         with col_team_title:
@@ -718,7 +857,8 @@ else:
         plot_team_prog.add_trace(go.Scatter(name='Objetivo da Equipe', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Meta Atendimentos'], line=dict(color='#EF4444', width=2, dash='dash')))
         
         plot_team_prog.update_layout(
-            template="plotly_dark",
+            template=plotly_template,
+            font=dict(color=chart_font_color),
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             height=400,
@@ -761,8 +901,8 @@ else:
         st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
         tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
         fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
-                         color_continuous_scale='Tealgrn', template="plotly_dark", text_auto='.2f')
-        fig_tma.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                         color_continuous_scale='Tealgrn', template=plotly_template, text_auto='.2f')
+        fig_tma.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
         fig_tma.update_traces(textposition='outside')
         st.plotly_chart(fig_tma, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -772,8 +912,8 @@ else:
         st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
         vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
         fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
-                         color_continuous_scale='Mint', template="plotly_dark", text_auto='.2f')
-        fig_vel.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                         color_continuous_scale='Mint', template=plotly_template, text_auto='.2f')
+        fig_vel.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
         fig_vel.update_traces(textposition='outside')
         st.plotly_chart(fig_vel, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -783,9 +923,9 @@ else:
         st.markdown("<h4 style='margin-top:0;'>Ranking NPS por Agente</h4>", unsafe_allow_html=True)
         nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
         fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
-                         color_continuous_scale='RdYlGn', range_color=[-100, 100], template="plotly_dark", text_auto=True)
+                         color_continuous_scale='RdYlGn', range_color=[-100, 100], template=plotly_template, text_auto=True)
         fig_nps.add_hline(y=65, line_dash="dash", line_color="#EF4444", annotation_text="Meta NPS (65)", annotation_position="top left")
-        fig_nps.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+        fig_nps.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
         fig_nps.update_traces(textposition='outside')
         st.plotly_chart(fig_nps, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -796,9 +936,8 @@ else:
         contrib_df = display_ranking.copy()
         contrib_df['Contribuição (%)'] = (contrib_df['Atendimentos'] / total_atendimentos * 100).round(2)
         contrib_df = contrib_df.sort_values('Contribuição (%)', ascending=False)
-        fig_contrib = px.bar(contrib_df, x=contrib_df.index, y='Contribuição (%)', color='Contribuição (%)',
-                             color_continuous_scale='Purples', template="plotly_dark", text_auto='.2f')
-        fig_contrib.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+        fig_contrib = px.bar(contrib_df, x=contrib_df.index, y='Contribuição (%)', color='Contribuição (%)', color_continuous_scale='Purples', template=plotly_template, text_auto='.2f')
+        fig_contrib.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
         fig_contrib.update_traces(textposition='outside')
         st.plotly_chart(fig_contrib, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -814,8 +953,8 @@ else:
         status_df['Status_Legend'] = status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/total_status_tix*100:.1f}%)", axis=1)
         
         fig_status = px.pie(status_df, values='Atendimentos', names='Status_Legend',
-                            color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
-        fig_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                            color_discrete_sequence=px.colors.sequential.Agsunset, template=plotly_template)
+        fig_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color=chart_font_color))
         fig_status.update_traces(textinfo='percent+value')
         st.plotly_chart(fig_status, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -827,8 +966,8 @@ else:
             st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
             cat_df = df.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
             fig_cat = px.bar(cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
-                             color='Atendimentos', color_continuous_scale='Purpor', template="plotly_dark", text_auto=True)
-            fig_cat.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                             color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
+            fig_cat.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
             fig_cat.update_traces(textposition='outside')
             st.plotly_chart(fig_cat, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
@@ -844,9 +983,9 @@ else:
             st.plotly_chart(fig_parc, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
-    # ════════════════════════════════════════════════════════════
+    # ============================================================
     # TAB 2: INDIVIDUAL PERFORMANCE
-    # ════════════════════════════════════════════════════════════
+    # ============================================================
     with tab_agent:
         col_title, col_print = st.columns([3, 1])
         with col_title:
@@ -1011,7 +1150,8 @@ else:
                 plot_ind_at.add_trace(go.Scatter(name='Meta Individual', x=demandas_datas.index, y=[Meta_Atendimentos_Diarios]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
                 
                 plot_ind_at.update_layout(
-                    template="plotly_dark",
+                    template=plotly_template,
+                    font=dict(color=chart_font_color),
                     plot_bgcolor='rgba(0,0,0,0)',
                     paper_bgcolor='rgba(0,0,0,0)',
                     height=330,
@@ -1037,7 +1177,8 @@ else:
                 plot_ind_tma.add_trace(go.Scatter(name='Meta TMA', x=demandas_datas.index, y=[Meta_TMA_Diario]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
                 
                 plot_ind_tma.update_layout(
-                    template="plotly_dark",
+                    template=plotly_template,
+                    font=dict(color=chart_font_color),
                     plot_bgcolor='rgba(0,0,0,0)',
                     paper_bgcolor='rgba(0,0,0,0)',
                     height=330,
@@ -1092,8 +1233,8 @@ else:
             ind_status_df['Status_Legend'] = ind_status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/ind_total_status*100:.1f}%)", axis=1)
             
             fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status_Legend',
-                                    color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
-            fig_ind_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                                    color_discrete_sequence=px.colors.sequential.Agsunset, template=plotly_template)
+            fig_ind_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color=chart_font_color))
             fig_ind_status.update_traces(textinfo='percent+value')
             st.plotly_chart(fig_ind_status, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
@@ -1105,8 +1246,8 @@ else:
                 st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
                 ind_cat_df = df_selection_operador.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
                 fig_ind_cat = px.bar(ind_cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
-                                     color='Atendimentos', color_continuous_scale='Purpor', template="plotly_dark", text_auto=True)
-                fig_ind_cat.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                                     color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
+                fig_ind_cat.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
                 fig_ind_cat.update_traces(textposition='outside')
                 st.plotly_chart(fig_ind_cat, use_container_width=True)
                 st.markdown("</div>", unsafe_allow_html=True)
@@ -1116,8 +1257,8 @@ else:
                 st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
                 ind_parc_df = df_selection_operador.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
                 fig_ind_parc = px.bar(ind_parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
-                                      color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
-                fig_ind_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                                      color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
+                fig_ind_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False, font=dict(color=chart_font_color))
                 fig_ind_parc.update_traces(textposition='outside')
                 st.plotly_chart(fig_ind_parc, use_container_width=True)
                 st.markdown("</div>", unsafe_allow_html=True)
