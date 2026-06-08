@@ -60,13 +60,20 @@ if theme_choice == "Escuro":
     chart_font_color = "#FFFFFF"
     chart_grid_color = "rgba(255, 255, 255, 0.1)"
     
-    custom_theme_css = """
         /* Dark mode specific overrides */
+        div[data-testid="stDataFrame"] {
+            background-color: #0F172A !important;
+            border: 1px solid #1E293B !important;
+            border-radius: 8px !important;
+        }
+        div[data-testid="stDataFrame"] [data-fieldname] {
+            color: #F1F5F9 !important;
+        }
         div[data-testid="stDataFrame"] td, 
         div[data-testid="stDataFrame"] th, 
         div[data-testid="stDataFrame"] div,
         div[data-testid="stDataFrame"] span {
-            color: #E2E8F0 !important;
+            color: #F1F5F9 !important;
         }
         /* Dark mode buttons - explicit dark background */
         .stApp div.stButton > button,
@@ -146,17 +153,20 @@ else:
     
     custom_theme_css = """
         /* Light mode specific overrides */
-        div[data-testid="stDataFrame"],
-        div[data-testid="stDataFrame"] [data-testid="stTable"] {
+        div[data-testid="stDataFrame"] {
             background-color: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            border-radius: 8px !important;
+        }
+        div[data-testid="stDataFrame"] [data-fieldname] {
+            color: #0F172A !important;
         }
         div[data-testid="stDataFrame"] td, 
         div[data-testid="stDataFrame"] th, 
         div[data-testid="stDataFrame"] div,
         div[data-testid="stDataFrame"] p,
         div[data-testid="stDataFrame"] span {
-            color: #000000 !important;
-            background-color: #FFFFFF !important;
+            color: #0F172A !important;
         }
         div[data-testid="stDownloadButton"] button {
             background-color: #FFFFFF !important;
