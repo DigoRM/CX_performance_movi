@@ -180,7 +180,7 @@ uploaded_file1 = st.sidebar.file_uploader(label="Upload Tickets Entrantes (CSV/X
 st.sidebar.markdown("### ⚙️ Parâmetros de Meta")
 input_Dias_Analisados = st.sidebar.number_input('Dias úteis a analisar', min_value=1, max_value=30, value=21, step=1)
 input_Horas_Consideradas = st.sidebar.number_input('Horas diárias de trabalho', min_value=1.0, max_value=10.0, value=8.0, step=0.25)
-input_Atendimentos_Meta = st.sidebar.number_input('Meta diária de atendimentos por agente', min_value=1, max_value=500, value=125, step=1)
+input_Atendimentos_Meta = st.sidebar.number_input('Meta diária de atendimentos por agente', min_value=1, max_value=500, value=100, step=1)
 
 # Helper function to load resolved data with fallback
 def load_resolved_data():
@@ -511,8 +511,9 @@ else:
             st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
             tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
             fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
-                             color_continuous_scale='Tealgrn', template="plotly_dark")
+                             color_continuous_scale='Tealgrn', template="plotly_dark", text_auto='.2f')
             fig_tma.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+            fig_tma.update_traces(textposition='outside')
             st.plotly_chart(fig_tma, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
             
@@ -521,10 +522,24 @@ else:
             st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
             vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
             fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
-                             color_continuous_scale='Mint', template="plotly_dark")
+                             color_continuous_scale='Mint', template="plotly_dark", text_auto='.2f')
             fig_vel.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+            fig_vel.update_traces(textposition='outside')
             st.plotly_chart(fig_vel, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
+
+        # Contribution Chart
+        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top:0;'>Percentual de Contribuição de Cada Agente (%)</h4>", unsafe_allow_html=True)
+        contrib_df = display_ranking.copy()
+        contrib_df['Contribuição (%)'] = (contrib_df['Atendimentos'] / total_atendimentos * 100).round(2)
+        contrib_df = contrib_df.sort_values('Contribuição (%)', ascending=False)
+        fig_contrib = px.bar(contrib_df, x=contrib_df.index, y='Contribuição (%)', color='Contribuição (%)',
+                             color_continuous_scale='Purples', template="plotly_dark", text_auto='.2f')
+        fig_contrib.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+        fig_contrib.update_traces(textposition='outside')
+        st.plotly_chart(fig_contrib, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
         # Mapping Categories & Status
         st.markdown("### 🗺️ Mapeamento de Categoria, Status e Parceiros")
@@ -556,23 +571,14 @@ else:
             resp_col_name = 'Responsavel' if 'Responsavel' in df1.columns else 'Solicitante'
             resp_df = df1.groupby(resp_col_name)[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
             
-            col_ent_chart1, col_ent_chart2 = st.columns([1, 1.2])
-            with col_ent_chart1:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>Fluxo Operacional de Entrada</h4>", unsafe_allow_html=True)
-                st.write(f"📥 **Volume Entrante Total:** {total_entrantes:,} tickets")
-                st.write(f"📈 **Média Diária de Entrada:** {entrantes_dia:,} tickets/dia")
-                st.write(f"👥 **Analistas de Entrada:** {len(resp_df)} responsáveis ativos")
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-            with col_ent_chart2:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>Distribuição de Responsabilidade das Entradas</h4>", unsafe_allow_html=True)
-                fig_resp = px.bar(resp_df.tail(10), x='Atendimentos', y=resp_col_name, orientation='h',
-                                  color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark")
-                fig_resp.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
-                st.plotly_chart(fig_resp, use_container_width=True)
-                st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+            st.markdown("<h4>Distribuição de Responsabilidade das Entradas</h4>", unsafe_allow_html=True)
+            fig_resp = px.bar(resp_df.tail(10), x='Atendimentos', y=resp_col_name, orientation='h',
+                              color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
+            fig_resp.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+            fig_resp.update_traces(textposition='outside')
+            st.plotly_chart(fig_resp, use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
 
     # ════════════════════════════════════════════════════════════
     # TAB 2: INDIVIDUAL PERFORMANCE
