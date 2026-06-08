@@ -2,6 +2,8 @@
 
 [**Português 🇧🇷**](#português) | [**English 🇺🇸**](#english)
 
+![PerformaCX Dashboard Preview](dashboard_preview.png)
+
 ---
 
 <a name="english"></a>
