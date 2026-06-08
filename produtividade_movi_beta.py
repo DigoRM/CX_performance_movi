@@ -423,12 +423,12 @@ def configure_chart_layout(fig, height=None):
         "paper_bgcolor": "rgba(0,0,0,0)",
         "xaxis": dict(
             tickfont=dict(color=chart_font_color),
-            titlefont=dict(color=chart_font_color),
+            title=dict(font=dict(color=chart_font_color)),
             gridcolor=chart_grid_color
         ),
         "yaxis": dict(
             tickfont=dict(color=chart_font_color),
-            titlefont=dict(color=chart_font_color),
+            title=dict(font=dict(color=chart_font_color)),
             gridcolor=chart_grid_color
         ),
         "legend": dict(
@@ -901,7 +901,7 @@ else:
                 margin-top: 8px;
                 margin-bottom: 20px;
             ">
-                <span style="font-size: 13.5px; color: #E2E8F0; line-height: 1.5;">
+                <span style="font-size: 13.5px; color: {text_color}; line-height: 1.5;">
                     💡 <b>Para compensar intervalos ou paradas</b> (ex: 1h de almoço), configure a jornada de trabalho na barra lateral.
                 </span>
             </div>
@@ -937,6 +937,7 @@ else:
         st.markdown("</div>", unsafe_allow_html=True)
 
         # Rankings Table & Charts
+        st.markdown('<div class="hide-in-print-table"></div>', unsafe_allow_html=True)
         st.markdown("### 🏆 Ranking Consolidado de Produtividade")
         
         # Formatting for Ranking Display
