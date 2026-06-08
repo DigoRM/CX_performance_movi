@@ -440,7 +440,7 @@ else:
                 <div class="op-card">
                     <div class="op-card-label">📥 Volume Entrante</div>
                     <div class="op-card-value">{total_entrantes:,} tickets</div>
-                    <div class="op-card-subtext">📈 Média Diária: {entrantes_dia:,.2f} tickets/dia</div>
+                    <div class="op-card-subtext">📈 Média Diária: {entrantes_dia:,.2f} tickets/dia ({dias_analisados} dias)</div>
                 </div>
             """, unsafe_allow_html=True)
         with col_op3:
@@ -565,19 +565,20 @@ else:
 
         # Mapping Categories, Status & Partners
         st.markdown("### 🗺️ Mapeamento de Categoria, Status e Parceiros")
-        col_map1, col_map2, col_map3 = st.columns(3)
         
+        # 1. Volumetria por Status (Full Width)
+        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
+        status_df = df.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
+        fig_status = px.pie(status_df, values='Atendimentos', names='Status',
+                            color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
+        fig_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+        st.plotly_chart(fig_status, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+        # 2. Categories & Partners (Side-by-side)
+        col_map1, col_map2 = st.columns(2)
         with col_map1:
-            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
-            status_df = df.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
-            fig_status = px.pie(status_df, values='Atendimentos', names='Status',
-                                color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
-            fig_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
-            st.plotly_chart(fig_status, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-            
-        with col_map2:
             st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
             st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
             cat_df = df.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
@@ -588,7 +589,7 @@ else:
             st.plotly_chart(fig_cat, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
             
-        with col_map3:
+        with col_map2:
             st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
             st.markdown("<h4 style='margin-top:0;'>Volume de Tickets por Parceiro Comercial</h4>", unsafe_allow_html=True)
             parc_df = df.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
@@ -768,19 +769,20 @@ else:
             # Individual Mapping Section
             st.markdown("---")
             st.markdown("### 🗺️ Mapeamento Individual de Categoria, Status e Parceiros Comerciais")
-            col_ind_map1, col_ind_map2, col_ind_map3 = st.columns(3)
             
+            # 1. Status (Full Width)
+            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+            st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
+            ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
+            fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status',
+                                    color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
+            fig_ind_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+            st.plotly_chart(fig_ind_status, use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+            # 2. Categories & Partners (Side-by-side)
+            col_ind_map1, col_ind_map2 = st.columns(2)
             with col_ind_map1:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
-                ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
-                fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status',
-                                        color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
-                fig_ind_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
-                st.plotly_chart(fig_ind_status, use_container_width=True)
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-            with col_ind_map2:
                 st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
                 st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
                 ind_cat_df = df_selection_operador.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
@@ -791,7 +793,7 @@ else:
                 st.plotly_chart(fig_ind_cat, use_container_width=True)
                 st.markdown("</div>", unsafe_allow_html=True)
                 
-            with col_ind_map3:
+            with col_ind_map2:
                 st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
                 st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
                 ind_parc_df = df_selection_operador.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
