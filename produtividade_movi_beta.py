@@ -242,7 +242,7 @@ def calculate_nps(ratings_series):
     return int(round(nps)), round(avg_rating, 1), int(total)
 
 # Stable cryptographic hash function for deterministic NPS rating (grades 1 to 10)
-def get_deterministic_nps_from_id(ticket_id):
+def get_deterministic_nps_from_id(ticket_id, agent_name):
     if pd.isna(ticket_id):
         return None
     # Generate MD5 hex digest
@@ -255,18 +255,68 @@ def get_deterministic_nps_from_id(ticket_id):
         return None
         
     score_val = int(h_hex[8:12], 16) % 100
-    if score_val < 2:
-        score = (score_val % 4) + 1  # 1 to 4 (2%)
-    elif score_val < 6:
-        score = (score_val % 2) + 5  # 5 to 6 (4%)
-    elif score_val < 13:
-        score = 7                   # 7 (7%)
-    elif score_val < 25:
-        score = 8                   # 8 (12%)
-    elif score_val < 55:
-        score = 9                   # 9 (30%)
+    
+    # Map score based on agent profiles to satisfy user's requested distribution
+    # Profile 1: Low NPS (< 50) for Analista 1, Analista 2
+    if agent_name in ["Analista 1", "Analista 2"]:
+        if score_val < 10:
+            score = (score_val % 4) + 1  # 1 to 4 (10%)
+        elif score_val < 30:
+            score = (score_val % 2) + 5  # 5 to 6 (20%)
+        elif score_val < 50:
+            score = 7                   # 7 (20%)
+        elif score_val < 70:
+            score = 8                   # 8 (20%)
+        elif score_val < 85:
+            score = 9                   # 9 (15%)
+        else:
+            score = 10                  # 10 (15%)
+            
+    # Profile 2: Super High NPS (> 90) for Analista 24, Analista 29
+    elif agent_name in ["Analista 24", "Analista 29"]:
+        if score_val < 1:
+            score = (score_val % 4) + 1  # 1 to 4 (1%)
+        elif score_val < 2:
+            score = (score_val % 2) + 5  # 5 to 6 (1%)
+        elif score_val < 3:
+            score = 7                   # 7 (1%)
+        elif score_val < 5:
+            score = 8                   # 8 (2%)
+        elif score_val < 25:
+            score = 9                   # 9 (20%)
+        else:
+            score = 10                  # 10 (75%)
+            
+    # Profile 3: High NPS (80 to 90) for Analista 32, Analista 16, Analista 19, Analista 40
+    elif agent_name in ["Analista 32", "Analista 16", "Analista 19", "Analista 40"]:
+        if score_val < 1:
+            score = (score_val % 4) + 1  # 1 to 4 (1%)
+        elif score_val < 3:
+            score = (score_val % 2) + 5  # 5 to 6 (2%)
+        elif score_val < 6:
+            score = 7                   # 7 (3%)
+        elif score_val < 12:
+            score = 8                   # 8 (6%)
+        elif score_val < 42:
+            score = 9                   # 9 (30%)
+        else:
+            score = 10                  # 10 (58%)
+            
+    # Profile 4: Standard NPS (50 to 80) for all other agents
     else:
-        score = 10                  # 10 (45%)
+        if score_val < 2:
+            score = (score_val % 4) + 1  # 1 to 4 (2%)
+        elif score_val < 6:
+            score = (score_val % 2) + 5  # 5 to 6 (4%)
+        elif score_val < 13:
+            score = 7                   # 7 (7%)
+        elif score_val < 25:
+            score = 8                   # 8 (12%)
+        elif score_val < 55:
+            score = 9                   # 9 (30%)
+        else:
+            score = 10                  # 10 (45%)
+            
     return score
 
 # ════════════════════════════════════════════════════════════
@@ -364,11 +414,9 @@ if not df_resolved_raw.empty:
     df['Serviço'].fillna("Outros", inplace=True)
     df['Atendimentos'] = 1
     
-    # Generate deterministic NPS grades based on Ticket ID
+    # Generate deterministic NPS grades based on Ticket ID and Agent Name
     if 'Satisfacao' not in df.columns and 'NPS' not in df.columns:
-        unique_tickets = df['Ticket'].dropna().unique()
-        nps_map = {tid: get_deterministic_nps_from_id(tid) for tid in unique_tickets}
-        df['Satisfacao'] = df['Ticket'].map(nps_map)
+        df['Satisfacao'] = df.apply(lambda row: get_deterministic_nps_from_id(row['Ticket'], row['Agente']), axis=1)
     elif 'Satisfacao' not in df.columns and 'NPS' in df.columns:
         df['Satisfacao'] = df['NPS']
     
@@ -525,8 +573,11 @@ else:
         Agentes_Analisados = len(Agrupa_Agentes_Potencial)
         potencial_equipe = Agentes_Analisados * Meta_Atendimentos_Diarios
         
+        # Calculate Team's General NPS
+        nps_geral, avg_satisfacao_geral, avaliacoes_geral = calculate_nps(df['Satisfacao'])
+
         # Row 1: Team Productivity Cards
-        col1, col2, col3, col4, col5 = st.columns(5)
+        col1, col2, col3, col4, col5, col6 = st.columns(6)
         with col1:
             st.markdown(f"""
                 <div class="team-card">
@@ -552,6 +603,24 @@ else:
                 </div>
             """, unsafe_allow_html=True)
         with col4:
+            nps_geral_color = ""
+            if nps_geral >= 70:
+                nps_geral_color = "style='color:#10B981;'" # Emerald-500
+            elif nps_geral >= 50:
+                nps_geral_color = "style='color:#34D399;'" # Emerald-400
+            elif nps_geral >= 0:
+                nps_geral_color = "style='color:#FBBF24;'" # Amber-400
+            else:
+                nps_geral_color = "style='color:#EF4444;'" # Red-500
+                
+            st.markdown(f"""
+                <div class="team-card">
+                    <div class="team-card-label">NPS Geral</div>
+                    <div class="team-card-value" {nps_geral_color}>{nps_geral}</div>
+                    <div class="team-card-help">Média do time ({avaliacoes_geral} aval.)</div>
+                </div>
+            """, unsafe_allow_html=True)
+        with col5:
             st.markdown(f"""
                 <div class="team-card">
                     <div class="team-card-label">Agentes em Análise</div>
@@ -559,7 +628,7 @@ else:
                     <div class="team-card-help">Total de analistas ativos</div>
                 </div>
             """, unsafe_allow_html=True)
-        with col5:
+        with col6:
             st.markdown(f"""
                 <div class="team-card goal-theme">
                     <div class="team-card-label">Objetivo da Equipe</div>
@@ -715,6 +784,7 @@ else:
         nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
         fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
                          color_continuous_scale='RdYlGn', range_color=[-100, 100], template="plotly_dark", text_auto=True)
+        fig_nps.add_hline(y=65, line_dash="dash", line_color="#EF4444", annotation_text="Meta NPS (65)", annotation_position="top left")
         fig_nps.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
         fig_nps.update_traces(textposition='outside')
         st.plotly_chart(fig_nps, use_container_width=True)
