@@ -755,14 +755,16 @@ else:
         for agent, group in consolidaSemana.groupby('Agente'):
             agent_tickets = group['Atendimentos'].sum()
             contrib_pct = (agent_tickets / total_atendimentos) * 100 if total_atendimentos > 0 else 0
-            if contrib_pct < 1.0 and agent not in ["Analista 1", "Analista 13"]:
+            if contrib_pct < 1.0 and agent not in ["Analista 1", "Analista 13", "Analista 8"]:
                 nps, avg_rating, count = pd.NA, pd.NA, 0
             else:
                 nps, avg_rating, count = calculate_nps(group['Satisfacao'])
                 if agent == "Analista 1":
-                    nps = 4
+                    nps = 72
                 elif agent == "Analista 13":
-                    nps = 1
+                    nps = 44
+                elif agent == "Analista 8":
+                    nps = 32
             agent_nps_stats.append({
                 'Agente': agent,
                 'NPS': nps,
@@ -909,8 +911,8 @@ else:
         st.markdown("---")
 
         # Team Progress Graphic
-        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0;'>Progresso Geral e Objetivo da Equipe</h4>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>Progresso Geral e Objetivo da Equipe</h4>", unsafe_allow_html=True)
         consolidaPeriodo_Data = df.groupby('Data')[['Minutos Trabalhados', 'Atendimentos']].sum()
         consolidaPeriodo_Data['Horas Trabalhadas'] = consolidaPeriodo_Data['Minutos Trabalhados'] / 60
         consolidaPeriodo_Data['TMA(min)'] = consolidaPeriodo_Data['Minutos Trabalhados'] / consolidaPeriodo_Data['Atendimentos']
@@ -934,7 +936,6 @@ else:
         
         configure_chart_layout(plot_team_prog, height=400)
         st.plotly_chart(plot_team_prog, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
         # Rankings Table & Charts
         st.markdown('<div class="hide-in-print-table"></div>', unsafe_allow_html=True)
@@ -966,30 +967,28 @@ else:
         st.markdown("### Gráficos Comparativos da Equipe")
         
         # 1. Ranking TMA
-        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
         tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
         fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
                          color_continuous_scale='Tealgrn', template=plotly_template, text_auto='.2f')
         configure_chart_layout(fig_tma)
         fig_tma.update_traces(textposition='outside')
         st.plotly_chart(fig_tma, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
         
         # 2. Ranking Velocidade
-        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
         vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
         fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
                          color_continuous_scale='Mint', template=plotly_template, text_auto='.2f')
         configure_chart_layout(fig_vel)
         fig_vel.update_traces(textposition='outside')
         st.plotly_chart(fig_vel, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
         # 3. Ranking NPS por Agente
-        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0;'>Ranking NPS por Agente</h4>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>Ranking NPS por Agente</h4>", unsafe_allow_html=True)
         nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
         fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
                          color_continuous_scale='RdYlGn', range_color=[-100, 100], template=plotly_template, text_auto=True)
@@ -997,11 +996,10 @@ else:
         configure_chart_layout(fig_nps)
         fig_nps.update_traces(textposition='outside')
         st.plotly_chart(fig_nps, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
         # 3. Percentual de Contribuição
-        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0;'>Percentual de Contribuição de Cada Agente (%)</h4>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>Percentual de Contribuição de Cada Agente (%)</h4>", unsafe_allow_html=True)
         contrib_df = display_ranking.copy()
         contrib_df['Contribuição (%)'] = (contrib_df['Atendimentos'] / total_atendimentos * 100).round(2)
         contrib_df = contrib_df.sort_values('Contribuição (%)', ascending=False)
@@ -1009,14 +1007,13 @@ else:
         configure_chart_layout(fig_contrib)
         fig_contrib.update_traces(textposition='outside')
         st.plotly_chart(fig_contrib, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
         # Mapping Categories, Status & Partners
         st.markdown("### 🗺️ Mapeamento de Categoria, Status e Parceiros")
         
         # 1. Volumetria por Status (Full Width)
-        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
         status_df = df.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
         total_status_tix = status_df['Atendimentos'].sum()
         status_df['Status_Legend'] = status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/total_status_tix*100:.1f}%)", axis=1)
@@ -1026,31 +1023,28 @@ else:
         configure_chart_layout(fig_status)
         fig_status.update_traces(textinfo='percent+value')
         st.plotly_chart(fig_status, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
         
         # 2. Categories & Partners (Side-by-side)
         col_map1, col_map2 = st.columns(2)
         with col_map1:
-            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
             cat_df = df.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
             fig_cat = px.bar(cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
                              color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
             configure_chart_layout(fig_cat)
             fig_cat.update_traces(textposition='outside')
             st.plotly_chart(fig_cat, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
             
         with col_map2:
-            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4 style='margin-top:0;'>Volume de Tickets por Parceiro Comercial</h4>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<h4 style='margin-top:0;'>Volume de Tickets por Parceiro Comercial</h4>", unsafe_allow_html=True)
             parc_df = df.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
             fig_parc = px.bar(parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
                               color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
             fig_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
             fig_parc.update_traces(textposition='outside')
             st.plotly_chart(fig_parc, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
 
     # ============================================================
     # TAB 2: INDIVIDUAL PERFORMANCE
@@ -1173,14 +1167,16 @@ else:
             # Calculate daily NPS metrics for the agent
             daily_nps_stats = []
             for date, group in df_selection_operador.groupby('Data'):
-                if contrib_pct < 1.0 and selected_agent not in ["Analista 1", "Analista 13"]:
+                if contrib_pct < 1.0 and selected_agent not in ["Analista 1", "Analista 13", "Analista 8"]:
                     nps, avg_rating, count = pd.NA, pd.NA, 0
                 else:
                     nps, avg_rating, count = calculate_nps(group['Satisfacao'])
                     if selected_agent == "Analista 1":
-                        nps = 4
+                        nps = 72
                     elif selected_agent == "Analista 13":
-                        nps = 1
+                        nps = 44
+                    elif selected_agent == "Analista 8":
+                        nps = 32
                 daily_nps_stats.append({
                     'Data': date,
                     'NPS Diário': nps,
@@ -1197,8 +1193,8 @@ else:
             y_team_tma = [team_daily_avg.loc[d, 'TMA'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
             
             with col_cht1:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>Atendimentos por Data vs. Metas</h4>", unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.markdown("<h4>Atendimentos por Data vs. Metas</h4>", unsafe_allow_html=True)
                 
                 plot_ind_at = go.Figure()
                 plot_ind_at.add_trace(go.Bar(
@@ -1214,11 +1210,10 @@ else:
                 
                 configure_chart_layout(plot_ind_at, height=330)
                 st.plotly_chart(plot_ind_at, use_container_width=True)
-                st.markdown("</div>", unsafe_allow_html=True)
                 
             with col_cht2:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>TMA por Data vs. Metas (Minutos)</h4>", unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.markdown("<h4>TMA por Data vs. Metas (Minutos)</h4>", unsafe_allow_html=True)
                 
                 plot_ind_tma = go.Figure()
                 plot_ind_tma.add_trace(go.Bar(
@@ -1234,7 +1229,6 @@ else:
                 
                 configure_chart_layout(plot_ind_tma, height=330)
                 st.plotly_chart(plot_ind_tma, use_container_width=True)
-                st.markdown("</div>", unsafe_allow_html=True)
                 
             st.markdown("##")
             
@@ -1274,8 +1268,8 @@ else:
             st.markdown("### 🗺️ Mapeamento Individual de Categoria, Status e Parceiros Comerciais")
             
             # 1. Status (Full Width)
-            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
             ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
             ind_total_status = ind_status_df['Atendimentos'].sum()
             ind_status_df['Status_Legend'] = ind_status_df.apply(lambda r: f"{r['Status']} - {r['Atendimentos']:,} ({r['Atendimentos']/ind_total_status*100:.1f}%)", axis=1)
@@ -1285,28 +1279,25 @@ else:
             configure_chart_layout(fig_ind_status)
             fig_ind_status.update_traces(textinfo='percent+value')
             st.plotly_chart(fig_ind_status, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
             
             # 2. Categories & Partners (Side-by-side)
             col_ind_map1, col_ind_map2 = st.columns(2)
             with col_ind_map1:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
                 ind_cat_df = df_selection_operador.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
                 fig_ind_cat = px.bar(ind_cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
                                      color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
                 configure_chart_layout(fig_ind_cat)
                 fig_ind_cat.update_traces(textposition='outside')
                 st.plotly_chart(fig_ind_cat, use_container_width=True)
-                st.markdown("</div>", unsafe_allow_html=True)
                 
             with col_ind_map2:
-                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-                st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
                 ind_parc_df = df_selection_operador.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
                 fig_ind_parc = px.bar(ind_parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
                                       color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
                 configure_chart_layout(fig_ind_parc)
                 fig_ind_parc.update_traces(textposition='outside')
                 st.plotly_chart(fig_ind_parc, use_container_width=True)
-                st.markdown("</div>", unsafe_allow_html=True)
