@@ -465,7 +465,14 @@ else:
         consolidaPeriodo_Data['Meta Atendimentos'] = potencial_equipe
         
         plot_team_prog = go.Figure()
-        plot_team_prog.add_trace(go.Bar(name='Atendimentos Realizados', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Atendimentos'], marker_color='#38BDF8'))
+        plot_team_prog.add_trace(go.Bar(
+            name='Atendimentos Realizados',
+            x=consolidaPeriodo_Data.index,
+            y=consolidaPeriodo_Data['Atendimentos'],
+            marker_color='#38BDF8',
+            text=consolidaPeriodo_Data['Atendimentos'],
+            textposition='outside'
+        ))
         plot_team_prog.add_trace(go.Scatter(name='Média Período', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Média Atendimentos Período'], line=dict(color='#818CF8', width=3)))
         plot_team_prog.add_trace(go.Scatter(name='Objetivo da Equipe', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Meta Atendimentos'], line=dict(color='#EF4444', width=2, dash='dash')))
         
@@ -504,31 +511,30 @@ else:
         
         # Column Charts for Rankings
         st.markdown("### Gráficos Comparativos da Equipe")
-        col_rank1, col_rank2 = st.columns(2)
         
-        with col_rank1:
-            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
-            tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
-            fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
-                             color_continuous_scale='Tealgrn', template="plotly_dark", text_auto='.2f')
-            fig_tma.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
-            fig_tma.update_traces(textposition='outside')
-            st.plotly_chart(fig_tma, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-            
-        with col_rank2:
-            st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
-            vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
-            fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
-                             color_continuous_scale='Mint', template="plotly_dark", text_auto='.2f')
-            fig_vel.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
-            fig_vel.update_traces(textposition='outside')
-            st.plotly_chart(fig_vel, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
+        # 1. Ranking TMA
+        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
+        tma_sorted = display_ranking.sort_values('TMA(min)', ascending=True)
+        fig_tma = px.bar(tma_sorted, x=tma_sorted.index, y='TMA(min)', color='TMA(min)',
+                         color_continuous_scale='Tealgrn', template="plotly_dark", text_auto='.2f')
+        fig_tma.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+        fig_tma.update_traces(textposition='outside')
+        st.plotly_chart(fig_tma, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+        # 2. Ranking Velocidade
+        st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
+        vel_sorted = display_ranking.sort_values('Atendimentos/Hora', ascending=False)
+        fig_vel = px.bar(vel_sorted, x=vel_sorted.index, y='Atendimentos/Hora', color='Atendimentos/Hora',
+                         color_continuous_scale='Mint', template="plotly_dark", text_auto='.2f')
+        fig_vel.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+        fig_vel.update_traces(textposition='outside')
+        st.plotly_chart(fig_vel, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Contribution Chart
+        # 3. Percentual de Contribuição
         st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
         st.markdown("<h4 style='margin-top:0;'>Percentual de Contribuição de Cada Agente (%)</h4>", unsafe_allow_html=True)
         contrib_df = display_ranking.copy()
@@ -541,9 +547,9 @@ else:
         st.plotly_chart(fig_contrib, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Mapping Categories & Status
+        # Mapping Categories, Status & Partners
         st.markdown("### 🗺️ Mapeamento de Categoria, Status e Parceiros")
-        col_map1, col_map2 = st.columns(2)
+        col_map1, col_map2, col_map3 = st.columns(3)
         
         with col_map1:
             st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
@@ -560,24 +566,21 @@ else:
             st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
             cat_df = df.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
             fig_cat = px.bar(cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
-                             color='Atendimentos', color_continuous_scale='Purpor', template="plotly_dark")
+                             color='Atendimentos', color_continuous_scale='Purpor', template="plotly_dark", text_auto=True)
             fig_cat.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+            fig_cat.update_traces(textposition='outside')
             st.plotly_chart(fig_cat, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
             
-        # Additional chart for responsibilities
-        if not df1.empty:
-            st.markdown("### 📥 Estatísticas de Entrada por Responsável")
-            resp_col_name = 'Responsavel' if 'Responsavel' in df1.columns else 'Solicitante'
-            resp_df = df1.groupby(resp_col_name)[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
-            
+        with col_map3:
             st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
-            st.markdown("<h4>Distribuição de Responsabilidade das Entradas</h4>", unsafe_allow_html=True)
-            fig_resp = px.bar(resp_df.tail(10), x='Atendimentos', y=resp_col_name, orientation='h',
+            st.markdown("<h4 style='margin-top:0;'>Volume de Tickets por Parceiro Comercial</h4>", unsafe_allow_html=True)
+            parc_df = df.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+            fig_parc = px.bar(parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
                               color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
-            fig_resp.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
-            fig_resp.update_traces(textposition='outside')
-            st.plotly_chart(fig_resp, use_container_width=True)
+            fig_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+            fig_parc.update_traces(textposition='outside')
+            st.plotly_chart(fig_parc, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
     # ════════════════════════════════════════════════════════════
@@ -602,6 +605,13 @@ else:
             soma_minutos_ind = df_selection_operador['Minutos Trabalhados'].sum()
             horas_trabalhadas_ind = soma_minutos_ind / 60 
             velocidade_media_operador = round(Operador_Atendimentos / horas_trabalhadas_ind, 2) if horas_trabalhadas_ind > 0 else 0
+            
+            # Team daily stats for comparison
+            df_comparison = df.copy()
+            df_comparison['Data'] = df_comparison['Data'].astype(str)
+            team_daily = df_comparison.groupby(['Data', 'Agente'])[['Atendimentos', 'Minutos Trabalhados']].sum().reset_index()
+            team_daily_avg = team_daily.groupby('Data')[['Atendimentos', 'Minutos Trabalhados']].mean()
+            team_daily_avg['TMA'] = team_daily_avg['Minutos Trabalhados'] / team_daily_avg['Atendimentos']
             
             # Individual KPI Cards
             col_ind1, col_ind2, col_ind3, col_ind4 = st.columns(4)
@@ -652,12 +662,24 @@ else:
             # Formulate Charts
             col_cht1, col_cht2 = st.columns(2)
             
+            # Align team average data safely
+            y_team_at = [team_daily_avg.loc[d, 'Atendimentos'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
+            y_team_tma = [team_daily_avg.loc[d, 'TMA'] if d in team_daily_avg.index else 0 for d in demandas_datas.index]
+            
             with col_cht1:
                 st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
                 st.markdown("<h4>Atendimentos por Data vs. Metas</h4>", unsafe_allow_html=True)
                 
                 plot_ind_at = go.Figure()
-                plot_ind_at.add_trace(go.Bar(name='Atendimentos', x=demandas_datas.index, y=demandas_datas['Atendimentos'], marker_color='#818CF8'))
+                plot_ind_at.add_trace(go.Bar(
+                    name='Atendimentos', 
+                    x=demandas_datas.index, 
+                    y=demandas_datas['Atendimentos'], 
+                    marker_color='#818CF8',
+                    text=demandas_datas['Atendimentos'],
+                    textposition='outside'
+                ))
+                plot_ind_at.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_at, line=dict(color='#38BDF8', width=2, dash='dot')))
                 plot_ind_at.add_trace(go.Scatter(name='Meta Individual', x=demandas_datas.index, y=[Meta_Atendimentos_Diarios]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
                 
                 plot_ind_at.update_layout(
@@ -675,7 +697,15 @@ else:
                 st.markdown("<h4>TMA por Data vs. Metas (Minutos)</h4>", unsafe_allow_html=True)
                 
                 plot_ind_tma = go.Figure()
-                plot_ind_tma.add_trace(go.Bar(name='TMA', x=demandas_datas.index, y=demandas_datas['TMA'], marker_color='#34D399'))
+                plot_ind_tma.add_trace(go.Bar(
+                    name='TMA', 
+                    x=demandas_datas.index, 
+                    y=demandas_datas['TMA'].round(2), 
+                    marker_color='#34D399',
+                    text=demandas_datas['TMA'].round(2),
+                    textposition='outside'
+                ))
+                plot_ind_tma.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_tma, line=dict(color='#38BDF8', width=2, dash='dot')))
                 plot_ind_tma.add_trace(go.Scatter(name='Meta TMA', x=demandas_datas.index, y=[Meta_TMA_Diario]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
                 
                 plot_ind_tma.update_layout(
@@ -718,3 +748,40 @@ else:
                 file_name=f"performa_cx_diario_{selected_agent.lower().replace(' ', '_')}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+            
+            # Individual Mapping Section
+            st.markdown("---")
+            st.markdown("### 🗺️ Mapeamento Individual de Categoria, Status e Parceiros Comerciais")
+            col_ind_map1, col_ind_map2, col_ind_map3 = st.columns(3)
+            
+            with col_ind_map1:
+                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+                st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
+                ind_status_df = df_selection_operador.groupby('Status')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=False)
+                fig_ind_status = px.pie(ind_status_df, values='Atendimentos', names='Status',
+                                        color_discrete_sequence=px.colors.sequential.Agsunset, template="plotly_dark")
+                fig_ind_status.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+                st.plotly_chart(fig_ind_status, use_container_width=True)
+                st.markdown("</div>", unsafe_allow_html=True)
+                
+            with col_ind_map2:
+                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+                st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
+                ind_cat_df = df_selection_operador.groupby('Categoria')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+                fig_ind_cat = px.bar(ind_cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
+                                     color='Atendimentos', color_continuous_scale='Purpor', template="plotly_dark", text_auto=True)
+                fig_ind_cat.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                fig_ind_cat.update_traces(textposition='outside')
+                st.plotly_chart(fig_ind_cat, use_container_width=True)
+                st.markdown("</div>", unsafe_allow_html=True)
+                
+            with col_ind_map3:
+                st.markdown("<div class='panel-card'>", unsafe_allow_html=True)
+                st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
+                ind_parc_df = df_selection_operador.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
+                fig_ind_parc = px.bar(ind_parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
+                                      color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
+                fig_ind_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                fig_ind_parc.update_traces(textposition='outside')
+                st.plotly_chart(fig_ind_parc, use_container_width=True)
+                st.markdown("</div>", unsafe_allow_html=True)
