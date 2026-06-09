@@ -88,7 +88,7 @@ LANG_DICT = {
         "active_lang": "Português",
         "nps_goal_annotation": "Meta NPS (65)",
         "op_metrics_title": "⚙️ Métricas de Eficiência Operacional",
-        "op_compensation_tip": "{tr('op_compensation_tip')}",
+        "op_compensation_tip": "💡 <b>Para compensar intervalos ou pausas</b> (ex: 1h de almoço), configure as horas diárias de trabalho na barra lateral.",
         "ranking_consol_title": "🏆 Ranking Consolidado de Produtividade",
         "btn_download_ranking_excel": "📥 BAIXAR EXCEL - RANKING DE PRODUTIVIDADE",
         "team_charts_title": "Gráficos Comparativos da Equipe",
