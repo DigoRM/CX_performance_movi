@@ -1133,12 +1133,18 @@ def load_resolved_data():
         except Exception as e:
             st.sidebar.error(f"Erro ao ler arquivo enviado: {e}")
             
-    # Fallback to local default file
+    # Fallback to local default file or raw GitHub URL
+    filename = 'outubro_movidesk_0110_1110_2021.xlsx'
     try:
-        df = pd.read_excel('outubro_movidesk_0110_1110_2021.xlsx')
+        import os
+        if os.path.exists(filename):
+            df = pd.read_excel(filename)
+        else:
+            url = f"https://raw.githubusercontent.com/DigoRM/CX_performance_movi/main/{filename}"
+            df = pd.read_excel(url)
         return df, True
     except Exception as e:
-        st.sidebar.warning("Base padrão 'outubro_movidesk_0110_1110_2021.xlsx' não encontrada localmente.")
+        st.sidebar.warning(f"Base padrão '{filename}' não encontrada localmente ou falhou ao baixar: {e}")
         return pd.DataFrame(), False
 
 # Helper function to load incoming data with fallback
@@ -1153,12 +1159,18 @@ def load_incoming_data():
         except Exception as e:
             st.sidebar.error(f"Erro ao ler arquivo entrante: {e}")
             
-    # Fallback to local default file
+    # Fallback to local default file or raw GitHub URL
+    filename = 'outubro_movidesk_0110_2910_2021.xlsx'
     try:
-        df = pd.read_excel('outubro_movidesk_0110_2910_2021.xlsx')
+        import os
+        if os.path.exists(filename):
+            df = pd.read_excel(filename)
+        else:
+            url = f"https://raw.githubusercontent.com/DigoRM/CX_performance_movi/main/{filename}"
+            df = pd.read_excel(url)
         return df, True
     except Exception as e:
-        st.sidebar.warning("Base padrão 'outubro_movidesk_0110_2910_2021.xlsx' não encontrada localmente.")
+        st.sidebar.warning(f"Base padrão '{filename}' não encontrada localmente ou falhou ao baixar: {e}")
         return pd.DataFrame(), False
 
 # Load Datasets
