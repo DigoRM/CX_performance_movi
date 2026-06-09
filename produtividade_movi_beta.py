@@ -1227,7 +1227,7 @@ def load_resolved_data():
             st.sidebar.error(f"Erro ao ler arquivo enviado: {e}")
             
     # Fallback to local default file or raw GitHub URL
-    filename = 'outubro_movidesk_0110_1110_2021.xlsx'
+    filename = 'dados_tickets.xlsx'
     try:
         import os
         if os.path.exists(filename):
@@ -1253,7 +1253,7 @@ def load_incoming_data():
             st.sidebar.error(f"Erro ao ler arquivo entrante: {e}")
             
     # Fallback to local default file or raw GitHub URL
-    filename = 'outubro_movidesk_0110_2910_2021.xlsx'
+    filename = 'dados_entrantes.xlsx'
     try:
         import os
         if os.path.exists(filename):
