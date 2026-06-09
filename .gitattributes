@@ -1,2 +1,0 @@
-*.xlsx filter=lfs diff=lfs merge=lfs -text
-dashboard_preview.png filter=lfs diff=lfs merge=lfs -text
