@@ -11,6 +11,248 @@ from PIL import Image
 import io
 
 # ============================================================
+# LANGUAGE & TRANSLATION SYSTEM
+# ============================================================
+LANG_DICT = {
+    "pt": {
+        "title": "PerformaCX",
+        "subtitle": "Painel analítico avançado de produtividade em Customer Experience (CX)",
+        "sidebar_db": "📂 Base de Dados",
+        "sidebar_upload_res": "Upload Tickets Resolvidos (CSV/XLSX)",
+        "sidebar_upload_inc": "Upload Tickets Entrantes (CSV/XLSX)",
+        "sidebar_params": "⚙️ Parâmetros de Meta",
+        "sidebar_hours": "Horas diárias de trabalho",
+        "sidebar_meta_agent": "Meta diária de atendimentos por agente",
+        "sidebar_exclude": tr("sidebar_exclude"),
+        "sidebar_select_agent": tr("sidebar_select_agent"),
+        "sidebar_msg_res": "Exibindo base demonstrativa padrão de Resolvidos.",
+        "sidebar_msg_inc": "Exibindo base demonstrativa padrão de Entrantes.",
+        "sidebar_period": "Período Detectado",
+        "sidebar_days": "{dias} dias úteis",
+        "tab_team": "📊 Desempenho da Equipe",
+        "tab_agent": "👤 Rendimento Individual",
+        "kpi_total_atendimentos": "Total Atendimentos",
+        "kpi_total_atendimentos_sub": "Demandas finalizadas",
+        "kpi_tma_medio": "TMA Médio",
+        "kpi_tma_medio_sub": "Tempo médio por ticket",
+        "kpi_vel_media": "Velocidade Média",
+        "kpi_vel_media_sub": "Atendimentos por hora ativa",
+        "kpi_nps_geral": "NPS Geral",
+        "kpi_nps_geral_sub": "Média do time ({count} aval.)",
+        "kpi_agentes_analise": "Agentes em Análise",
+        "kpi_agentes_analise_sub": "Total de analistas ativos",
+        "kpi_objetivo_equipe": "Objetivo da Equipe",
+        "kpi_objetivo_equipe_sub": "Meta diária combinada",
+        "op_resolved_label": "Volume Resolvido",
+        "op_resolved_sub": "Taxa de Conversão: {pct}%",
+        "op_incoming_label": "Volume Entrante",
+        "op_incoming_sub": "Média Diária: {avg:,.2f} tickets/dia",
+        "op_daily_goal_label": "Meta Diária por Agente",
+        "op_daily_goal_sub": "Jornada: {hours}h de trabalho",
+        "title_progresso_geral": "Progresso Geral e Objetivo da Equipe",
+        "title_nps_diario": "NPS por Dia (Equipe)",
+        "label_realizados": "Atendimentos Realizados",
+        "label_media_periodo": "Média Período",
+        "label_nps_diario": "NPS Diário",
+        "label_meta_nps": "Meta NPS",
+        "ranking_tma": "Ranking TMA por Agente (Menor e melhor)",
+        "ranking_vel": "Ranking Velocidade por Agente (Atendimentos/Hora)",
+        "ranking_nps": "Ranking NPS por Agente",
+        "ranking_contrib": "Percentual de Contribuição de Cada Agente (%)",
+        "title_status": "Volumetria por Status de Atendimento",
+        "title_cat": "Principais Categorias Demandadas",
+        "title_parc": "Volume de Tickets por Parceiro Comercial",
+        "title_consol": "📊 Tabela Consolidada de Produtividade",
+        "info_pdf": "💡 Para exportar em PDF: clique em <b>Compilar PDF Geral</b> e, após concluído, clique em <b>Baixar PDF Geral</b>.",
+        "btn_compile_pdf": "📊 Compilar PDF Geral",
+        "btn_compile_pdf_ind": "👤 Compilar PDF Individual",
+        "btn_download_pdf": "💾 Baixar PDF Geral",
+        "btn_download_pdf_ind": "💾 Baixar PDF Individual",
+        "btn_download_xlsx": "📥 Baixar Tabela Consolidada (Excel)",
+        "btn_download_xlsx_ind": "📥 Baixar Estatísticas Diárias (Excel)",
+        "agent_resolved": "Tickets Resolvidos",
+        "agent_resolved_sub": "Volume finalizado",
+        "agent_tma": "TMA Individual",
+        "agent_tma_sub": "Tempo médio do agente",
+        "agent_nps": "NPS do Agente",
+        "agent_nps_sub": "Média do agente ({count} aval.)",
+        "agent_contrib": "Contribuição na Equipe",
+        "agent_contrib_sub": "Participação no volume total",
+        "agent_vel": "Velocidade Individual",
+        "agent_vel_sub": "Atendimentos/hora ativa",
+        "daily_tickets_metas": "Atendimentos por Data vs. Metas",
+        "daily_tma_metas": "TMA por Data vs. Metas (Minutos)",
+        "daily_nps": "NPS por Dia",
+        "daily_stats_title": "📊 Tabela de Estatísticas Diárias do Agente",
+        "upload_warning": "Por favor, faça upload da base de dados de tickets para iniciar a análise.",
+        "active_lang": "Português",
+        "nps_goal_annotation": "Meta NPS (65)",
+    },
+    "es": {
+        "title": "PerformaCX",
+        "subtitle": "Panel analítico avanzado de productividad en Customer Experience (CX)",
+        "sidebar_db": "📂 Base de Datos",
+        "sidebar_upload_res": "Cargar Tickets Resueltos (CSV/XLSX)",
+        "sidebar_upload_inc": "Cargar Tickets Entrantes (CSV/XLSX)",
+        "sidebar_params": "⚙️ Parámetros de Meta",
+        "sidebar_hours": "Horas diarias de trabajo",
+        "sidebar_meta_agent": "Meta diaria de atendimientos por agente",
+        "sidebar_exclude": "Excluir Agentes del Análisis",
+        "sidebar_select_agent": "Seleccionar Agente para Análisis Individual",
+        "sidebar_msg_res": "Mostrando base demostrativa estándar de Resueltos.",
+        "sidebar_msg_inc": "Mostrando base demostrativa estándar de Entrantes.",
+        "sidebar_period": "Período Detectado",
+        "sidebar_days": "{dias} días hábiles",
+        "tab_team": "📊 Desempeño del Equipo",
+        "tab_agent": "👤 Rendimiento Individual",
+        "kpi_total_atendimentos": "Total Atendimientos",
+        "kpi_total_atendimentos_sub": "Demandas finalizadas",
+        "kpi_tma_medio": "TMA Medio",
+        "kpi_tma_medio_sub": "Tiempo promedio por ticket",
+        "kpi_vel_media": "Velocidad Media",
+        "kpi_vel_media_sub": "Atendimientos por hora activa",
+        "kpi_nps_geral": "NPS General",
+        "kpi_nps_geral_sub": "Promedio del equipo ({count} val.)",
+        "kpi_agentes_analise": "Agentes en Análisis",
+        "kpi_agentes_analise_sub": "Total de analistas activos",
+        "kpi_objetivo_equipe": "Objetivo del Equipo",
+        "kpi_objetivo_equipe_sub": "Meta diaria combinada",
+        "op_resolved_label": "Volumen Resuelto",
+        "op_resolved_sub": "Tasa de Conversión: {pct}%",
+        "op_incoming_label": "Volumen Entrante",
+        "op_incoming_sub": "Promedio Diario: {avg:,.2f} tickets/día",
+        "op_daily_goal_label": "Meta Diaria por Agente",
+        "op_daily_goal_sub": "Jornada: {hours}h de trabajo",
+        "title_progresso_geral": "Progreso General y Objetivo del Equipo",
+        "title_nps_diario": "NPS por Día (Equipo)",
+        "label_realizados": "Atendimientos Realizados",
+        "label_media_periodo": "Promedio Período",
+        "label_nps_diario": "NPS Diario",
+        "label_meta_nps": "Meta NPS",
+        "ranking_tma": "Ranking TMA por Agente (Menor y mejor)",
+        "ranking_vel": "Ranking Velocidad por Agente (Atendimientos/Hora)",
+        "ranking_nps": "Ranking NPS por Agente",
+        "ranking_contrib": "Porcentaje de Contribución de Cada Agente (%)",
+        "title_status": "Volumetría por Status de Atendimiento",
+        "title_cat": "Principales Categorías Demandadas",
+        "title_parc": "Volumen de Tickets por Socio Comercial",
+        "title_consol": "📊 Tabla Consolidada de Productividad",
+        "info_pdf": "💡 Para exportar en PDF: haga clic en <b>Compilar PDF General</b> y, una vez terminado, en <b>Descargar PDF General</b>.",
+        "btn_compile_pdf": "📊 Compilar PDF General",
+        "btn_compile_pdf_ind": "👤 Compilar PDF Individual",
+        "btn_download_pdf": "💾 Descargar PDF General",
+        "btn_download_pdf_ind": "💾 Descargar PDF Individual",
+        "btn_download_xlsx": "📥 Descargar Tabla Consolidada (Excel)",
+        "btn_download_xlsx_ind": "📥 Descargar Estadísticas Diarias (Excel)",
+        "agent_resolved": "Tickets Resueltos",
+        "agent_resolved_sub": "Volumen finalizado",
+        "agent_tma": "TMA Individual",
+        "agent_tma_sub": "Tiempo promedio del agente",
+        "agent_nps": "NPS del Agente",
+        "agent_nps_sub": "Promedio del agente ({count} val.)",
+        "agent_contrib": "Contribución en el Equipo",
+        "agent_contrib_sub": "Participación en el volumen total",
+        "agent_vel": "Velocidad Individual",
+        "agent_vel_sub": "Atendimientos/hora activa",
+        "daily_tickets_metas": "Atendimientos por Fecha vs. Metas",
+        "daily_tma_metas": "TMA por Fecha vs. Metas (Minutos)",
+        "daily_nps": "NPS por Día",
+        "daily_stats_title": "📊 Tabla de Estadísticas Diarias del Agente",
+        "upload_warning": "Por favor, cargue la base de datos de tickets para iniciar el análisis.",
+        "active_lang": "Español",
+        "nps_goal_annotation": "Meta NPS (65)",
+    },
+    "en": {
+        "title": "PerformaCX",
+        "subtitle": "Advanced operational analytics dashboard for Customer Experience (CX)",
+        "sidebar_db": "📂 Database",
+        "sidebar_upload_res": "Upload Resolved Tickets (CSV/XLSX)",
+        "sidebar_upload_inc": "Upload Incoming Tickets (CSV/XLSX)",
+        "sidebar_params": "⚙️ Goal Parameters",
+        "sidebar_hours": "Daily working hours",
+        "sidebar_meta_agent": "Daily resolution goal per agent",
+        "sidebar_exclude": "Exclude Agents from Analysis",
+        "sidebar_select_agent": "Select Agent for Individual Analysis",
+        "sidebar_msg_res": "Displaying default demo resolved database.",
+        "sidebar_msg_inc": "Displaying default demo incoming database.",
+        "sidebar_period": "Detected Period",
+        "sidebar_days": "{dias} business days",
+        "tab_team": "📊 Team Performance",
+        "tab_agent": "👤 Individual Rendition",
+        "kpi_total_atendimentos": "Total Resolutions",
+        "kpi_total_atendimentos_sub": "Finished tickets",
+        "kpi_tma_medio": "Average TMA",
+        "kpi_tma_medio_sub": "Average time per ticket",
+        "kpi_vel_media": "Average Speed",
+        "kpi_vel_media_sub": "Resolutions per active hour",
+        "kpi_nps_geral": "Overall NPS",
+        "kpi_nps_geral_sub": "Team average ({count} reviews)",
+        "kpi_agentes_analise": "Agents in Analysis",
+        "kpi_agentes_analise_sub": "Total active agents",
+        "kpi_objetivo_equipe": "Team Objective",
+        "kpi_objetivo_equipe_sub": "Daily combined goal",
+        "op_resolved_label": "Resolved Volume",
+        "op_resolved_sub": "Conversion Rate: {pct}%",
+        "op_incoming_label": "Incoming Volume",
+        "op_incoming_sub": "Daily Average: {avg:,.2f} tickets/day",
+        "op_daily_goal_label": "Daily Goal per Agent",
+        "op_daily_goal_sub": "Shift: {hours}h of work",
+        "title_progresso_geral": "Overall Progress and Team Objective",
+        "title_nps_diario": "NPS by Day (Team)",
+        "label_realizados": "Resolutions Made",
+        "label_media_periodo": "Period Average",
+        "label_nps_diario": "Daily NPS",
+        "label_meta_nps": "NPS Goal",
+        "ranking_tma": "TMA Ranking by Agent (Lower is better)",
+        "ranking_vel": "Speed Ranking by Agent (Resolutions/Hour)",
+        "ranking_nps": "Agent NPS Ranking",
+        "ranking_contrib": "Agent Contribution Percentage (%)",
+        "title_status": "Ticket Volume by Service Status",
+        "title_cat": "Top Requested Categories",
+        "title_parc": "Ticket Volume by Commercial Partner",
+        "title_consol": "📊 Consolidated Productivity Table",
+        "info_pdf": "💡 To export in PDF: click on <b>Compile General PDF</b> and, once completed, click on <b>Download General PDF</b>.",
+        "btn_compile_pdf": "📊 Compile General PDF",
+        "btn_compile_pdf_ind": "👤 Compile Individual PDF",
+        "btn_download_pdf": "💾 Download General PDF",
+        "btn_download_pdf_ind": "💾 Download Individual PDF",
+        "btn_download_xlsx": "📥 Download Consolidated Table (Excel)",
+        "btn_download_xlsx_ind": "📥 Download Daily Statistics (Excel)",
+        "agent_resolved": "Resolved Tickets",
+        "agent_resolved_sub": "Volume resolved",
+        "agent_tma": "Individual TMA",
+        "agent_tma_sub": "Agent average time",
+        "agent_nps": "Agent NPS",
+        "agent_nps_sub": "Agent average ({count} reviews)",
+        "agent_contrib": "Team Contribution",
+        "agent_contrib_sub": "Share in total volume",
+        "agent_vel": "Individual Speed",
+        "agent_vel_sub": "Resolutions/active hour",
+        "daily_tickets_metas": "Resolutions by Date vs. Goals",
+        "daily_tma_metas": "TMA by Date vs. Goals (Minutes)",
+        "daily_nps": "Daily NPS",
+        "daily_stats_title": "📊 Agent Daily Statistics Table",
+        "upload_warning": "Please upload the ticket database to start the analysis.",
+        "active_lang": "English",
+        "nps_goal_annotation": "NPS Goal (65)",
+    }
+}
+
+# Add Language Selector dropdown in Sidebar
+st.sidebar.subheader("🌐 Idioma / Language")
+selected_lang_label = st.sidebar.selectbox(
+    "Select Language",
+    ["Português", "Español", "English"],
+    index=0,
+    label_visibility="collapsed"
+)
+lang_code = "pt" if selected_lang_label == "Português" else "es" if selected_lang_label == "Español" else "en"
+
+def tr(key):
+    return LANG_DICT[lang_code].get(key, key)
+
+
+# ============================================================
 # 1. PAGE CONFIGURATION & THEME
 # ==============================# Render Sidebar Title First to drive page styles
 st.sidebar.markdown("<h2 style='color:#38BDF8; font-weight:800; margin-bottom:5px;'>📈 PerformaCX</h2>", unsafe_allow_html=True)
@@ -517,7 +759,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.set_xy(10, 78)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "Progresso Geral e Objetivo da Equipe")
+    pdf.cell(0, 5, tr("title_progresso_geral"))
     
     # Team Progress Chart Image
     img_team_prog = fig_to_pil(figs["plot_team_prog"], width=900, height=360)
@@ -533,7 +775,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "NPS por Dia (Equipe)")
+    pdf.cell(0, 5, tr("title_nps_diario"))
     
     # Team Daily NPS Chart Image
     img_team_daily_nps = fig_to_pil(figs["plot_team_daily_nps"], width=900, height=360)
@@ -549,7 +791,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "Ranking TMA (Menor e melhor)")
+    pdf.cell(0, 5, tr("ranking_tma"))
     img_tma = fig_to_pil(figs["fig_tma"], width=900, height=340)
     pdf.image(img_tma, x=10, y=26, w=277, h=76)
     
@@ -557,7 +799,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.set_xy(10, 108)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "Ranking Velocidade (Atendimentos/Hora)")
+    pdf.cell(0, 5, tr("ranking_vel"))
     img_vel = fig_to_pil(figs["fig_vel"], width=900, height=340)
     pdf.image(img_vel, x=10, y=114, w=277, h=76)
     
@@ -571,7 +813,7 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "Ranking NPS por Agente")
+    pdf.cell(0, 5, tr("ranking_nps"))
     img_nps = fig_to_pil(figs["fig_nps"], width=900, height=340)
     pdf.image(img_nps, x=10, y=26, w=277, h=76)
     
@@ -592,21 +834,21 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     # Left: Status Pie Chart
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "Volumetria por Status de Atendimento")
+    pdf.cell(0, 5, tr("title_status"))
     img_status = fig_to_pil(figs["fig_status"], width=600, height=680)
     pdf.image(img_status, x=10, y=26, w=134, h=162)
     
     # Right Top: Categories
     pdf.set_xy(152, 20)
     pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "Principais Categorias Demandadas")
+    pdf.cell(0, 5, tr("title_cat"))
     img_cat = fig_to_pil(figs["fig_cat"], width=600, height=340)
     pdf.image(img_cat, x=152, y=26, w=134, h=76)
     
     # Right Bottom: Partners
     pdf.set_xy(152, 106)
     pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "Volume de Tickets por Parceiro Comercial")
+    pdf.cell(0, 5, tr("title_parc"))
     img_parc = fig_to_pil(figs["fig_parc"], width=600, height=340)
     pdf.image(img_parc, x=152, y=112, w=134, h=76)
     
@@ -661,7 +903,7 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     pdf.set_xy(10, 52)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "Atendimentos por Data vs. Metas")
+    pdf.cell(0, 5, tr("daily_tickets_metas"))
     img_ind_at = fig_to_pil(figs["plot_ind_at"], width=900, height=360)
     pdf.image(img_ind_at, x=10, y=58, w=277, h=120)
     
@@ -675,7 +917,7 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "TMA por Data vs. Metas (Minutos)")
+    pdf.cell(0, 5, tr("daily_tma_metas"))
     img_ind_tma = fig_to_pil(figs["plot_ind_tma"], width=900, height=360)
     pdf.image(img_ind_tma, x=10, y=26, w=277, h=72)
     
@@ -683,7 +925,7 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     pdf.set_xy(10, 108)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
-    pdf.cell(0, 5, "NPS por Dia")
+    pdf.cell(0, 5, tr("daily_nps"))
     
     img_ind_nps = fig_to_pil(figs["plot_ind_nps"], width=900, height=360)
     pdf.image(img_ind_nps, x=10, y=114, w=277, h=72)
@@ -697,21 +939,21 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     # Left: Status Pie Chart
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "Volumetria por Status (Individual)")
+    pdf.cell(0, 5, tr("title_status"))
     img_ind_status = fig_to_pil(figs["fig_ind_status"], width=600, height=680)
     pdf.image(img_ind_status, x=10, y=26, w=134, h=162)
     
     # Right Top: Categories
     pdf.set_xy(152, 20)
     pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "Categorias Demandadas (Individual)")
+    pdf.cell(0, 5, tr("title_cat"))
     img_ind_cat = fig_to_pil(figs["fig_ind_cat"], width=600, height=340)
     pdf.image(img_ind_cat, x=152, y=26, w=134, h=76)
     
     # Right Bottom: Partners
     pdf.set_xy(152, 106)
     pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "Tickets por Parceiro Comercial (Individual)")
+    pdf.cell(0, 5, tr("title_parc"))
     img_ind_parc = fig_to_pil(figs["fig_ind_parc"], width=600, height=340)
     pdf.image(img_ind_parc, x=152, y=112, w=134, h=76)
     
@@ -870,14 +1112,14 @@ def get_deterministic_nps_from_id(ticket_id, agent_name):
 
 
 # Section 1: Data Uploads
-st.sidebar.subheader("📂 Base de Dados")
-uploaded_file = st.sidebar.file_uploader(label="Upload Tickets Resolvidos (CSV/XLSX)", type=['csv','xlsx'])
-uploaded_file1 = st.sidebar.file_uploader(label="Upload Tickets Entrantes (CSV/XLSX)", type=['csv','xlsx'])
+st.sidebar.subheader(tr("sidebar_db"))
+uploaded_file = st.sidebar.file_uploader(label=tr("sidebar_upload_res"), type=['csv','xlsx'])
+uploaded_file1 = st.sidebar.file_uploader(label=tr("sidebar_upload_inc"), type=['csv','xlsx'])
 
 # Section 2: Parameters
-st.sidebar.markdown("### ⚙️ Parâmetros de Meta")
-input_Horas_Consideradas = st.sidebar.number_input('Horas diárias de trabalho', min_value=1.0, max_value=10.0, value=8.0, step=0.25)
-input_Atendimentos_Meta = st.sidebar.number_input('Meta diária de atendimentos por agente', min_value=1, max_value=500, value=100, step=1)
+st.sidebar.markdown("### " + tr("sidebar_params"))
+input_Horas_Consideradas = st.sidebar.number_input(tr('sidebar_hours'), min_value=1.0, max_value=10.0, value=8.0, step=0.25)
+input_Atendimentos_Meta = st.sidebar.number_input(tr('sidebar_meta_agent'), min_value=1, max_value=500, value=100, step=1)
 
 # Helper function to load resolved data with fallback
 def load_resolved_data():
@@ -925,9 +1167,9 @@ df_incoming_raw, using_default_inc = load_incoming_data()
 
 # Show status in sidebar
 if using_default_res:
-    st.sidebar.info("Exibindo base demonstrativa padrão de Resolvidos.")
+    st.sidebar.info(tr("sidebar_msg_res"))
 if using_default_inc:
-    st.sidebar.info("Exibindo base demonstrativa padrão de Entrantes.")
+    st.sidebar.info(tr("sidebar_msg_inc"))
 
 if not df_resolved_raw.empty:
     dias_detectados = df_resolved_raw['Data'].nunique()
@@ -941,8 +1183,8 @@ if not df_resolved_raw.empty:
             margin-bottom: 15px;
             text-align: center;
         ">
-            <span style="font-size: 11px; color: #94A3B8; font-weight: 700; text-transform: uppercase;">Período Detectado</span>
-            <div style="font-size: 20px; font-weight: 800; color: #38BDF8; margin-top: 2px;">{dias_detectados} dias úteis</div>
+            <span style="font-size: 11px; color: #94A3B8; font-weight: 700; text-transform: uppercase;">' + tr('sidebar_period') + '</span>
+            <div style="font-size: 20px; font-weight: 800; color: #38BDF8; margin-top: 2px;">' + tr('sidebar_days').format(dias=dias_detectados) + '</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -983,7 +1225,7 @@ if not df_resolved_raw.empty:
     # Dynamic Agent Filter
     all_agents = sorted(df['Agente'].unique().tolist())
     excluded_agents = st.sidebar.multiselect(
-        "Excluir Agentes da Análise",
+        tr("sidebar_exclude"),
         options=all_agents,
         default=[]
     )
@@ -997,7 +1239,7 @@ if not df_resolved_raw.empty:
 
     # Active Agent Filter for individual Analysis
     remaining_agents = sorted(df['Agente'].unique().tolist())
-    selected_agent = st.sidebar.selectbox("Selecionar Agente para Análise Individual", options=remaining_agents)
+    selected_agent = st.sidebar.selectbox(tr("sidebar_select_agent"), options=remaining_agents)
 else:
     df = pd.DataFrame()
     agent_contrib = {}
@@ -1046,13 +1288,13 @@ else:
 # ============================================================
 # 4. MAIN HEADERS & TABS
 # ============================================================
-st.markdown("<h1 class='main-header'>PerformaCX - Dashboard de Desempenho</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-header'>Painel analítico avançado de produtividade em Customer Experience (CX)</p>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-header'>' + tr('title') + '</h1>", unsafe_allow_html=True)
+st.markdown("<p class='sub-header'>' + tr('subtitle') + '</p>", unsafe_allow_html=True)
 
 if df.empty:
-    st.warning("Por favor, faça upload da base de dados de tickets para iniciar a análise.")
+    st.warning(tr("upload_warning"))
 else:
-    tab_team, tab_agent = st.tabs(["📊 Desempenho da Equipe", "👤 Rendimento Individual"])
+    tab_team, tab_agent = st.tabs([tr("tab_team"), tr("tab_agent")])
     
     # Mathematical variables setup
     dias_analisados = max(1, df['Data'].nunique())
@@ -1145,15 +1387,15 @@ else:
         
         plot_team_prog = go.Figure()
         plot_team_prog.add_trace(go.Bar(
-            name='Atendimentos Realizados',
+            name=tr('label_realizados'),
             x=consolidaPeriodo_Data.index,
             y=consolidaPeriodo_Data['Atendimentos'],
             marker_color='#38BDF8',
             text=consolidaPeriodo_Data['Atendimentos'],
             textposition='outside'
         ))
-        plot_team_prog.add_trace(go.Scatter(name='Média Período', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Média Atendimentos Período'], line=dict(color='#818CF8', width=3)))
-        plot_team_prog.add_trace(go.Scatter(name='Objetivo da Equipe', x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Meta Atendimentos'], line=dict(color='#EF4444', width=2, dash='dash')))
+        plot_team_prog.add_trace(go.Scatter(name=tr('label_media_periodo'), x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Média Atendimentos Período'], line=dict(color='#818CF8', width=3)))
+        plot_team_prog.add_trace(go.Scatter(name=tr('kpi_objetivo_equipe'), x=consolidaPeriodo_Data.index, y=consolidaPeriodo_Data['Meta Atendimentos'], line=dict(color='#EF4444', width=2, dash='dash')))
         configure_chart_layout(plot_team_prog, height=400)
 
         # Calculate Team's Daily NPS
@@ -1177,14 +1419,14 @@ else:
 
         plot_team_daily_nps = go.Figure()
         plot_team_daily_nps.add_trace(go.Bar(
-            name='NPS Diário',
+            name=tr('label_nps_diario'),
             x=df_team_daily_nps.index,
             y=df_team_daily_nps['NPS'],
             marker_color='#F59E0B',
             text=df_team_daily_nps['NPS'],
             textposition='outside'
         ))
-        plot_team_daily_nps.add_trace(go.Scatter(name='Meta NPS', x=df_team_daily_nps.index, y=[65]*len(df_team_daily_nps), line=dict(color='#EF4444', width=2, dash='dash')))
+        plot_team_daily_nps.add_trace(go.Scatter(name=tr('label_meta_nps'), x=df_team_daily_nps.index, y=[65]*len(df_team_daily_nps), line=dict(color='#EF4444', width=2, dash='dash')))
         
         # Adjust Y-axis range to prevent value label clipping
         try:
@@ -1228,7 +1470,7 @@ else:
         nps_sorted = display_ranking.dropna(subset=['NPS']).sort_values('NPS', ascending=False)
         fig_nps = px.bar(nps_sorted, x=nps_sorted.index, y='NPS', color='NPS',
                          color_continuous_scale='RdYlGn', range_color=[-100, 100], template=plotly_template, text_auto=True)
-        fig_nps.add_hline(y=65, line_dash="dash", line_color="#EF4444", annotation_text="Meta NPS (65)", annotation_position="top left")
+        fig_nps.add_hline(y=65, line_dash="dash", line_color="#EF4444", annotation_text=tr("nps_goal_annotation"), annotation_position="top left")
         configure_chart_layout(fig_nps)
         fig_nps.update_traces(textposition='outside')
 
@@ -1272,25 +1514,25 @@ else:
         # --- NOW RENDER TAB 1 LAYOUT ---
         col_team_title, col_team_print = st.columns([1.5, 1.5])
         with col_team_title:
-            st.markdown("### 📊 Indicadores Gerais da Equipe")
-            st.markdown("<span style='font-size: 12px; color: #94A3B8;'>💡 Para exportar em PDF: clique em <b>Compilar PDF Geral</b> e, após concluído, clique em <b>Baixar PDF Geral</b>.</span>", unsafe_allow_html=True)
+            st.markdown("### " + tr("tab_team"))
+            st.markdown("<span style='font-size: 12px; color: #94A3B8;'>" + tr("info_pdf") + "</span>", unsafe_allow_html=True)
         with col_team_print:
             col_gen, col_dl = st.columns(2)
             with col_gen:
-                if st.button("📊 Compilar PDF Geral", key="btn_pdf_geral", use_container_width=True):
+                if st.button(tr("btn_compile_pdf"), key="btn_pdf_geral", use_container_width=True):
                     with st.spinner("Gerando PDF com os gráficos..."):
                         metrics_kpi = [
-                            {"label": "Total Atendimentos", "value": f"{total_atendimentos:,}", "sub": "Demandas finalizadas"},
-                            {"label": "TMA Médio", "value": f"{tma_medio:.2f} min", "sub": "Tempo médio por ticket"},
-                            {"label": "Velocidade Média", "value": f"{media_atendimentos_hora:.2f} at./h", "sub": "Atendimentos por hora ativa"},
-                            {"label": "NPS Geral", "value": str(nps_geral), "sub": f"Média do time ({avaliacoes_geral} aval.)"},
-                            {"label": "Agentes em Análise", "value": str(Agentes_Analisados), "sub": "Total de analistas ativos"},
-                            {"label": "Objetivo da Equipe", "value": f"{potencial_equipe:,} at.", "sub": "Meta diária combinada"}
+                            {"label": tr("kpi_total_atendimentos"), "value": f"{total_atendimentos:,}", "sub": tr("kpi_total_atendimentos_sub")},
+                            {"label": tr("kpi_tma_medio"), "value": f"{tma_medio:.2f} min", "sub": tr("kpi_tma_medio_sub")},
+                            {"label": tr("kpi_vel_media"), "value": f"{media_atendimentos_hora:.2f} at./h", "sub": tr("kpi_vel_media_sub")},
+                            {"label": tr("kpi_nps_geral"), "value": str(nps_geral), "sub": tr("kpi_nps_geral_sub").format(count=avaliacoes_geral)},
+                            {"label": tr("kpi_agentes_analise"), "value": str(Agentes_Analisados), "sub": tr("kpi_agentes_analise_sub")},
+                            {"label": tr("kpi_objetivo_equipe"), "value": f"{potencial_equipe:,} at.", "sub": tr("kpi_objetivo_equipe_sub")}
                         ]
                         metrics_op = [
-                            {"label": "Volume Resolvido", "value": f"{total_tickets_atendidos:,} tickets", "sub": f"Taxa de Conversão: {conversao_atendidos}%"},
-                            {"label": "Volume Entrante", "value": f"{total_entrantes:,} tickets", "sub": f"Média Diária: {entrantes_dia:,.2f} tickets/dia"},
-                            {"label": "Meta Diária por Agente", "value": str(Meta_Atendimentos_Diarios), "sub": f"Jornada: {Tempo_Disponivel_Horas}h de trabalho"}
+                            {"label": tr("op_resolved_label"), "value": f"{total_tickets_atendidos:,} tickets", "sub": tr("op_resolved_sub").format(pct=conversao_atendidos)},
+                            {"label": tr("op_incoming_label"), "value": f"{total_entrantes:,} tickets", "sub": tr("op_incoming_sub").format(avg=entrantes_dia)},
+                            {"label": tr("op_daily_goal_label"), "value": str(Meta_Atendimentos_Diarios), "sub": tr("op_daily_goal_sub").format(hours=Tempo_Disponivel_Horas)}
                         ]
                         figs = {
                             "plot_team_prog": plot_team_prog,
@@ -1611,14 +1853,14 @@ else:
             # 3. NPS Chart (Individual)
             plot_ind_nps = go.Figure()
             plot_ind_nps.add_trace(go.Bar(
-                name='NPS Diário', 
+                name=tr('label_nps_diario'), 
                 x=demandas_datas.index, 
                 y=demandas_datas['NPS Diário'], 
                 marker_color='#F59E0B',
                 text=demandas_datas['NPS Diário'],
                 textposition='outside'
             ))
-            plot_ind_nps.add_trace(go.Scatter(name='Meta NPS', x=demandas_datas.index, y=[65]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
+            plot_ind_nps.add_trace(go.Scatter(name=tr('label_meta_nps'), x=demandas_datas.index, y=[65]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
             
             # Adjust Y-axis range to prevent value label clipping
             try:
@@ -1676,11 +1918,11 @@ else:
                     if st.button("👤 Compilar PDF Agente", key="btn_pdf_agente", use_container_width=True):
                         with st.spinner(f"Gerando PDF de {selected_agent}..."):
                             metrics_kpi = [
-                                {"label": "Total Atendimentos", "value": f"{Operador_Atendimentos:,}", "sub": "Atendimentos do agente"},
-                                {"label": "TMA Individual", "value": f"{Operador_TMA:.2f} min", "sub": "Tempo médio por ticket"},
-                                {"label": "Velocidade Individual", "value": f"{velocidade_media_operador:.2f} at./h", "sub": "Atendimentos por hora ativa"},
-                                {"label": "NPS do Agente", "value": op_nps_str, "sub": f"Score Net Promoter ({op_ratings_count} aval.)"},
-                                {"label": "Contribuição na Equipe", "value": f"{Operador_Influencia_Atendimentos:.2f}%", "sub": "Percentual de participação"}
+                                {"label": tr("kpi_total_atendimentos"), "value": f"{Operador_Atendimentos:,}", "sub": "Atendimentos do agente"},
+                                {"label": tr("agent_tma"), "value": f"{Operador_TMA:.2f} min", "sub": tr("kpi_tma_medio_sub")},
+                                {"label": tr("agent_vel"), "value": f"{velocidade_media_operador:.2f} at./h", "sub": tr("kpi_vel_media_sub")},
+                                {"label": tr("agent_nps"), "value": op_nps_str, "sub": f"Score Net Promoter ({op_ratings_count} aval.)"},
+                                {"label": tr("agent_contrib"), "value": f"{Operador_Influencia_Atendimentos:.2f}%", "sub": "Percentual de participação"}
                             ]
                             figs = {
                                 "plot_ind_at": plot_ind_at,
