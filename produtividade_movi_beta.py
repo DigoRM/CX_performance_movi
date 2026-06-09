@@ -87,6 +87,31 @@ LANG_DICT = {
         "upload_warning": "Por favor, faça upload da base de dados de tickets para iniciar a análise.",
         "active_lang": "Português",
         "nps_goal_annotation": "Meta NPS (65)",
+        "op_metrics_title": "⚙️ Métricas de Eficiência Operacional",
+        "op_compensation_tip": "{tr('op_compensation_tip')}",
+        "ranking_consol_title": "🏆 Ranking Consolidado de Produtividade",
+        "btn_download_ranking_excel": "📥 BAIXAR EXCEL - RANKING DE PRODUTIVIDADE",
+        "team_charts_title": "Gráficos Comparativos da Equipe",
+        "team_mapping_title": "🗺️ Mapeamento de Categoria, Status e Parceiros",
+        "agent_performance_report": "👤 Relatório de Desempenho:",
+        "agent_pdf_compile_info": "💡 Para exportar em PDF: clique em <b>Compilar PDF Agente</b> e, após concluído, clique em <b>Baixar PDF Agente</b>.",
+        "btn_compile_pdf_agent": "👤 Compilar PDF Agente",
+        "btn_download_pdf_agent": "📥 Baixar PDF Agente",
+        "btn_download_pdf_agent_locked": "📥 Baixar PDF Agente (Bloqueado)",
+        "agent_pdf_help_locked": "Clique em Compilar PDF Agente primeiro.",
+        "agent_daily_trend_title": "Tendência de Produtividade por Dia",
+        "agent_daily_table_title": "📅 Tabela de Estatísticas Diárias do Agente",
+        "btn_download_agent_daily_excel": "📥 BAIXAR EXCEL - RELATÓRIO DIÁRIO DE {agent}",
+        "agent_mapping_title": "🗺️ Mapeamento Individual de Categoria, Status e Parceiros Comerciais",
+        "agent_status_title": "Volumetria por Status (Individual)",
+        "agent_cat_title": "Categorias Demandadas (Individual)",
+        "agent_parc_title": "Tickets por Parceiro Comercial (Individual)",
+        "no_agent_data": "Este agente não possui atendimentos registrados com os filtros selecionados.",
+        "agent_resolved_sub": "Atendimentos do agente",
+        "agent_contrib_sub": "Percentual de participação",
+        "chart_legend_team_avg": "Média da Equipe",
+        "chart_legend_ind_goal": "Meta Individual",
+        "chart_legend_tma_goal": "Meta TMA",
     },
     "es": {
         "title": "PerformaCX",
@@ -130,7 +155,7 @@ LANG_DICT = {
         "label_nps_diario": "NPS Diario",
         "label_meta_nps": "Meta NPS",
         "ranking_tma": "Ranking TMA por Agente (Menor y mejor)",
-        "ranking_vel": "Ranking Velocidad por Agente (Atendimientos/Hora)",
+        "ranking_vel": "Ranking Velocidade por Agente (Atendimientos/Hora)",
         "ranking_nps": "Ranking NPS por Agente",
         "ranking_contrib": "Porcentaje de Contribución de Cada Agente (%)",
         "title_status": "Volumetría por Status de Atendimiento",
@@ -143,7 +168,7 @@ LANG_DICT = {
         "btn_download_pdf": "💾 Descargar PDF General",
         "btn_download_pdf_ind": "💾 Descargar PDF Individual",
         "btn_download_xlsx": "📥 Descargar Tabla Consolidada (Excel)",
-        "btn_download_xlsx_ind": "📥 Descargar Estadísticas Diarias (Excel)",
+        "btn_download_xlsx_ind": "📥 Descargar Estadísticas Diárias (Excel)",
         "agent_resolved": "Tickets Resueltos",
         "agent_resolved_sub": "Volumen finalizado",
         "agent_tma": "TMA Individual",
@@ -161,6 +186,31 @@ LANG_DICT = {
         "upload_warning": "Por favor, cargue la base de datos de tickets para iniciar el análisis.",
         "active_lang": "Español",
         "nps_goal_annotation": "Meta NPS (65)",
+        "op_metrics_title": "⚙️ Métricas de Eficiencia Operacional",
+        "op_compensation_tip": "💡 <b>Para compensar intervalos o paradas</b> (ej: 1h de almuerzo), configure la jornada de trabajo en la barra lateral.",
+        "ranking_consol_title": "🏆 Ranking Consolidado de Productividad",
+        "btn_download_ranking_excel": "📥 DESCARGAR EXCEL - RANKING DE PRODUCTIVIDAD",
+        "team_charts_title": "Gráficos Comparativos del Equipo",
+        "team_mapping_title": "🗺️ Mapeamiento de Categoría, Estado y Socios",
+        "agent_performance_report": "👤 Reporte de Rendimiento:",
+        "agent_pdf_compile_info": "💡 Para exportar en PDF: haga clic en <b>Compilar PDF Agente</b> y, una vez terminado, en <b>Descargar PDF Agente</b>.",
+        "btn_compile_pdf_agent": "👤 Compilar PDF Agente",
+        "btn_download_pdf_agent": "📥 Descargar PDF Agente",
+        "btn_download_pdf_agent_locked": "📥 Descargar PDF Agente (Bloqueado)",
+        "agent_pdf_help_locked": "Haga clic en Compilar PDF Agente primero.",
+        "agent_daily_trend_title": "Tendencia de Productividad por Día",
+        "agent_daily_table_title": "📅 Tabla de Estadísticas Diarias del Agente",
+        "btn_download_agent_daily_excel": "📥 DESCARGAR EXCEL - REPORTE DIARIO DE {agent}",
+        "agent_mapping_title": "🗺️ Mapeamiento Individual de Categoría, Estado y Socios Comerciales",
+        "agent_status_title": "Volumetría por Status (Individual)",
+        "agent_cat_title": "Categorías Demandadas (Individual)",
+        "agent_parc_title": "Tickets por Socio Comercial (Individual)",
+        "no_agent_data": "Este agente no tiene atendimientos registrados con los filtros seleccionados.",
+        "agent_resolved_sub": "Atendimientos del agente",
+        "agent_contrib_sub": "Porcentaje de participación",
+        "chart_legend_team_avg": "Promedio del Equipo",
+        "chart_legend_ind_goal": "Meta Individual",
+        "chart_legend_tma_goal": "Meta TMA",
     },
     "en": {
         "title": "PerformaCX",
@@ -235,6 +285,31 @@ LANG_DICT = {
         "upload_warning": "Please upload the ticket database to start the analysis.",
         "active_lang": "English",
         "nps_goal_annotation": "NPS Goal (65)",
+        "op_metrics_title": "⚙️ Operational Efficiency Metrics",
+        "op_compensation_tip": "💡 <b>To compensate for breaks or pauses</b> (e.g. 1h lunch), configure the daily working hours in the sidebar.",
+        "ranking_consol_title": "🏆 Consolidated Productivity Ranking",
+        "btn_download_ranking_excel": "📥 DOWNLOAD EXCEL - PRODUCTIVITY RANKING",
+        "team_charts_title": "Team Comparative Charts",
+        "team_mapping_title": "🗺️ Category, Status & Partners Mapping",
+        "agent_performance_report": "👤 Performance Report:",
+        "agent_pdf_compile_info": "💡 To export in PDF: click on <b>Compile Agent PDF</b> and, once completed, click on <b>Download Agent PDF</b>.",
+        "btn_compile_pdf_agent": "👤 Compile Agent PDF",
+        "btn_download_pdf_agent": "📥 Download Agent PDF",
+        "btn_download_pdf_agent_locked": "📥 Download Agent PDF (Locked)",
+        "agent_pdf_help_locked": "Click on Compile Agent PDF first.",
+        "agent_daily_trend_title": "Productivity Trend by Day",
+        "agent_daily_table_title": "📅 Agent Daily Statistics Table",
+        "btn_download_agent_daily_excel": "📥 DOWNLOAD EXCEL - DAILY REPORT OF {agent}",
+        "agent_mapping_title": "🗺️ Individual Category, Status & Partners Mapping",
+        "agent_status_title": "Volume by Status (Individual)",
+        "agent_cat_title": "Requested Categories (Individual)",
+        "agent_parc_title": "Tickets by Partner (Individual)",
+        "no_agent_data": "This agent has no registered tickets with the selected filters.",
+        "agent_resolved_sub": "Agent resolutions",
+        "agent_contrib_sub": "Share percentage",
+        "chart_legend_team_avg": "Team Average",
+        "chart_legend_ind_goal": "Individual Goal",
+        "chart_legend_tma_goal": "TMA Goal",
     }
 }
 
@@ -1195,8 +1270,8 @@ if not df_resolved_raw.empty:
             margin-bottom: 15px;
             text-align: center;
         ">
-            <span style="font-size: 11px; color: #94A3B8; font-weight: 700; text-transform: uppercase;">' + tr('sidebar_period') + '</span>
-            <div style="font-size: 20px; font-weight: 800; color: #38BDF8; margin-top: 2px;">' + tr('sidebar_days').format(dias=dias_detectados) + '</div>
+            <span style="font-size: 11px; color: #94A3B8; font-weight: 700; text-transform: uppercase;">{tr('sidebar_period')}</span>
+            <div style="font-size: 20px; font-weight: 800; color: #38BDF8; margin-top: 2px;">{tr('sidebar_days').format(dias=dias_detectados)}</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -1300,8 +1375,8 @@ else:
 # ============================================================
 # 4. MAIN HEADERS & TABS
 # ============================================================
-st.markdown("<h1 class='main-header'>' + tr('title') + '</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-header'>' + tr('subtitle') + '</p>", unsafe_allow_html=True)
+st.markdown(f"<h1 class='main-header'>{tr('title')}</h1>", unsafe_allow_html=True)
+st.markdown(f"<p class='sub-header'>{tr('subtitle')}</p>", unsafe_allow_html=True)
 
 if df.empty:
     st.warning(tr("upload_warning"))
@@ -1587,25 +1662,25 @@ else:
         with col1:
             st.markdown(f"""
                 <div class="team-card">
-                    <div class="team-card-label">Total de Atendimentos</div>
+                    <div class="team-card-label">{tr('kpi_total_atendimentos')}</div>
                     <div class="team-card-value">{total_atendimentos:,}</div>
-                    <div class="team-card-help">Soma de demandas finalizadas</div>
+                    <div class="team-card-help">{tr('kpi_total_atendimentos_sub')}</div>
                 </div>
             """, unsafe_allow_html=True)
         with col2:
             st.markdown(f"""
                 <div class="team-card">
-                    <div class="team-card-label">TMA Médio</div>
+                    <div class="team-card-label">{tr('kpi_tma_medio')}</div>
                     <div class="team-card-value">{tma_medio:.2f} min</div>
-                    <div class="team-card-help">Tempo médio por atendimento</div>
+                    <div class="team-card-help">{tr('kpi_tma_medio_sub')}</div>
                 </div>
             """, unsafe_allow_html=True)
         with col3:
             st.markdown(f"""
                 <div class="team-card">
-                    <div class="team-card-label">Velocidade Média</div>
+                    <div class="team-card-label">{tr('kpi_vel_media')}</div>
                     <div class="team-card-value">{media_atendimentos_hora:.2f} at./h</div>
-                    <div class="team-card-help">Atendimentos por hora ativa</div>
+                    <div class="team-card-help">{tr('kpi_vel_media_sub')}</div>
                 </div>
             """, unsafe_allow_html=True)
         with col4:
@@ -1621,55 +1696,55 @@ else:
                 
             st.markdown(f"""
                 <div class="team-card">
-                    <div class="team-card-label">NPS Geral</div>
+                    <div class="team-card-label">{tr('kpi_nps_geral')}</div>
                     <div class="team-card-value" {nps_geral_color}>{nps_geral}</div>
-                    <div class="team-card-help">Média do time ({avaliacoes_geral} aval.)</div>
+                    <div class="team-card-help">{tr('kpi_nps_geral_sub').format(count=avaliacoes_geral)}</div>
                 </div>
             """, unsafe_allow_html=True)
         with col5:
             st.markdown(f"""
                 <div class="team-card">
-                    <div class="team-card-label">Agentes em Análise</div>
+                    <div class="team-card-label">{tr('kpi_agentes_analise')}</div>
                     <div class="team-card-value">{Agentes_Analisados}</div>
-                    <div class="team-card-help">Total de analistas ativos</div>
+                    <div class="team-card-help">{tr('kpi_agentes_analise_sub')}</div>
                 </div>
             """, unsafe_allow_html=True)
         with col6:
             st.markdown(f"""
                 <div class="team-card goal-theme">
-                    <div class="team-card-label">Objetivo da Equipe</div>
+                    <div class="team-card-label">{tr('kpi_objetivo_equipe')}</div>
                     <div class="team-card-value">{potencial_equipe:,} at.</div>
-                    <div class="team-card-help">Meta diária combinada</div>
+                    <div class="team-card-help">{tr('kpi_objetivo_equipe_sub')}</div>
                 </div>
             """, unsafe_allow_html=True)
 
         # Row 2: Operational Efficiency Cards (with custom colors to differentiate)
         st.markdown("---")
-        st.markdown("### ⚙️ Métricas de Eficiência Operacional")
+        st.markdown(f"### {tr('op_metrics_title')}")
         
         col_op1, col_op2, col_op3 = st.columns(3)
         with col_op1:
             st.markdown(f"""
                 <div class="op-card">
-                    <div class="op-card-label">📊 Volume Resolvido</div>
+                    <div class="op-card-label">📊 {tr('op_resolved_label')}</div>
                     <div class="op-card-value">{total_tickets_atendidos:,} tickets</div>
-                    <div class="op-card-subtext">⚡ Taxa de Conversão: {conversao_atendidos}%</div>
+                    <div class="op-card-subtext">⚡ {tr('op_resolved_sub').format(pct=conversao_atendidos)}</div>
                 </div>
             """, unsafe_allow_html=True)
         with col_op2:
             st.markdown(f"""
                 <div class="op-card">
-                    <div class="op-card-label">📥 Volume Entrante</div>
+                    <div class="op-card-label">📥 {tr('op_incoming_label')}</div>
                     <div class="op-card-value">{total_entrantes:,} tickets</div>
-                    <div class="op-card-subtext">📈 Média Diária: {entrantes_dia:,.2f} tickets/dia ({dias_analisados} dias)</div>
+                    <div class="op-card-subtext">📈 {tr('op_incoming_sub').format(avg=entrantes_dia)} ({tr('sidebar_days').format(dias=dias_analisados)})</div>
                 </div>
             """, unsafe_allow_html=True)
         with col_op3:
             st.markdown(f"""
                 <div class="op-card">
-                    <div class="op-card-label">🎯 Meta Diária por Agente</div>
-                    <div class="op-card-value">{Meta_Atendimentos_Diarios} tickets/agente</div>
-                    <div class="op-card-subtext">⚙️ Jornada: {Tempo_Disponivel_Horas}h de trabalho</div>
+                    <div class="op-card-label">🎯 {tr('op_daily_goal_label')}</div>
+                    <div class="op-card-value">{Meta_Atendimentos_Diarios} tickets</div>
+                    <div class="op-card-subtext">⚙️ {tr('op_daily_goal_sub').format(hours=Tempo_Disponivel_Horas)}</div>
                 </div>
             """, unsafe_allow_html=True)
             
@@ -1683,7 +1758,7 @@ else:
                 margin-bottom: 20px;
             ">
                 <span style="font-size: 13.5px; color: {text_color}; line-height: 1.5;">
-                    💡 <b>Para compensar intervalos ou paradas</b> (ex: 1h de almoço), configure a jornada de trabalho na barra lateral.
+                    {tr('op_compensation_tip')}
                 </span>
             </div>
         """, unsafe_allow_html=True)
@@ -1691,23 +1766,23 @@ else:
 
         # Team Progress Graphic
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>Progresso Geral e Objetivo da Equipe</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('title_progresso_geral')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(plot_team_prog, use_container_width=True)
 
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>NPS por Dia (Equipe)</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('title_nps_diario')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(plot_team_daily_nps, use_container_width=True)
 
         # Rankings Table & Charts
         st.markdown('<div class="hide-in-print-table"></div>', unsafe_allow_html=True)
-        st.markdown("### 🏆 Ranking Consolidado de Produtividade")
+        st.markdown(f"### {tr('ranking_consol_title')}")
         
         st.dataframe(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Avaliações', 'Score']], use_container_width=True)
         
         # Download Button for Ranking
         rank_excel = to_excel(display_ranking[['Atendimentos', 'Horas Trabalhadas', 'TMA(min)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS', 'Avaliações', 'Score']])
         st.download_button(
-            label="📥 BAIXAR EXCEL - RANKING DE PRODUTIVIDADE",
+            label=tr("btn_download_ranking_excel"),
             data=rank_excel,
             file_name="performa_cx_ranking_produtividade.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -1716,46 +1791,46 @@ else:
         st.markdown("##")
         
         # Column Charts for Rankings
-        st.markdown("### Gráficos Comparativos da Equipe")
+        st.markdown(f"### {tr('team_charts_title')}")
         
         # 1. Ranking TMA
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>Ranking TMA (Menor é melhor)</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('ranking_tma')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(fig_tma, use_container_width=True)
         
         # 2. Ranking Velocidade
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>Ranking Velocidade (Atendimentos/Hora)</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('ranking_vel')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(fig_vel, use_container_width=True)
 
         # 3. Ranking NPS por Agente
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>Ranking NPS por Agente</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('ranking_nps')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(fig_nps, use_container_width=True)
 
         # 4. Percentual de Contribuição
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>Percentual de Contribuição de Cada Agente (%)</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('ranking_contrib')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(fig_contrib, use_container_width=True)
 
         # Mapping Categories, Status & Partners
-        st.markdown("### 🗺️ Mapeamento de Categoria, Status e Parceiros")
+        st.markdown(f"### {tr('team_mapping_title')}")
         
         # 1. Volumetria por Status (Full Width)
         with st.container(border=True):
-            st.markdown("<h4 style='margin-top:0;'>Volumetria por Status de Atendimento</h4>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0;'>{tr('title_status')}</h4>", unsafe_allow_html=True)
             _ = st.plotly_chart(fig_status, use_container_width=True)
         
         # 2. Categories & Partners (Side-by-side)
         col_map1, col_map2 = st.columns(2)
         with col_map1:
             with st.container(border=True):
-                st.markdown("<h4 style='margin-top:0;'>Principais Categorias Demandadas</h4>", unsafe_allow_html=True)
+                st.markdown(f"<h4 style='margin-top:0;'>{tr('title_cat')}</h4>", unsafe_allow_html=True)
                 _ = st.plotly_chart(fig_cat, use_container_width=True)
             
         with col_map2:
             with st.container(border=True):
-                st.markdown("<h4 style='margin-top:0;'>Volume de Tickets por Parceiro Comercial</h4>", unsafe_allow_html=True)
+                st.markdown(f"<h4 style='margin-top:0;'>{tr('title_parc')}</h4>", unsafe_allow_html=True)
                 _ = st.plotly_chart(fig_parc, use_container_width=True)
 
     # ============================================================
@@ -1772,7 +1847,7 @@ else:
         df_selection_operador = df[df['Agente'] == selected_agent].copy()
         
         if df_selection_operador.empty:
-            st.info("Este agente não possui atendimentos registrados com os filtros selecionados.")
+            st.info(tr("no_agent_data"))
         else:
             # Stats calculations
             Operador_Atendimentos = df_selection_operador['Atendimentos'].sum()
@@ -1837,29 +1912,29 @@ else:
             # 1. Atendimentos Chart
             plot_ind_at = go.Figure()
             plot_ind_at.add_trace(go.Bar(
-                name='Atendimentos', 
+                name=tr('label_realizados'), 
                 x=demandas_datas.index, 
                 y=demandas_datas['Atendimentos'], 
                 marker_color='#818CF8',
                 text=demandas_datas['Atendimentos'],
                 textposition='outside'
             ))
-            plot_ind_at.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_at, line=dict(color='#38BDF8', width=2, dash='dot')))
-            plot_ind_at.add_trace(go.Scatter(name='Meta Individual', x=demandas_datas.index, y=[Meta_Atendimentos_Diarios]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
+            plot_ind_at.add_trace(go.Scatter(name=tr('chart_legend_team_avg'), x=demandas_datas.index, y=y_team_at, line=dict(color='#38BDF8', width=2, dash='dot')))
+            plot_ind_at.add_trace(go.Scatter(name=tr('chart_legend_ind_goal'), x=demandas_datas.index, y=[Meta_Atendimentos_Diarios]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
             configure_chart_layout(plot_ind_at, height=330)
             
             # 2. TMA Chart
             plot_ind_tma = go.Figure()
             plot_ind_tma.add_trace(go.Bar(
-                name='TMA', 
+                name=tr('kpi_tma_medio'), 
                 x=demandas_datas.index, 
                 y=demandas_datas['TMA'].round(2), 
                 marker_color='#34D399',
                 text=demandas_datas['TMA'].round(2),
                 textposition='outside'
             ))
-            plot_ind_tma.add_trace(go.Scatter(name='Média da Equipe', x=demandas_datas.index, y=y_team_tma, line=dict(color='#38BDF8', width=2, dash='dot')))
-            plot_ind_tma.add_trace(go.Scatter(name='Meta TMA', x=demandas_datas.index, y=[Meta_TMA_Diario]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
+            plot_ind_tma.add_trace(go.Scatter(name=tr('chart_legend_team_avg'), x=demandas_datas.index, y=y_team_tma, line=dict(color='#38BDF8', width=2, dash='dot')))
+            plot_ind_tma.add_trace(go.Scatter(name=tr('chart_legend_tma_goal'), x=demandas_datas.index, y=[Meta_TMA_Diario]*len(demandas_datas), line=dict(color='#EF4444', width=2, dash='dash')))
             configure_chart_layout(plot_ind_tma, height=330)
 
             # 3. NPS Chart (Individual)
@@ -1921,13 +1996,13 @@ else:
             # --- NOW RENDER TAB 2 LAYOUT ---
             col_title, col_print = st.columns([2, 1])
             with col_title:
-                st.markdown("### 👤 Relatório de Desempenho:")
+                st.markdown(f"### {tr('agent_performance_report')}")
                 st.markdown(f"**{selected_agent}**")
-                st.markdown("<span style='font-size: 12px; color: #94A3B8;'>💡 Para exportar em PDF: clique em <b>Compilar PDF Agente</b> e, após concluído, clique em <b>Baixar PDF Agente</b>.</span>", unsafe_allow_html=True)
+                st.markdown(f"<span style='font-size: 12px; color: #94A3B8;'>{tr('agent_pdf_compile_info')}</span>", unsafe_allow_html=True)
             with col_print:
                 col_gen, col_dl = st.columns(2)
                 with col_gen:
-                    if st.button("👤 Compilar PDF Agente", key="btn_pdf_agente", use_container_width=True):
+                    if st.button(tr("btn_compile_pdf_agent"), key="btn_pdf_agente", use_container_width=True):
                         with st.spinner(f"Gerando PDF de {selected_agent}..."):
                             metrics_kpi = [
                                 {"label": tr("kpi_total_atendimentos"), "value": f"{Operador_Atendimentos:,}", "sub": "Atendimentos do agente"},
@@ -1958,14 +2033,14 @@ else:
                 with col_dl:
                     if st.session_state.get("pdf_agent_bytes") is not None:
                         st.download_button(
-                            label="📥 Baixar PDF Agente",
+                            label=tr("btn_download_pdf_agent"),
                             data=st.session_state.pdf_agent_bytes,
                             file_name=f"performa_cx_relatorio_{selected_agent.lower().replace(' ', '_')}.pdf",
                             mime="application/pdf",
                             use_container_width=True
                         )
                     else:
-                        st.button("📥 Baixar PDF Agente (Bloqueado)", disabled=True, use_container_width=True, help="Clique em Compilar PDF Agente primeiro.")
+                        st.button(tr("btn_download_pdf_agent_locked"), disabled=True, use_container_width=True, help=tr("agent_pdf_help_locked"))
             
             st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
@@ -1974,7 +2049,7 @@ else:
             with col_ind1:
                 st.markdown(f"""
                     <div class="team-card">
-                        <div class="team-card-label">Total de Atendimentos</div>
+                        <div class="team-card-label">{tr('kpi_total_atendimentos')}</div>
                         <div class="team-card-value">{Operador_Atendimentos:,}</div>
                         <div class="team-card-help">Atendimentos do agente</div>
                     </div>
@@ -1984,7 +2059,7 @@ else:
                     <div class="team-card">
                         <div class="team-card-label">TMA Individual</div>
                         <div class="team-card-value">{Operador_TMA:.2f} min</div>
-                        <div class="team-card-help">Tempo médio por atendimento</div>
+                        <div class="team-card-help">{tr('kpi_tma_medio_sub')}</div>
                     </div>
                 """, unsafe_allow_html=True)
             with col_ind3:
@@ -1992,7 +2067,7 @@ else:
                     <div class="team-card">
                         <div class="team-card-label">Velocidade Individual</div>
                         <div class="team-card-value">{velocidade_media_operador:.2f} at./h</div>
-                        <div class="team-card-help">Atendimentos por hora ativa</div>
+                        <div class="team-card-help">{tr('kpi_vel_media_sub')}</div>
                     </div>
                 """, unsafe_allow_html=True)
             with col_ind4:
@@ -2012,44 +2087,44 @@ else:
                 
                 st.markdown(f"""
                     <div class="team-card">
-                        <div class="team-card-label">NPS do Agente</div>
+                        <div class="team-card-label">{tr('agent_nps')}</div>
                         <div class="team-card-value" {nps_color_style}>{op_nps_str}</div>
-                        <div class="team-card-help">Score Net Promoter ({op_ratings_count} aval.)</div>
+                        <div class="team-card-help">{tr('agent_nps_sub').format(count=op_ratings_count)}</div>
                     </div>
                 """, unsafe_allow_html=True)
             with col_ind5:
                 st.markdown(f"""
                     <div class="team-card">
-                        <div class="team-card-label">Contribuição na Equipe</div>
+                        <div class="team-card-label">{tr('agent_contrib')}</div>
                         <div class="team-card-value">{Operador_Influencia_Atendimentos:.2f}%</div>
-                        <div class="team-card-help">Percentual de participação</div>
+                        <div class="team-card-help">{tr('agent_contrib_sub')}</div>
                     </div>
                 """, unsafe_allow_html=True)
                 
             st.markdown("##")
             
             # Daily trends charts
-            st.markdown("### Tendência de Produtividade por Dia")
+            st.markdown(f"### {tr('agent_daily_trend_title')}")
             
             # 1. Atendimentos Chart
             with st.container(border=True):
-                st.markdown("<h4 style='margin-top:0;'>Atendimentos por Data vs. Metas</h4>", unsafe_allow_html=True)
+                st.markdown(f"<h4 style='margin-top:0;'>{tr('daily_tickets_metas')}</h4>", unsafe_allow_html=True)
                 _ = st.plotly_chart(plot_ind_at, use_container_width=True)
             
             # 2. TMA Chart
             with st.container(border=True):
-                st.markdown("<h4 style='margin-top:0;'>TMA por Data vs. Metas (Minutos)</h4>", unsafe_allow_html=True)
+                st.markdown(f"<h4 style='margin-top:0;'>{tr('daily_tma_metas')}</h4>", unsafe_allow_html=True)
                 _ = st.plotly_chart(plot_ind_tma, use_container_width=True)
             
             # 3. NPS Chart
             with st.container(border=True):
-                st.markdown("<h4 style='margin-top:0;'>NPS por Dia</h4>", unsafe_allow_html=True)
+                st.markdown(f"<h4 style='margin-top:0;'>{tr('daily_nps')}</h4>", unsafe_allow_html=True)
                 _ = st.plotly_chart(plot_ind_nps, use_container_width=True)
                 
             st.markdown("##")
             
             # Daily Stats Table
-            st.markdown("### 📅 Tabela de Estatísticas Diárias do Agente")
+            st.markdown(f"### {tr('agent_daily_table_title')}")
             
             # Prepare formatted daily details
             display_daily = demandas_datas.copy()
@@ -2073,7 +2148,7 @@ else:
             # Download daily detailed
             agent_excel = to_excel(display_daily[['Atendimentos Realizados', 'Horas Ativas', 'TMA (Minutos)', 'Atendimentos/Hora', 'Aproveitamento Horas Disponíveis', 'NPS Diário', 'Avaliações', 'Score de Produtividade']])
             st.download_button(
-                label=f"📥 BAIXAR EXCEL - RELATÓRIO DIÁRIO DE {selected_agent.upper()}",
+                label=tr("btn_download_agent_daily_excel").format(agent=selected_agent.upper()),
                 data=agent_excel,
                 file_name=f"performa_cx_diario_{selected_agent.lower().replace(' ', '_')}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -2081,22 +2156,22 @@ else:
             
             # Individual Mapping Section
             st.markdown("---")
-            st.markdown("### 🗺️ Mapeamento Individual de Categoria, Status e Parceiros Comerciais")
+            st.markdown(f"### {tr('agent_mapping_title')}")
             
             # 1. Status (Full Width)
             with st.container(border=True):
-                st.markdown("<h4>Volumetria por Status (Individual)</h4>", unsafe_allow_html=True)
+                st.markdown(f"<h4>{tr('agent_status_title')}</h4>", unsafe_allow_html=True)
                 _ = st.plotly_chart(fig_ind_status, use_container_width=True)
             
             # 2. Categories & Partners (Side-by-side)
             col_ind_map1, col_ind_map2 = st.columns(2)
             with col_ind_map1:
                 with st.container(border=True):
-                    st.markdown("<h4>Categorias Demandadas (Individual)</h4>", unsafe_allow_html=True)
+                    st.markdown(f"<h4>{tr('agent_cat_title')}</h4>", unsafe_allow_html=True)
                     _ = st.plotly_chart(fig_ind_cat, use_container_width=True)
                 
             with col_ind_map2:
                 with st.container(border=True):
-                    st.markdown("<h4>Tickets por Parceiro Comercial (Individual)</h4>", unsafe_allow_html=True)
+                    st.markdown(f"<h4>{tr('agent_parc_title')}</h4>", unsafe_allow_html=True)
                     _ = st.plotly_chart(fig_ind_parc, use_container_width=True)
 
