@@ -1397,20 +1397,12 @@ st.markdown(f"<h1 class='main-header'>{tr('title')}</h1>", unsafe_allow_html=Tru
 st.markdown(f"<p class='sub-header'>{tr('subtitle')}</p>", unsafe_allow_html=True)
 
 # Introduction & Value Proposition Card
-with st.expander(tr("intro_expander_title"), expanded=False):
-    st.markdown(f"""
-    <div style='font-size:14px; line-height:1.6; color:#CBD5E1; margin-bottom:12px;'>
-    {tr('intro_text')}
-    </div>
-    <div style='background-color:#1E293B; border: 1px solid #334155; padding: 15px; border-radius: 8px;'>
-        <strong style='color:#38BDF8; display:block; margin-bottom:8px; font-size:14px;'>{tr('intro_features_title')}</strong>
-        <ul style='list-style-type: none; padding-left: 0; margin: 0; font-size: 13px; color: #94A3B8; line-height: 1.5;'>
-            <li style='margin-bottom:8px;'>{tr('intro_feature_1')}</li>
-            <li style='margin-bottom:8px;'>{tr('intro_feature_2')}</li>
-            <li style='margin-bottom:0;'>{tr('intro_feature_3')}</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+with st.expander(tr("intro_expander_title"), expanded=True):
+    st.markdown(tr("intro_text"))
+    st.markdown(f"**{tr('intro_features_title')}**")
+    st.markdown(f"- {tr('intro_feature_1')}")
+    st.markdown(f"- {tr('intro_feature_2')}")
+    st.markdown(f"- {tr('intro_feature_3')}")
 
 
 if df.empty:
