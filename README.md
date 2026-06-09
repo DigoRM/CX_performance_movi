@@ -11,6 +11,8 @@ pinned: false
 
 # PerformaCX · Enterprise Customer Experience (CX) Performance Analytics
 
+### 🚀 Live Web Application: [https://mr-marcolino-cx-performance-movi.hf.space](https://mr-marcolino-cx-performance-movi.hf.space)
+
 PerformaCX is a high-performance, interactive analytics platform designed to analyze operational ticket databases and visualize productivity metrics, quality indicators, and throughput in Customer Experience (CX) environments. 
 
 Rather than spending hours manually compiling spreadsheets, managers can upload support databases to **instantly generate standardized, professional insights** about team performance and individual rendering.
