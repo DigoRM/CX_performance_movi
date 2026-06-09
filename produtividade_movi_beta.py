@@ -1254,6 +1254,9 @@ else:
         fig_cat = px.bar(cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
                          color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
         configure_chart_layout(fig_cat)
+        if not cat_df.empty:
+            max_cat_val = cat_df['Atendimentos'].max()
+            fig_cat.update_xaxes(range=[0, max_cat_val * 1.15])
         fig_cat.update_traces(textposition='outside')
             
         # 7. Volume de Tickets por Parceiro Comercial
@@ -1261,6 +1264,9 @@ else:
         fig_parc = px.bar(parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
                           color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
         configure_chart_layout(fig_parc)
+        if not parc_df.empty:
+            max_parc_val = parc_df['Atendimentos'].max()
+            fig_parc.update_xaxes(range=[0, max_parc_val * 1.15])
         fig_parc.update_traces(textposition='outside')
 
         # --- NOW RENDER TAB 1 LAYOUT ---
@@ -1643,6 +1649,9 @@ else:
             fig_ind_cat = px.bar(ind_cat_df.tail(15), x='Atendimentos', y='Categoria', orientation='h',
                                  color='Atendimentos', color_continuous_scale='Purpor', template=plotly_template, text_auto=True)
             configure_chart_layout(fig_ind_cat)
+            if not ind_cat_df.empty:
+                max_ind_cat_val = ind_cat_df['Atendimentos'].max()
+                fig_ind_cat.update_xaxes(range=[0, max_ind_cat_val * 1.15])
             fig_ind_cat.update_traces(textposition='outside')
             
             # 5. Partners Chart
@@ -1650,6 +1659,9 @@ else:
             fig_ind_parc = px.bar(ind_parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
                                   color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
             configure_chart_layout(fig_ind_parc)
+            if not ind_parc_df.empty:
+                max_ind_parc_val = ind_parc_df['Atendimentos'].max()
+                fig_ind_parc.update_xaxes(range=[0, max_ind_parc_val * 1.15])
             fig_ind_parc.update_traces(textposition='outside')
 
             # --- NOW RENDER TAB 2 LAYOUT ---
