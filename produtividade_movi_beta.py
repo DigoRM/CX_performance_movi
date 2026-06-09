@@ -656,36 +656,37 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
         pdf.set_text_color(100, 116, 139)
         pdf.cell(card_w - 4, 3, m["sub"], align="C")
         
-    # Daily trends charts: One below the other, 2 per page
-    # Chart 1: Atendimentos
+    # Daily trends charts: One on page 1, two on page 2
+    # Chart 1: Atendimentos (Page 1)
     pdf.set_xy(10, 52)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Atendimentos por Data vs. Metas")
     img_ind_at = fig_to_pil(figs["plot_ind_at"], width=900, height=360)
-    pdf.image(img_ind_at, x=10, y=58, w=277, h=68)
-    
-    # Chart 2: TMA
-    pdf.set_xy(10, 132)
-    pdf.set_font("helvetica", "B", 10)
-    pdf.cell(0, 5, "TMA por Data vs. Metas (Minutos)")
-    img_ind_tma = fig_to_pil(figs["plot_ind_tma"], width=900, height=360)
-    pdf.image(img_ind_tma, x=10, y=138, w=277, h=68)
+    pdf.image(img_ind_at, x=10, y=58, w=277, h=120)
     
     # ════════════════════════════════════════════════════
-    # PAGE 2: Agent Daily NPS Chart
+    # PAGE 2: TMA vs team & NPS vs team
     # ════════════════════════════════════════════════════
     pdf.add_page()
     pdf.apply_page_background()
     
-    # Chart 3: NPS por Dia
+    # Chart 2: TMA
     pdf.set_xy(10, 20)
+    pdf.set_font("helvetica", "B", 10)
+    pdf.set_text_color(*pdf.report_text_color)
+    pdf.cell(0, 5, "TMA por Data vs. Metas (Minutos)")
+    img_ind_tma = fig_to_pil(figs["plot_ind_tma"], width=900, height=360)
+    pdf.image(img_ind_tma, x=10, y=26, w=277, h=72)
+    
+    # Chart 3: NPS por Dia
+    pdf.set_xy(10, 108)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "NPS por Dia")
     
     img_ind_nps = fig_to_pil(figs["plot_ind_nps"], width=900, height=360)
-    pdf.image(img_ind_nps, x=10, y=26, w=277, h=76)
+    pdf.image(img_ind_nps, x=10, y=114, w=277, h=72)
     
     # ════════════════════════════════════════════════════
     # PAGE 3: Mapping & Status (Individual)
@@ -1258,8 +1259,8 @@ else:
         # 7. Volume de Tickets por Parceiro Comercial
         parc_df = df.groupby('Solicitante')[['Atendimentos']].sum().reset_index().sort_values('Atendimentos', ascending=True)
         fig_parc = px.bar(parc_df.tail(15), x='Atendimentos', y='Solicitante', orientation='h',
-                          color='Atendimentos', color_continuous_scale='Burg', template="plotly_dark", text_auto=True)
-        fig_parc.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', coloraxis_showscale=False)
+                          color='Atendimentos', color_continuous_scale='Burg', template=plotly_template, text_auto=True)
+        configure_chart_layout(fig_parc)
         fig_parc.update_traces(textposition='outside')
 
         # --- NOW RENDER TAB 1 LAYOUT ---
