@@ -540,45 +540,51 @@ def generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_a
     pdf.image(img_team_daily_nps, x=10, y=26, w=277, h=108)
     
     # ════════════════════════════════════════════════════
-    # PAGE 3: Grid of 4 Rankings Charts
+    # PAGE 3: Rankings (TMA & Speed)
     # ════════════════════════════════════════════════════
     pdf.add_page()
     pdf.apply_page_background()
     
-    # Top Left: TMA
+    # Chart 1: TMA
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Ranking TMA (Menor e melhor)")
-    img_tma = fig_to_pil(figs["fig_tma"], width=600, height=340)
-    pdf.image(img_tma, x=10, y=26, w=134, h=76)
+    img_tma = fig_to_pil(figs["fig_tma"], width=900, height=340)
+    pdf.image(img_tma, x=10, y=26, w=277, h=76)
     
-    # Top Right: Speed
-    pdf.set_xy(152, 20)
+    # Chart 2: Speed
+    pdf.set_xy(10, 108)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Ranking Velocidade (Atendimentos/Hora)")
-    img_vel = fig_to_pil(figs["fig_vel"], width=600, height=340)
-    pdf.image(img_vel, x=152, y=26, w=134, h=76)
+    img_vel = fig_to_pil(figs["fig_vel"], width=900, height=340)
+    pdf.image(img_vel, x=10, y=114, w=277, h=76)
     
-    # Bottom Left: NPS
-    pdf.set_xy(10, 106)
+    # ════════════════════════════════════════════════════
+    # PAGE 4: Rankings (NPS & Contribution)
+    # ════════════════════════════════════════════════════
+    pdf.add_page()
+    pdf.apply_page_background()
+    
+    # Chart 3: NPS
+    pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Ranking NPS por Agente")
-    img_nps = fig_to_pil(figs["fig_nps"], width=600, height=340)
-    pdf.image(img_nps, x=10, y=112, w=134, h=76)
+    img_nps = fig_to_pil(figs["fig_nps"], width=900, height=340)
+    pdf.image(img_nps, x=10, y=26, w=277, h=76)
     
-    # Bottom Right: Contribution
-    pdf.set_xy(152, 106)
+    # Chart 4: Contribution
+    pdf.set_xy(10, 108)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Percentual de Contribuicao de Cada Agente (%)")
-    img_contrib = fig_to_pil(figs["fig_contrib"], width=600, height=340)
-    pdf.image(img_contrib, x=152, y=112, w=134, h=76)
+    img_contrib = fig_to_pil(figs["fig_contrib"], width=900, height=340)
+    pdf.image(img_contrib, x=10, y=114, w=277, h=76)
     
     # ════════════════════════════════════════════════════
-    # PAGE 3: Status & Mapping Charts
+    # PAGE 5: Status & Mapping Charts
     # ════════════════════════════════════════════════════
     pdf.add_page()
     pdf.apply_page_background()
@@ -650,21 +656,21 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
         pdf.set_text_color(100, 116, 139)
         pdf.cell(card_w - 4, 3, m["sub"], align="C")
         
-    # 2 Daily trends charts side-by-side
-    # Left Column: Atendimentos vs team
+    # Daily trends charts: One below the other, 2 per page
+    # Chart 1: Atendimentos
     pdf.set_xy(10, 52)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "Atendimentos por Data vs. Metas")
-    img_ind_at = fig_to_pil(figs["plot_ind_at"], width=600, height=580)
-    pdf.image(img_ind_at, x=10, y=58, w=134, h=130)
+    img_ind_at = fig_to_pil(figs["plot_ind_at"], width=900, height=360)
+    pdf.image(img_ind_at, x=10, y=58, w=277, h=68)
     
-    # Right Column: TMA vs team
-    pdf.set_xy(152, 52)
+    # Chart 2: TMA
+    pdf.set_xy(10, 132)
     pdf.set_font("helvetica", "B", 10)
     pdf.cell(0, 5, "TMA por Data vs. Metas (Minutos)")
-    img_ind_tma = fig_to_pil(figs["plot_ind_tma"], width=600, height=580)
-    pdf.image(img_ind_tma, x=152, y=58, w=134, h=130)
+    img_ind_tma = fig_to_pil(figs["plot_ind_tma"], width=900, height=360)
+    pdf.image(img_ind_tma, x=10, y=138, w=277, h=68)
     
     # ════════════════════════════════════════════════════
     # PAGE 2: Agent Daily NPS Chart
@@ -672,15 +678,14 @@ def generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, d
     pdf.add_page()
     pdf.apply_page_background()
     
-    # Agent Daily NPS Chart Title
+    # Chart 3: NPS por Dia
     pdf.set_xy(10, 20)
     pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(*pdf.report_text_color)
     pdf.cell(0, 5, "NPS por Dia")
     
-    # Agent Daily NPS Chart Image
     img_ind_nps = fig_to_pil(figs["plot_ind_nps"], width=900, height=360)
-    pdf.image(img_ind_nps, x=10, y=26, w=277, h=108)
+    pdf.image(img_ind_nps, x=10, y=26, w=277, h=76)
     
     # ════════════════════════════════════════════════════
     # PAGE 3: Mapping & Status (Individual)
@@ -1296,7 +1301,7 @@ else:
                             _old_stdout = sys.stdout
                             sys.stdout = io.StringIO()
                             try:
-                                st.session_state.pdf_geral_bytes = generate_team_pdf_report(theme_choice, metrics_kpi, metrics_op, figs, dias_analisados)
+                                st.session_state.pdf_geral_bytes = generate_team_pdf_report("Claro", metrics_kpi, metrics_op, figs, dias_analisados)
                             finally:
                                 sys.stdout = _old_stdout
                             st.toast("Relatório PDF Geral gerado com sucesso!", icon="✅")
@@ -1677,7 +1682,7 @@ else:
                                 _old_stdout = sys.stdout
                                 sys.stdout = io.StringIO()
                                 try:
-                                    st.session_state.pdf_agent_bytes = generate_agent_pdf_report(theme_choice, metrics_kpi, figs, selected_agent, dias_analisados)
+                                    st.session_state.pdf_agent_bytes = generate_agent_pdf_report("Claro", metrics_kpi, figs, selected_agent, dias_analisados)
                                 finally:
                                     sys.stdout = _old_stdout
                                 st.toast(f"Relatório PDF de {selected_agent} gerado!", icon="✅")
