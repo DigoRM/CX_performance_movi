@@ -112,6 +112,12 @@ LANG_DICT = {
         "chart_legend_team_avg": "Média da Equipe",
         "chart_legend_ind_goal": "Meta Individual",
         "chart_legend_tma_goal": "Meta TMA",
+        "intro_expander_title": "ℹ️ Apresentação do PerformaCX e Valor Entregue",
+        "intro_text": "O **PerformaCX** é um painel avançado de produtividade e qualidade em Customer Experience (CX). Ele centraliza e analisa bases de dados de tickets para automatizar o acompanhamento operacional, eliminando dezenas de horas manuais de consolidação de planilhas semanais por analista.",
+        "intro_features_title": "🎯 Benefícios e Resultados da Operação",
+        "intro_feature_1": "⚡ **Acompanhamento de Produtividade**: Métricas em tempo real como volume resolvido, TMA (Tempo Médio de Atendimento), NPS geral e velocidade média de atendimento.",
+        "intro_feature_2": "📊 **Visão Individual vs. Equipe**: Rankings consolidados de desempenho que auxiliam na identificação de gargalos de atendimento e no reconhecimento de analistas destaque.",
+        "intro_feature_3": "📥 **Exportação Inteligente**: Geração imediata de relatórios em formato Excel e PDF prontos para envio a parceiros e reuniões de revisão operacional.",
     },
     "es": {
         "title": "PerformaCX",
@@ -211,6 +217,12 @@ LANG_DICT = {
         "chart_legend_team_avg": "Promedio del Equipo",
         "chart_legend_ind_goal": "Meta Individual",
         "chart_legend_tma_goal": "Meta TMA",
+        "intro_expander_title": "ℹ️ Presentación de PerformaCX y Valor Entregado",
+        "intro_text": "PerformaCX es un panel avanzado de productividad y calidad en Customer Experience (CX). Centraliza y analiza bases de datos de tickets para automatizar el seguimiento operativo, eliminando decenas de horas manuales de consolidación de planillas semanales por analista.",
+        "intro_features_title": "🎯 Beneficios y Resultados de la Operación",
+        "intro_feature_1": "⚡ **Seguimiento de Productividad**: Métricas en tiempo real como volumen resuelto, TMA (Tiempo Medio de Atención), NPS general y velocidad promedio de atención.",
+        "intro_feature_2": "📊 **Visión Individual vs. Equipo**: Rankings consolidados de desempeño que ayudan a identificar cuellos de botella y reconocer mejores analistas.",
+        "intro_feature_3": "📥 **Exportación Inteligente**: Generación inmediata de reportes en Excel y PDF listos para reuniones de revisión operativa y socios.",
     },
     "en": {
         "title": "PerformaCX",
@@ -310,6 +322,12 @@ LANG_DICT = {
         "chart_legend_team_avg": "Team Average",
         "chart_legend_ind_goal": "Individual Goal",
         "chart_legend_tma_goal": "AHT Goal",
+        "intro_expander_title": "ℹ️ About PerformaCX & Business Value",
+        "intro_text": "PerformaCX is an advanced productivity and quality analytics platform for Customer Experience (CX). It centralizes and parses ticket databases to automate operational tracking, eliminating dozens of manual spreadsheet consolidation hours per analyst every week.",
+        "intro_features_title": "🎯 Key Benefits & Operational Value",
+        "intro_feature_1": "⚡ **Productivity Benchmarking**: Real-time tracking of resolved volume, AHT (Average Handling Time), overall NPS, and average resolution speed.",
+        "intro_feature_2": "📊 **Individual vs. Team Insights**: Consolidated performance rankings to identify operational bottlenecks and highlight top performers.",
+        "intro_feature_3": "📥 **High-Fidelity Exports**: Instant PDF and Excel report compilation ready for business reviews and commercial partner alignment.",
     }
 }
 
@@ -1377,6 +1395,23 @@ else:
 # ============================================================
 st.markdown(f"<h1 class='main-header'>{tr('title')}</h1>", unsafe_allow_html=True)
 st.markdown(f"<p class='sub-header'>{tr('subtitle')}</p>", unsafe_allow_html=True)
+
+# Introduction & Value Proposition Card
+with st.expander(tr("intro_expander_title"), expanded=False):
+    st.markdown(f"""
+    <div style='font-size:14px; line-height:1.6; color:#CBD5E1; margin-bottom:12px;'>
+    {tr('intro_text')}
+    </div>
+    <div style='background-color:#1E293B; border: 1px solid #334155; padding: 15px; border-radius: 8px;'>
+        <strong style='color:#38BDF8; display:block; margin-bottom:8px; font-size:14px;'>{tr('intro_features_title')}</strong>
+        <ul style='list-style-type: none; padding-left: 0; margin: 0; font-size: 13px; color: #94A3B8; line-height: 1.5;'>
+            <li style='margin-bottom:8px;'>{tr('intro_feature_1')}</li>
+            <li style='margin-bottom:8px;'>{tr('intro_feature_2')}</li>
+            <li style='margin-bottom:0;'>{tr('intro_feature_3')}</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 if df.empty:
     st.warning(tr("upload_warning"))
