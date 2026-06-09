@@ -12,147 +12,51 @@ import io
 
 # ============================================================
 # 1. PAGE CONFIGURATION & THEME
-# ==============================# Render Sidebar Title and Theme Switcher First to drive page styles
+# ==============================# Render Sidebar Title First to drive page styles
 st.sidebar.markdown("<h2 style='color:#38BDF8; font-weight:800; margin-bottom:5px;'>📈 PerformaCX</h2>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
-st.sidebar.subheader("🎨 Aparência")
-theme_choice = st.sidebar.radio("Tema do Painel", ["Escuro", "Claro"], index=0)
+# Force theme choice to Claro / Light Mode only
+bg_color = "#F8FAFC"
+text_color = "#000000"
+sidebar_bg = "#FFFFFF"
+sidebar_border = "#E2E8F0"
+card_bg = "rgba(255, 255, 255, 0.9)"
+card_border = "rgba(15, 23, 42, 0.08)"
+metric_val = "#0284C7"
+metric_lbl = "#475569"
+sub_header_color = "#475569"
 
-# Theme styling configuration
-if theme_choice == "Escuro":
-    bg_color = "#0B0F19"
-    text_color = "#E2E8F0"
-    sidebar_bg = "#0F172A"
-    sidebar_border = "#1E293B"
-    card_bg = "rgba(15, 23, 42, 0.6)"
-    card_border = "rgba(255, 255, 255, 0.05)"
-    metric_val = "#38BDF8"
-    metric_lbl = "#94A3B8"
-    sub_header_color = "#94A3B8"
+# Team metrics
+team_card_bg = "rgba(255, 255, 255, 0.9)"
+team_card_border = "rgba(14, 165, 233, 0.2)"
+team_card_val = "#0284C7"
+team_card_lbl = "#475569"
+team_card_help = "#64748B"
+team_card_hover_border = "rgba(14, 165, 233, 0.5)"
+
+# Goal card
+goal_card_bg = "rgba(245, 243, 255, 0.9)"
+goal_card_border = "rgba(139, 92, 246, 0.25)"
+goal_card_val = "#7C3AED"
+goal_card_lbl = "#6D28D9"
+goal_card_help = "#8B5CF6"
+goal_card_hover_bg = "rgba(237, 233, 254, 0.9)"
+goal_card_hover_border = "rgba(139, 92, 246, 0.45)"
+
+# Op card
+op_card_bg = "linear-gradient(135deg, rgba(237, 233, 254, 0.8) 0%, rgba(252, 231, 243, 0.8) 100%)"
+op_card_border = "rgba(219, 39, 119, 0.25)"
+op_card_val = "#DB2777"
+op_card_lbl = "#7C3AED"
+op_card_subtext = "#334155"
+op_card_hover_border = "rgba(219, 39, 119, 0.45)"
     
-    # Team metrics
-    team_card_bg = "rgba(15, 23, 42, 0.4)"
-    team_card_border = "rgba(56, 189, 248, 0.15)"
-    team_card_val = "#38BDF8"
-    team_card_lbl = "#94A3B8"
-    team_card_help = "#64748B"
-    team_card_hover_border = "rgba(56, 189, 248, 0.4)"
-    
-    # Goal card
-    goal_card_bg = "rgba(139, 92, 246, 0.1)"
-    goal_card_border = "rgba(139, 92, 246, 0.3)"
-    goal_card_val = "#A78BFA"
-    goal_card_lbl = "#C084FC"
-    goal_card_help = "#8B5CF6"
-    goal_card_hover_bg = "rgba(139, 92, 246, 0.15)"
-    goal_card_hover_border = "rgba(139, 92, 246, 0.5)"
-    
-    # Op card
-    op_card_bg = "linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)"
-    op_card_border = "rgba(139, 92, 246, 0.3)"
-    op_card_val = "#F472B6"
-    op_card_lbl = "#C084FC"
-    op_card_subtext = "#E2E8F0"
-    op_card_hover_border = "rgba(236, 72, 153, 0.5)"
-    
-    plotly_template = "plotly_dark"
-    chart_font_color = "#FFFFFF"
-    chart_grid_color = "rgba(255, 255, 255, 0.1)"
-    
-    custom_theme_css = """
-        /* Dark mode specific overrides */
-        div[data-testid="stDataFrame"] {
-            background-color: #0F172A !important;
-            border: 1px solid #1E293B !important;
-            border-radius: 8px !important;
-        }
-        div[data-testid="stDataFrame"] [data-fieldname] {
-            color: #F1F5F9 !important;
-        }
-        div[data-testid="stDataFrame"] td, 
-        div[data-testid="stDataFrame"] th, 
-        div[data-testid="stDataFrame"] div,
-        div[data-testid="stDataFrame"] span {
-            color: #F1F5F9 !important;
-        }
-        /* Dark mode buttons - explicit dark background */
-        .stApp div.stButton > button,
-        .stApp div.stButton > button:focus,
-        .stApp div.stButton > button:active {
-            background-color: #1E293B !important;
-            color: #E2E8F0 !important;
-            border: 1px solid #334155 !important;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4) !important;
-        }
-        .stApp div.stButton > button:hover {
-            background-color: #334155 !important;
-            color: #F1F5F9 !important;
-            border-color: #475569 !important;
-        }
-        /* Dark mode download buttons */
-        div[data-testid="stDownloadButton"] button {
-            background-color: #1E293B !important;
-            color: #E2E8F0 !important;
-            border: 1px solid #334155 !important;
-        }
-        div[data-testid="stDownloadButton"] button:hover {
-            background-color: #334155 !important;
-            color: #F1F5F9 !important;
-        }
-        /* Dark mode file uploader */
-        div[data-testid="stFileUploader"] {
-            background-color: #1E293B !important;
-            border: 1px solid #334155 !important;
-            border-radius: 8px !important;
-        }
-        div[data-testid="stFileUploader"] label,
-        div[data-testid="stFileUploader"] span,
-        div[data-testid="stFileUploader"] p {
-            color: #E2E8F0 !important;
-        }
-    """
-else:
-    bg_color = "#F8FAFC"
-    text_color = "#000000"
-    sidebar_bg = "#FFFFFF"
-    sidebar_border = "#E2E8F0"
-    card_bg = "rgba(255, 255, 255, 0.9)"
-    card_border = "rgba(15, 23, 42, 0.08)"
-    metric_val = "#0284C7"
-    metric_lbl = "#475569"
-    sub_header_color = "#475569"
-    
-    # Team metrics
-    team_card_bg = "rgba(255, 255, 255, 0.9)"
-    team_card_border = "rgba(14, 165, 233, 0.2)"
-    team_card_val = "#0284C7"
-    team_card_lbl = "#475569"
-    team_card_help = "#64748B"
-    team_card_hover_border = "rgba(14, 165, 233, 0.5)"
-    
-    # Goal card
-    goal_card_bg = "rgba(245, 243, 255, 0.9)"
-    goal_card_border = "rgba(139, 92, 246, 0.25)"
-    goal_card_val = "#7C3AED"
-    goal_card_lbl = "#6D28D9"
-    goal_card_help = "#8B5CF6"
-    goal_card_hover_bg = "rgba(237, 233, 254, 0.9)"
-    goal_card_hover_border = "rgba(139, 92, 246, 0.45)"
-    
-    # Op card
-    op_card_bg = "linear-gradient(135deg, rgba(237, 233, 254, 0.8) 0%, rgba(252, 231, 243, 0.8) 100%)"
-    op_card_border = "rgba(219, 39, 119, 0.25)"
-    op_card_val = "#DB2777"
-    op_card_lbl = "#7C3AED"
-    op_card_subtext = "#334155"
-    op_card_hover_border = "rgba(219, 39, 119, 0.45)"
-    
-    plotly_template = "plotly_white"
-    chart_font_color = "#000000"
-    chart_grid_color = "rgba(0, 0, 0, 0.05)"
-    
-    custom_theme_css = """
+plotly_template = "plotly_white"
+chart_font_color = "#000000"
+chart_grid_color = "rgba(0, 0, 0, 0.05)"
+
+custom_theme_css = """
         /* Light mode specific overrides */
         div[data-testid="stDataFrame"] {
             background-color: #FFFFFF !important;
